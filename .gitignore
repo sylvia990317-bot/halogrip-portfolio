@@ -3,3 +3,9 @@ node_modules/
 out/
 .DS_Store
 .env*
+
+.vercel
+.env*
+
+# extracted KeyShot source textures used only as conversion-script input (see scripts/convert-halogrip-model.mjs)
+scripts/_model-source/

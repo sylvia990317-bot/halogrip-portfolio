@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
+import { Inter_Tight, Inter, DM_Mono } from "next/font/google";
 import "./globals.css";
 
-const title = "HALOGRIP — Sylvia Xie";
-const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
+const interTight = Inter_Tight({ subsets: ["latin"], variable: "--font-inter-tight" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const dmMono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-dm-mono" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://halogrip-sylvia-xie.sylvia990317.chatgpt.site"),
-  title,
-  description,
-  openGraph: { title, description, images: [{ url: "/media/hero.webp", width: 2100, height: 1181, alt: "HALOGRIP emergency steering device" }] },
-  twitter: { card: "summary_large_image", title, description, images: ["/media/hero.webp"] },
+  metadataBase: new URL("https://halogrip-portfolio.vercel.app"),
+  title: "Sylvia Xie — Industrial Designer",
+  description: "Portfolio of Sylvia Xie, an industrial designer based in Gothenburg, Sweden, working across digital and physical product design.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}</body></html>;
+  return (
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${interTight.variable} ${inter.variable} ${dmMono.variable}`}
+    >
+      <body className="bg-bg text-ink font-body antialiased">{children}</body>
+    </html>
+  );
 }
