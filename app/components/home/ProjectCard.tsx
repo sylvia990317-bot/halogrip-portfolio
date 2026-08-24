@@ -3,7 +3,15 @@ import PlaceholderImage from "../PlaceholderImage";
 import type { Project } from "../../data/projects";
 
 export default function ProjectCard({ project }: { project: Project }) {
-  const media = (
+  const media = project.image ? (
+    <img
+      src={project.image}
+      alt={project.cardLabel}
+      className={`aspect-[4/3] w-full rounded-card object-cover ${
+        project.comingSoon ? "grayscale opacity-70" : ""
+      }`}
+    />
+  ) : (
     <PlaceholderImage
       label={project.comingSoon ? "Coming soon" : project.cardLabel}
       muted={project.comingSoon}

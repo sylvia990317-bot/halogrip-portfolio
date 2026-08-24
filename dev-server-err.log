@@ -1,0 +1,142 @@
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.

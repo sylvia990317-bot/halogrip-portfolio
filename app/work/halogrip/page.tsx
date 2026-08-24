@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./halogrip.css";
+import "./scroll-intro.css";
 import InteractionDeck from "./interaction-deck";
+import ScrollIntro from "./scroll-intro";
 
 const title = "HALOGRIP — Sylvia Xie";
 const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
@@ -13,12 +15,8 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title, description, images: ["/media/hero.webp"] },
 };
 
-const meta = [
-  ["Deliverable", "Fallback steering"],
-  ["Partner", "Autoliv × Chalmers"],
-  ["Role", "UX / product design"],
-  ["Context", "Level 4 robotaxi"],
-];
+// NOTE: the hero's `meta` array moved into ./scroll-intro.tsx, which renders the
+// static hero as its fallback / loading state.
 
 const principles = [
   ["IMMEDIATE", "No remote operator in the critical path."],
@@ -57,28 +55,7 @@ export default function HalogripPage() {
         <a className="topbar-link" href="#overview">EXPLORE PROJECT ↘</a>
       </header>
 
-      <section className="hero shell" aria-labelledby="project-title">
-        <div className="hero-heading">
-          <span className="eyebrow">[ CASE STUDY 001 ]</span>
-          <h1 id="project-title">HALOGRIP</h1>
-          <span className="eyebrow hero-year">GOTHENBURG, SE / 2025</span>
-        </div>
-        <div className="metadata">
-          {meta.map(([label, value]) => (
-            <div className="meta-item" key={label}>
-              <span className="eyebrow">[ {label} ]</span>
-              <strong>{value}</strong>
-            </div>
-          ))}
-        </div>
-        <div className="hero-image">
-          <img src="/media/hero.webp" alt="HALOGRIP emergency steering device in a blue-lit product render" fetchPriority="high" />
-          <div className="hero-caption">
-            <span>EMERGENCY CONTROL FOR AUTONOMOUS VEHICLES</span>
-            <span>SYLVIA XIE + YUXIN LIN</span>
-          </div>
-        </div>
-      </section>
+      <ScrollIntro />
 
       <section className="overview section shell" id="overview">
         <span className="eyebrow overview-marker">[ 01 / OVERVIEW ]</span>

@@ -1,5 +1,3 @@
-import PlaceholderImage from "../PlaceholderImage";
-
 // TODO(sylvia): confirm real contact email and social profile links.
 const CONTACT_EMAIL = "sylviaxie99@hotmail.com";
 const SOCIALS = [
@@ -11,7 +9,11 @@ export default function SiteHeader() {
   return (
     <header className="flex items-center justify-between px-6 py-6 md:px-12">
       <div className="flex items-center gap-3">
-        <PlaceholderImage label="" className="h-10 w-10 shrink-0 rounded-full" />
+        <img
+          src="/home/avatar.jpg"
+          alt="Sylvia Xie"
+          className="h-10 w-10 shrink-0 rounded-full object-cover"
+        />
         <div className="leading-tight">
           <p className="text-sm font-medium text-ink">Sylvia Xie</p>
           <a href={`mailto:${CONTACT_EMAIL}`} className="font-mono text-xs text-muted hover:text-ink">

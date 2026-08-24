@@ -1,0 +1,97 @@
+
+> halogrip-portfolio@1.0.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.68.108:3000
+- Environments: .env.local
+✓ Ready in 675ms
+
+ GET /work/halogrip 200 in 2.7s (next.js: 2.4s, application-code: 299ms)
+ GET /work/halogrip 200 in 89ms (next.js: 7ms, application-code: 81ms)
+ GET / 200 in 523ms (next.js: 370ms, application-code: 152ms)
+ GET /work/halogrip 200 in 989ms (next.js: 275ms, application-code: 714ms)
+ GET /work/halogrip 200 in 224ms (next.js: 27ms, application-code: 197ms)
+✓ Compiled in 542ms
+✓ Compiled in 499ms
+✓ Compiled in 92ms
+ GET /work/halogrip 200 in 357ms (next.js: 153ms, application-code: 204ms)
+ GET /work/halogrip 200 in 119ms (next.js: 6ms, application-code: 113ms)
+ GET /work/halogrip 200 in 50ms (next.js: 4ms, application-code: 46ms)
+ GET /work/halogrip 200 in 350ms (next.js: 5ms, application-code: 345ms)
+✓ Compiled in 781ms
+ GET /work/halogrip 200 in 440ms (next.js: 101ms, application-code: 339ms)
+ GET /work/halogrip 200 in 278ms (next.js: 32ms, application-code: 246ms)
+ GET /work/halogrip 200 in 210ms (next.js: 7ms, application-code: 203ms)
+ GET /work/halogrip 200 in 210ms (next.js: 70ms, application-code: 141ms)
+ GET /work/halogrip 200 in 210ms (next.js: 135ms, application-code: 76ms)
+ GET /work/halogrip 200 in 179ms (next.js: 64ms, application-code: 115ms)
+ GET /work/halogrip 200 in 62ms (next.js: 11ms, application-code: 51ms)
+ GET /work/halogrip 200 in 234ms (next.js: 4ms, application-code: 230ms)
+ GET / 200 in 134ms (next.js: 23ms, application-code: 110ms)
+ GET /work/halogrip 200 in 123ms (next.js: 8ms, application-code: 116ms)
+ GET / 200 in 73ms (next.js: 7ms, application-code: 66ms)
+ GET /work/halogrip 200 in 78ms (next.js: 7ms, application-code: 71ms)
+ GET /work/halogrip 200 in 119ms (next.js: 10ms, application-code: 109ms)
+✓ Compiled in 643ms
+ GET /work/halogrip 200 in 472ms (next.js: 160ms, application-code: 312ms)
+ GET /work/halogrip 200 in 202ms (next.js: 90ms, application-code: 112ms)
+ GET /work/halogrip 200 in 57ms (next.js: 5ms, application-code: 52ms)
+✓ Compiled in 269ms
+ GET /work/halogrip 200 in 241ms (next.js: 85ms, application-code: 156ms)
+ GET /work/halogrip 200 in 60ms (next.js: 6ms, application-code: 54ms)
+✓ Compiled in 62ms
+ GET /work/halogrip 200 in 202ms (next.js: 65ms, application-code: 136ms)
+ GET /work/halogrip 200 in 71ms (next.js: 5ms, application-code: 65ms)
+✓ Compiled in 58ms
+ GET /work/halogrip 200 in 251ms (next.js: 112ms, application-code: 138ms)
+ GET /work/halogrip 200 in 63ms (next.js: 8ms, application-code: 55ms)
+ GET / 200 in 436ms (next.js: 121ms, application-code: 315ms)
+✓ Compiled in 63ms
+ GET / 200 in 272ms (next.js: 100ms, application-code: 172ms)
+ GET / 200 in 62ms (next.js: 7ms, application-code: 55ms)
+ GET /work/halogrip 200 in 423ms (next.js: 76ms, application-code: 347ms)
+ GET /work/halogrip 200 in 282ms (next.js: 169ms, application-code: 113ms)
+ GET / 200 in 250ms (next.js: 78ms, application-code: 171ms)
+ GET / 200 in 88ms (next.js: 3ms, application-code: 85ms)
+ GET /work/halogrip 200 in 257ms (next.js: 128ms, application-code: 129ms)
+ GET /work/halogrip 200 in 68ms (next.js: 15ms, application-code: 53ms)
+ GET / 200 in 182ms (next.js: 51ms, application-code: 131ms)
+ GET / 200 in 71ms (next.js: 6ms, application-code: 65ms)
+ GET /work/halogrip 200 in 193ms (next.js: 82ms, application-code: 111ms)
+ GET /work/halogrip 200 in 77ms (next.js: 30ms, application-code: 47ms)
+ GET /work/halogrip 200 in 185ms (next.js: 6ms, application-code: 179ms)
+ GET / 200 in 216ms (next.js: 7ms, application-code: 209ms)
+ GET / 200 in 66ms (next.js: 4ms, application-code: 62ms)
+ GET / 200 in 89ms (next.js: 5ms, application-code: 85ms)
+ GET /work/halogrip 200 in 123ms (next.js: 8ms, application-code: 115ms)
+ GET / 200 in 86ms (next.js: 8ms, application-code: 78ms)
+ GET /work/halogrip 200 in 84ms (next.js: 3ms, application-code: 81ms)
+ GET /work/halogrip 200 in 69ms (next.js: 9ms, application-code: 60ms)
+✓ Compiled in 99ms
+ GET /work/halogrip 200 in 81ms (next.js: 6ms, application-code: 75ms)
+ GET / 200 in 116ms (next.js: 10ms, application-code: 106ms)
+ GET /work/halogrip 200 in 92ms (next.js: 6ms, application-code: 87ms)
+ GET /work/halogrip 200 in 81ms (next.js: 5ms, application-code: 76ms)
+ GET / 200 in 324ms (next.js: 176ms, application-code: 148ms)
+ GET / 200 in 110ms (next.js: 21ms, application-code: 89ms)
+ GET /work/halogrip 200 in 374ms (next.js: 70ms, application-code: 304ms)
+ GET /work/halogrip 200 in 163ms (next.js: 9ms, application-code: 154ms)
+ GET /work/halogrip 200 in 89ms (next.js: 3ms, application-code: 86ms)
+ GET /work/halogrip 200 in 62ms (next.js: 3ms, application-code: 58ms)
+ GET / 200 in 139ms (next.js: 4ms, application-code: 135ms)
+ GET / 200 in 80ms (next.js: 6ms, application-code: 73ms)
+ GET /work/halogrip 200 in 57ms (next.js: 5ms, application-code: 52ms)
+✓ Compiled in 63ms
+ GET / 200 in 199ms (next.js: 138ms, application-code: 62ms)
+ GET /work/halogrip 200 in 209ms (next.js: 88ms, application-code: 121ms)
+ GET /work/halogrip 200 in 46ms (next.js: 4ms, application-code: 43ms)
+ GET /work/halogrip 200 in 110ms (next.js: 7ms, application-code: 103ms)
+ GET /work/halogrip 200 in 265ms (next.js: 11ms, application-code: 254ms)
+ GET /work/halogrip 200 in 82ms (next.js: 4ms, application-code: 78ms)
+ GET /work/halogrip 200 in 142ms (next.js: 6ms, application-code: 136ms)
+✓ Compiled in 50ms
+✓ Compiled in 31ms
+ GET /work/halogrip 200 in 348ms (next.js: 78ms, application-code: 270ms)
+ GET /work/halogrip 200 in 199ms (next.js: 9ms, application-code: 190ms)
