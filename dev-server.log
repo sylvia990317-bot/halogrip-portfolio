@@ -99,3 +99,7 @@
  GET /work/halogrip 200 in 220ms (next.js: 86ms, application-code: 134ms)
 ✓ Compiled in 93ms
  GET /work/halogrip 200 in 196ms (next.js: 79ms, application-code: 117ms)
+ GET /work/halogrip 200 in 201ms (next.js: 12ms, application-code: 189ms)
+ GET /media/hero.webp 404 in 45ms (next.js: 16ms, application-code: 29ms)
+ GET /media/product-side.webp 404 in 40ms (next.js: 4ms, application-code: 36ms)
+ GET /media/hero.webp 404 in 44ms (next.js: 9ms, application-code: 34ms)
