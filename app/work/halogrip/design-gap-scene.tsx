@@ -164,18 +164,12 @@ export default function DesignGapScene() {
         gsap.set(r.robotaxi as HTMLElement, { x: 0 });
         gsap.set([r.sideLabelLeft, r.sideLabelRight, r.headline, r.dependencies], { opacity: 0 });
 
-        const tl = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: {
-            trigger: rootRef.current,
-            start: "top top",
-            end: "+=250%",
-            pin: true,
-            scrub: 1,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        });
+        // Built paused and driven manually via ScrollTrigger's onUpdate below — see the matching
+        // comment in response-scene.tsx for why `gsap.timeline({ scrollTrigger: {...} })` isn't
+        // used directly (it leaves `ScrollTrigger.start` stuck at 0 in this project's gsap
+        // 3.15.0 install; a plain `ScrollTrigger.create()` with no `animation` tied to a Timeline
+        // computes correctly, so progress is driven by hand instead).
+        const tl = gsap.timeline({ paused: true, defaults: { ease: "none" } });
 
         // Entry — headline, side labels, dependency row.
         tl.to([r.sideLabelLeft, r.sideLabelRight, r.headline, r.dependencies], { opacity: 1, duration: 0.04 }, 0);
@@ -240,6 +234,15 @@ export default function DesignGapScene() {
         // The taillight activates and the vehicle shifts slightly forward.
         tl.to(r.taillight as HTMLElement, { opacity: 1, duration: 0.06 }, 0.9);
         tl.to(r.robotaxi as HTMLElement, { x: 14, duration: 0.08, ease: "power2.out" }, 0.9);
+
+        ScrollTrigger.create({
+          trigger: rootRef.current,
+          start: "top top",
+          end: "+=250%",
+          pin: true,
+          anticipatePin: 1,
+          onUpdate: (self) => tl.progress(self.progress),
+        });
       }, rootRef);
 
       return () => context.revert();
@@ -258,10 +261,9 @@ export default function DesignGapScene() {
         gsap.set(r.robotaxi as HTMLElement, { x: 0 });
         gsap.set([r.sideLabelLeft, r.sideLabelRight, r.headline, r.dependencies], { opacity: 0, y: 10 });
 
-        const tl = gsap.timeline({
-          defaults: { ease: "power2.out" },
-          scrollTrigger: { trigger: rootRef.current, start: "top 78%" },
-        });
+        // Paused + played from a plain ScrollTrigger's onEnter — see the desktop branch above
+        // for why the timeline isn't wired via `scrollTrigger:{...}` directly.
+        const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
 
         tl.to([r.sideLabelLeft, r.sideLabelRight, r.headline], { opacity: 1, y: 0, duration: 0.4 })
           .to(panels as HTMLElement[], { opacity: 1, y: 0, duration: 0.35, stagger: 0.08 }, "-=0.15")
@@ -269,6 +271,8 @@ export default function DesignGapScene() {
           .to(r.taillight as HTMLElement, { opacity: 1, duration: 0.3 }, "-=0.1")
           .to(r.robotaxi as HTMLElement, { x: 8, duration: 0.3 }, "<")
           .to(r.dependencies as HTMLElement, { opacity: 1, y: 0, duration: 0.3 }, "-=0.1");
+
+        ScrollTrigger.create({ trigger: rootRef.current, start: "top 78%", onEnter: () => tl.play() });
       }, rootRef);
 
       return () => context.revert();

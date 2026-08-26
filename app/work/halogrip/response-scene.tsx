@@ -58,8 +58,6 @@ export default function ResponseScene() {
     }
 
     gsap.registerPlugin(ScrollTrigger);
-    (window as any).ScrollTrigger = ScrollTrigger;
-    (window as any).gsap = gsap;
 
     const context = gsap.context(() => {
       gsap.set(paths, { strokeDashoffset: 1000 });
@@ -67,18 +65,16 @@ export default function ResponseScene() {
       gsap.set(dots, { opacity: 0, scale: 0.4, transformOrigin: "center" });
       gsap.set(labelEls, { opacity: 0 });
 
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top top",
-          end: "+=200%",
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
+      // Built paused and driven manually via ScrollTrigger's onUpdate below (`tl.progress(self.progress)`)
+      // rather than passed as `gsap.timeline({ scrollTrigger: {...} })` or
+      // `ScrollTrigger.create({ animation: tl })`
+      // — both of those leave `ScrollTrigger.start` stuck at 0 in this project's gsap 3.15.0
+      // install (reproduced in isolation outside React: a plain `gsap.to()` Tween wired to
+      // ScrollTrigger computes start/end correctly, but any `gsap.timeline()` instance wired the
+      // same way — pinned or not, empty or with real tweens — does not; a later
+      // `ScrollTrigger.refresh(true)` doesn't recover it either). Driving progress by hand
+      // sidesteps whatever that internal Timeline-as-ScrollTrigger-animation path is doing wrong.
+      const tl = gsap.timeline({ paused: true, defaults: { ease: "none" } });
 
       const step = (n: string) => [r[`label-${n}`], r[`dot-${n}`]];
 
@@ -94,6 +90,15 @@ export default function ResponseScene() {
         .to(step("04B"), { opacity: 1, duration: 0.04 }, 0.83)
         .to(r.pathFinal as SVGPathElement, { strokeDashoffset: 0, duration: 0.1 }, 0.88)
         .to(step("05"), { opacity: 1, duration: 0.05 }, 0.95);
+
+      ScrollTrigger.create({
+        trigger: rootRef.current,
+        start: "top top",
+        end: "+=200%",
+        pin: true,
+        anticipatePin: 1,
+        onUpdate: (self) => tl.progress(self.progress),
+      });
     }, rootRef);
 
     refreshScrollTrigger();
