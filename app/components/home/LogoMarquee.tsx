@@ -11,12 +11,9 @@ export default function LogoMarquee() {
     <div className="overflow-hidden border-t border-line py-6">
       <div className="flex w-max animate-[marquee_22s_linear_infinite] items-center gap-12">
         {items.map((logo, i) => (
-          <img
-            key={`${logo.name}-${i}`}
-            src={logo.src}
-            alt={logo.name}
-            className="h-6 w-auto object-contain"
-          />
+          <div key={`${logo.name}-${i}`} className="flex h-8 w-28 shrink-0 items-center justify-center">
+            <img src={logo.src} alt={logo.name} className="max-h-full max-w-full object-contain" />
+          </div>
         ))}
       </div>
       <style>{`

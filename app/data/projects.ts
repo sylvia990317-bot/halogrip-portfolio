@@ -5,7 +5,11 @@ export type Project = {
   comingSoon: boolean;
   href?: string;
   image?: string;
+  tags?: string[];
 };
+
+// TODO(sylvia): replace with real tags per project.
+const PLACEHOLDER_TAGS = ["Placeholder tag", "2026"];
 
 export const projects: Project[] = [
   {
@@ -15,6 +19,7 @@ export const projects: Project[] = [
     comingSoon: false,
     href: "/work/halogrip",
     image: "/home/projects/halogrip-cover.png",
+    tags: PLACEHOLDER_TAGS,
   },
   {
     slug: "coming-soon-1",
@@ -22,6 +27,7 @@ export const projects: Project[] = [
     subtitle: "New project — details soon",
     comingSoon: true,
     image: "/home/projects/cstrider-project.jpg",
+    tags: PLACEHOLDER_TAGS,
   },
   {
     slug: "coming-soon-2",
@@ -29,6 +35,7 @@ export const projects: Project[] = [
     subtitle: "New project — details soon",
     comingSoon: true,
     image: "/home/projects/volvo-truck.jpg",
+    tags: PLACEHOLDER_TAGS,
   },
   {
     slug: "coming-soon-3",
@@ -36,5 +43,6 @@ export const projects: Project[] = [
     subtitle: "New project — details soon",
     comingSoon: true,
     image: "/home/projects/corn-hands.jpg",
+    tags: PLACEHOLDER_TAGS,
   },
 ];

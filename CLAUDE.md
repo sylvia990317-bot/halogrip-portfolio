@@ -63,16 +63,20 @@ app/
   components/
     PlaceholderImage.tsx    Shared placeholder box (div, not a broken <img>)
     home/                   Homepage-only components (SiteHeader, Hero, ProjectGrid/ProjectCard,
-                             TwoColumnSection, LogoMarquee, AboutCard, ExperienceTimeline,
-                             TestimonialsCarousel, ContactSection, SiteFooter)
+                             ScrollZoomImage, TwoColumnSection, LogoMarquee, AboutCard,
+                             ExperienceTimeline, TestimonialsCarousel, ContactSection, SiteFooter)
   work/
     halogrip/
       page.tsx              HALOGRIP case study — own `metadata` export, own CSS import
       halogrip.css          HALOGRIP-only styles (fonts, tokens, all component classes)
       interaction-deck.tsx  Client component, steering-state demo ("use client")
+      scroll-intro*.tsx/css Pinned scroll-driven 3D opening (R3F + GSAP ScrollTrigger), ported
+                             1:1 from Sylvia's PowerPoint reference — see Recent changes
 public/
   media/                   HALOGRIP's images (kept flat at /media/*.webp; not yet reorganized
                             per-project since there's only one project with real assets)
+  home/                    Homepage's real assets (avatar, portrait, logos/, projects/) — see
+                            Recent changes below for the source→destination mapping
   fonts/                   HALOGRIP's self-hosted fonts (Nimbus Sans Narrow, DejaVu Sans Mono)
 ```
 
@@ -80,15 +84,21 @@ public/
 
 These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
-- Real card title/caption for the HALOGRIP tile on the homepage grid
 - Real contact email + social links (LinkedIn/Instagram hrefs are currently placeholder root URLs)
 - Real CV link/file
 - Real testimonials (3 placeholder slots currently in `app/data/testimonials.ts`)
-- Real photos: avatar, portrait, company/school logos (Cstrider, Volvo, Chalmers, Autoliv), all 4
-  project thumbnails — everywhere via `PlaceholderImage` until supplied
+- Real per-project tags for the hover ticker on each project card (`PLACEHOLDER_TAGS` in
+  `app/data/projects.ts`, used by `ProjectCard.tsx`'s hover-reveal tag ticker)
+- Real thumbnail for the HALOGRIP card itself — the other 3 project cards now have real cover
+  photos, HALOGRIP's `image` field points at `/home/projects/halogrip-cover.png` (already real)
 - Whether the 2018–2019 "Bachelor Thesis Student · Apple" entry (seen in the Framer reference) is
   real — it looked like unedited template filler and was deliberately omitted from
   `app/data/experience.ts`
+- Confirm intended assignment of the still-unused `Namnlös design (1).jpg` (grey concept car
+  render), left in `public/mainpage picture/` — not wired into any project card yet
+- The homepage's logo marquee (`chalmers logo.svg`) markup looks scraped from a web page (purple
+  `#6746EB` before recoloring, Tailwind-style classes baked into the SVG) rather than Chalmers'
+  official seal — flagging in case it's the wrong sub-brand mark
 
 ## Deployment
 
@@ -98,9 +108,9 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
   login connection added manually in the Vercel dashboard first). Until then, deploy manually
   from this directory with `vercel --prod --yes`.
 
-## Recent changes (this session)
+## Recent changes
 
-Restructured the project from a single-page HALOGRIP site into a multi-project portfolio:
+### Multi-project restructure (earlier session)
 - Moved the entire former `app/page.tsx` (the HALOGRIP case study) to `app/work/halogrip/page.tsx`
   unchanged, with its CSS split out into `app/work/halogrip/halogrip.css` and its
   `interaction-deck.tsx` moved alongside it.
@@ -113,7 +123,182 @@ Restructured the project from a single-page HALOGRIP site into a multi-project p
   so the root layout is generic and HALOGRIP's specific metadata lives on its own page.
 - Fixed a cascade-layer bug where an unlayered `a{color:inherit}` reset was overriding Tailwind
   utility text colors (see Hard Rule 3 above).
-- Verified locally: homepage section order matches the Framer reference, HALOGRIP page renders
-  identically at its new route with working interaction demo, `npm run build` succeeds.
 - **Not yet done**: redeploying this to Vercel — the live site still shows the old single-page
   version as of this writing.
+
+### Homepage real assets + animation pass (this session)
+- Wired real images/logos into every homepage placeholder slot: header avatar, about-section
+  portrait, all 4 logo-marquee marks (Cstrider/Volvo/Chalmers/Autoliv, recolored solid black,
+  equal-size slots), and 3 of 4 project card covers (HALOGRIP, Maritime HMI Design, Truck Sensory
+  Design, Maize Drying System). Source files moved from `public/mainpage picture/` into a clean
+  `public/home/` structure (see that folder for the mapping); one file
+  (`Namnlös design (1).jpg`) is still unused, left in place.
+- Renamed all 4 project card titles to Sylvia's confirmed real names (`app/data/projects.ts`);
+  the 3 non-HALOGRIP cards stay `comingSoon: true` / no `href` per Hard Rule 6, just with real
+  photos and captions instead of gray placeholders.
+- Compared homepage animations against the Framer reference and fixed mismatches:
+  - `Hero.tsx`: added a letter-by-letter blur-in reveal for "Industrial Designer" (own `<style>`
+    keyframe block, no `globals.css` change).
+  - `SiteHeader.tsx`: fades in ~1.25s after the hero reveal finishes (was simultaneous before).
+  - `LogoMarquee.tsx`: keeps its auto-scrolling marquee (confirmed with Sylvia this should stay,
+    despite the reference itself appearing static when inspected).
+  - New `ScrollZoomImage.tsx` (`"use client"`): wraps each project card cover in a scroll-linked
+    zoom — scale ~1.0 when the card is vertically centered in the viewport, growing to ~1.22 near
+    the top/bottom edges, measured directly off the reference site's own scroll behavior.
+  - `ProjectCard.tsx`: subtitle is now hover-only (`group-hover:opacity-100`), and hovering
+    reveals a full-width scrolling tag-pill ticker over the cover image (placeholder tags for now,
+    `app/data/projects.ts`).
+- `npm run build` failed at the time on a TypeScript error in
+  `app/work/halogrip/scroll-intro-scene.tsx` (`OrthographicCamera.aspect`) from in-progress work
+  on the HALOGRIP scroll-intro scene that this session didn't touch — since fixed (see the
+  scroll-intro entry below); `npm run build` is clean again as of this writing. All homepage work
+  above was verified via the dev server + browser inspection instead (computed styles,
+  `getAnimations()`, console-error checks), not `npm run build`.
+
+### Homepage polish pass — corrections after direct reference-site instrumentation (this session)
+Several follow-up rounds, each fixing a specific mismatch found by measuring the live reference
+site's DOM/computed styles rather than guessing:
+- `ScrollZoomImage.tsx`: the scroll-linked zoom was rebuilt from a symmetric
+  distance-from-viewport-center formula to an **entry-progress-from-the-bottom-edge-only**
+  formula (`entryProgress = clamp01((viewportH - rect.top) / rect.height)`). The old version also
+  re-zoomed as a card exited near the top edge; the reference only reacts to the bottom edge —
+  confirmed by polling the reference's own `getBoundingClientRect()`/`matrix3d` during scroll.
+- `ProjectCard.tsx`, three separate bugs/mismatches found and fixed:
+  - The hover tag-ticker used `animation-play-state: paused/running` toggling, which does **not**
+    reset a CSS animation's progress — every hover resumed from wherever it last stopped instead
+    of starting at `translateX(0)`. Fixed by only attaching `group-hover:animate-[tag-ticker_...]`
+    at all on hover (no animation in the default state), so it's always fresh. Ticker background
+    also changed from a dark gradient to the reference's measured `#f4f4f6`.
+  - The title/subtitle caption was a detached block below the image with a gap; the reference
+    fuses it to the image's bottom edge as one rounded card. Rounding/clipping moved from
+    `ScrollZoomImage`'s className up to the card's root element; the caption is now
+    `absolute inset-x-0 bottom-0` with `bg-[#f4f4f6]`, growing its `max-height` on hover
+    (bottom-anchored, so it visibly grows *upward* into the photo) to reveal the subtitle stacked
+    below the title, rather than the title/subtitle sitting side-by-side.
+  - Sizing iterated up in a few rounds per Sylvia's feedback: title is `text-xl` (was `text-lg`),
+    ticker padding/text bumped to `px-6 py-5`/`text-sm` (was `px-4 py-2`/`text-[10px]`).
+- `app/globals.css`: `--radius-card` reduced from `52px` to `20px` — matches the reference card's
+  measured `border-radius` exactly (`getComputedStyle` on its outer `<a>`). Affects every
+  `rounded-card` use (project cards, about-section portrait).
+- `ContactSection.tsx`: added the "Contact" eyebrow pill above the heading (same pattern as
+  About/Experience/Testimonials — was missing entirely). "Let's talk" button flipped from solid
+  black/light-text to the reference's actual style: light pill (`bg-bg text-ink`, matching its
+  measured `rgb(249,249,250)`/`rgb(20,20,21)`), bigger padding, plus a blurred orange-red radial
+  glow (`rgba(255,77,46,...)`) sitting behind/under it, reproducing the reference's glow div.
+  `SiteFooter.tsx` deliberately left alone — Sylvia confirmed the reference has no equivalent
+  footer but wants to keep ours anyway.
+- Added a **`CLOSE PROJECT` button** to `/work/halogrip` (`page.tsx` + `.close-project*` rules in
+  `halogrip.css`) — Sylvia's request, not a reference-site match. `position: fixed` top-right,
+  black pill/white text, stays visible through the whole scroll (verified past 1500px of scroll).
+  Hover reveals a duplicate stacked copy of the label sliding up (`translateY(-38px)`, one
+  line-height) to read as "selected." Hit one bug while building it: `align-items: center` on the
+  outer pill centered the two-line text track inside the clipped window, showing the seam between
+  both copies instead of one clean line — fixed with `align-items: flex-start`.
+
+### HALOGRIP scroll-intro: ported 1:1 from PowerPoint reference (this session)
+- The pinned scroll-driven 3D opening (`scroll-intro.tsx` / `scroll-intro-scene.tsx` /
+  `scroll-intro.css`, R3F + `three` + GSAP `ScrollTrigger`, real product model at
+  `public/models/halogrip.glb`) was rebuilt to match a reference animation Sylvia had already
+  designed in PowerPoint (`public/media/Final Presention for claude12.pptx`, a real embedded 3D
+  Model object + Morph transitions across 9 slides), rather than the text-brief guess a first
+  pass had shipped. Ground truth (exact per-slide pitch/yaw/roll, on-screen frame, text, colors,
+  font, and a custom directional-arrow shape) was extracted straight from the `.pptx`'s OOXML —
+  it's a zip; `ppt/slides/slideN.xml`'s `<am3d:model3d>` element and `<p:xfrm>` have the numbers.
+- Confirmed with Sylvia and implemented: accent color is `#2D5391` (`--accent` in
+  `halogrip.css`, replacing an earlier invented `--navy`), font is **Poppins** via
+  `next/font/google` scoped to this route only (not the page's usual Nimbus Sans Narrow — a
+  deliberate, confirmed exception for just this section). The part-callout stage is one static
+  text block (not per-part 3D-tracked labels), and the Forward/Brake/Reverse stage keeps the
+  model's **3D** pose frozen at the side view (there is no separate Neutral state).
+- The Forward/Brake/Reverse stage does rock the product, and that rock is not a 3D move: every
+  one of slides 4-9 freezes `<am3d:rot>` at the side view, and what Morph actually animates is
+  the `rot` attribute on each slide's `<p:graphicFrame>`'s `<p:xfrm>` — a flat, in-the-picture-
+  plane turn of the whole rendered frame. Decoded (60000ths of a degree, clockwise, absent = 0)
+  that is one continuous sweep, never doubling back: slide 4 = 0, slides 5-6 = +15.12, slides
+  7-8 = 0, slide 9 = -22.79 (stored as 337.21). It rides on its own `SceneState.tilt` channel,
+  deliberately not on `pitch` — `pitch` is the slide 1-4 approach and stays parked afterwards.
+  The scene applies it to the `place` group, i.e. about the camera's own view axis, *outside*
+  the pose rotation. Do not fold it into pitch/yaw/roll: at yaw -90 both of the other Euler
+  channels have landed on world X, so composing there foreshortens the side view instead of
+  rocking it (an earlier draft's bug). Note it disagrees in direction with
+  `interaction-deck.tsx` further down the page, whose FORWARD is -16 (anticlockwise) against
+  this stage's +15.12 (clockwise) for the same word — the deck's numbers are that component's
+  own, the intro's come from the PPT; flagged for Sylvia, not reconciled.
+- Camera is `OrthographicCamera`, not perspective — required so the model's on-screen size
+  matches the deck's frame percentages exactly at every pose; a perspective camera measurably
+  over-sized the side-view pose.
+- Verified: `npm run build` and `npx tsc --noEmit` both clean; scroll sequence checked stage by
+  stage against the deck's own rasterized per-pose renders (`ppt/media/image*.png` inside the
+  pptx) since the paired screen-recording video wouldn't play back reliably in-browser; reversal
+  (scroll to bottom then back to top) mirrors correctly; mobile/no-WebGL/reduced-motion fallback
+  still renders the plain static hero.
+- Slide 3's second copy of the model is now in (Sylvia confirmed she wants it). That slide layers
+  two instances, so `scroll-intro-scene.tsx` renders two: the persistent one the whole timeline
+  scrubs, and a stage-2-only backdrop that fades in and out on the callout block's exact beats
+  (`SceneState.backdrop`, tweened at 0.30 and 0.40 alongside `calloutRef`). Per-instance notes:
+  - The fit mechanism is the standalone `fitToFrame(place, rotate, pose, silhouette, lens,
+    scratch, depth)` — it takes an instance's pose and frame as arguments, so the scrubbed
+    `SceneState` and the backdrop's frozen `Pose` run through identical code.
+  - Which slide-3 pose belongs to which instance was corrected once and is now confirmed: the
+    persistent model takes the **left** pose (26.5/-50.4/-20.7, `POSE_CLOSE_UP`) and the backdrop
+    the **right** one (43.1/29.8/24.6, `POSE_CLOSE_UP_BACKDROP`) — matching slide 3's own z-order,
+    where the left copy is the later shape and therefore on top. This also makes the whole
+    sequence turn 0 -> -50 -> -90 in one direction instead of doubling back.
+  - `Object3D.clone()` shares material references (checked against this GLB: 21 meshes, 13
+    materials, all shared), so the backdrop clones its own or fading it would fade the primary.
+  - The backdrop's meshes get an explicit near-to-far `renderOrder`. Without it a translucent
+    solid double-blends wherever the default back-to-front order applies, and the instance comes
+    out visibly blotchy rather than uniformly faded.
+- Nothing from this pass has been committed to git — changes are sitting in the working tree.
+
+### HALOGRIP scroll-intro: pacing, arc, and lighting fixes (this session)
+- **Pacing.** The PPT's own timing (unzip the pptx, `ppt/slides/slideN.xml`'s `<p:transition>`)
+  is a consistent 1500ms Morph on every slide 2-9, plus a 2000ms hold (`advTm="2000"`) on slides
+  1-3 before auto-advancing — roughly a 43:57 move:hold ratio. The first PPT-accurate pass didn't
+  reproduce this: pose/opacity tweens spanned almost the entire width of each scroll stage,
+  leaving near-zero dwell time, so elements (the callout block, the stage-2 backdrop instance)
+  were still mid-fade when the next stage already started clearing them. Fixed by raising the pin
+  distance from `+=550%` to `+=750%` (shrinking tween durations inside the same budget would just
+  make the same distance mostly dead, not add real dwell time) and rebalancing every content stage
+  to roughly that 43:57 ratio, with fades landing on the *same* beat as the pose/element they
+  belong to rather than trailing it. New stage boundaries: S0 0-0.06, S1 0.06-0.19, S2 0.19-0.36,
+  S3 0.36-0.50, S4 0.50-0.63, S5 0.63-0.79, S6 0.79-0.95, S7 0.95-1.0 (S5/S6 each now carry two
+  beats, since they each cover two source slides).
+- **Lighting / "buttons look black instead of silver."** Root cause: six of the GLB's thirteen
+  materials ("纹理铝") are `metalness:1, roughness:0.1` — a pure metal has no diffuse term, so
+  under point/directional lights alone it can only return a few specular pinpoints and otherwise
+  reads as black. The missing input was an environment, not more lamps. Fixed in
+  `scroll-intro-scene.tsx`: added a `StudioEnvironment` (three's built-in `RoomEnvironment`, no
+  network fetch, baked once via `PMREMGenerator` into `scene.environment`), and replaced the
+  placeholder lighting with the deck's own real rig, read straight out of `<am3d:model3d>`'s
+  `<am3d:ambientLight>`/`<am3d:ptLight>` elements: ambient (.5,.5,.5 @ illuminance 0.5) plus a warm
+  key / cool fill / violet rim point light at the PPT's own colors and a 9.77 : 12.25 : 3.13
+  intensity ratio (positions used as normalized directions at a fixed radius, `decay={0}` so
+  brightness doesn't shift when `fitToFrame` rescales the model). Verified side-by-side against
+  the deck's own cached `ppt/media/slide2.png`-equivalent render.
+- **Backdrop opacity.** Was capped at a deliberate 0.5 (invented, to keep the callout text
+  legible over it) — but neither `<am3d:model3d>` shape in the deck has any alpha effect; the
+  ground truth is fully opaque. Changed `BACKDROP_OPACITY` to 1. No legibility conflict in
+  practice: the backdrop's frame bottoms out at 57% viewport height, the callout starts at 68.1%,
+  they don't overlap.
+- **Arc/arrowhead — two real bugs, not one.** (1) `ARC_PATH` had originally been built by treating
+  the PPT arc preset's `adj1`/`adj2` as literal ellipse parametric angles; they're true geometric
+  angles and the `arc` preset applies its own `atan2`-based conversion first — on a 500x143 box
+  this put both path endpoints tens of px off and the end tangent ~30° out, which is what first
+  showed up as a misaligned triangle. Recomputed from the real conversion (verified against
+  PowerPoint's own exported slide images to sub-pixel accuracy). (2) After that fix, the triangle
+  was still visibly wrong in a way that turned out to have nothing to do with the earlier flip
+  (`scaleX(-1)`) suspicion — a controlled test proved the CSS mirror was rendering a faithful,
+  undistorted mirror image both times. The actual cause: DrawingML shortens a line by the
+  arrowhead's own length so the head sits neatly *on* the stroke's end; SVG `marker-end` does not
+  — the stroke kept running full-length underneath the triangle, so its butt cap poked out past
+  one flank (the "notch"), the arc's own curvature across that span misaimed the auto-oriented
+  head (the "squashed diamond"), and the tip never actually cleared the line (it read as buried,
+  not pointed). Fixed by cutting the stroke back to the head's base and replacing the
+  `orient="auto"` `<marker>` with an explicitly-computed triangle polygon (tip position kept from
+  the earlier fix; base/axis computed from the *chord* across the head — not the end tangent or
+  base tangent, chord is what PowerPoint itself orients an arrowhead to; head size kept at 3x
+  stroke width per the deck's own `<a:tailEnd type="triangle" w="med" len="med"/>`). Verified with
+  tight zoomed screenshots on all three states (Forward/Brake/Reverse): clean triangular tip
+  clearly proud of the line, no notch, symmetric barbs, in every state.
+- Nothing from this pass has been committed to git either — still sitting in the working tree.

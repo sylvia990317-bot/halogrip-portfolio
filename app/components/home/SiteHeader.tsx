@@ -7,7 +7,9 @@ const SOCIALS = [
 
 export default function SiteHeader() {
   return (
-    <header className="flex items-center justify-between px-6 py-6 md:px-12">
+    <header
+      className="flex items-center justify-between px-6 py-6 opacity-0 [animation:header-reveal_0.7s_cubic-bezier(0.22,1,0.36,1)_1.25s_forwards] md:px-12"
+    >
       <div className="flex items-center gap-3">
         <img
           src="/home/avatar.jpg"
@@ -34,6 +36,12 @@ export default function SiteHeader() {
           </a>
         ))}
       </nav>
+      <style>{`
+        @keyframes header-reveal {
+          from { opacity: 0; transform: translateY(-8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </header>
   );
 }

@@ -3,6 +3,7 @@ import "./halogrip.css";
 import "./scroll-intro.css";
 import InteractionDeck from "./interaction-deck";
 import ScrollIntro from "./scroll-intro";
+import OverviewBackdrop from "./overview-backdrop";
 
 const title = "HALOGRIP — Sylvia Xie";
 const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
@@ -55,9 +56,17 @@ export default function HalogripPage() {
         <a className="topbar-link" href="#overview">EXPLORE PROJECT ↘</a>
       </header>
 
+      <a className="close-project" href="/">
+        <span className="close-project-track">
+          <span>CLOSE PROJECT</span>
+          <span aria-hidden="true">CLOSE PROJECT</span>
+        </span>
+      </a>
+
       <ScrollIntro />
 
       <section className="overview section shell" id="overview">
+        <OverviewBackdrop />
         <span className="eyebrow overview-marker">[ 01 / OVERVIEW ]</span>
         <div className="overview-copy">
           <h2>WHEN AUTONOMY FAILS,<br />SOMEONE STILL NEEDS<br />TO MOVE THE VEHICLE.</h2>
@@ -66,9 +75,15 @@ export default function HalogripPage() {
         </div>
         <figure className="city-banner">
           <img src="/media/city.webp" alt="Autonomous vehicle moving through an urban street at dusk" loading="lazy" />
+          <div className="city-banner-scrim" aria-hidden="true" />
           <figcaption className="stat-panel">
             <strong>74</strong>
             <span>AV-RELATED DISRUPTIONS TO EMERGENCY RESPONSE IN SAN FRANCISCO, NOV 2022–AUG 2023.</span>
+            <ul className="stat-panel-list">
+              <li>Blocked narrow roads and fire station exits</li>
+              <li>Parked in front of fire stations, trapping fire trucks inside</li>
+              <li>Obstructed firefighting operations</li>
+            </ul>
           </figcaption>
         </figure>
       </section>
@@ -84,6 +99,7 @@ export default function HalogripPage() {
             <article><span>02</span><strong>PUSH / TOW</strong><p>Needs space and equipment.</p></article>
             <article><span>03</span><strong>NO OVERRIDE</strong><p>Creates uncertainty on scene.</p></article>
           </div>
+          <p className="challenge-gap"><span>A CRITICAL DESIGN GAP</span> — Lack of manual interaction methods.</p>
         </div>
       </section>
 
@@ -213,7 +229,7 @@ export default function HalogripPage() {
 
       <footer className="site-footer shell">
         <div><span className="eyebrow">[ MASTER’S THESIS / 2025 ]</span><h2>DESIGNED FOR THE PEOPLE<br />WHO CANNOT AFFORD TO WAIT.</h2></div>
-        <div className="footer-bottom"><span>SYLVIA XIE + YUXIN LIN / AUTOLIV × CHALMERS</span><a href="/">BACK TO HOME ↑</a></div>
+        <div className="footer-bottom"><span>SYLVIA XIE — USER RESEARCH &amp; CONCEPT / AUTOLIV × CHALMERS</span><a href="/">BACK TO HOME ↑</a></div>
       </footer>
     </main>
   );

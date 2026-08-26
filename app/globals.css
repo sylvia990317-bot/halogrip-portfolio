@@ -6,7 +6,7 @@
   --color-muted: #656572;
   --color-tertiary: #858593;
   --color-line: #e4e4e7;
-  --radius-card: 52px;
+  --radius-card: 20px;
   --font-heading: var(--font-inter-tight);
   --font-body: var(--font-inter);
   --font-mono: var(--font-dm-mono);
