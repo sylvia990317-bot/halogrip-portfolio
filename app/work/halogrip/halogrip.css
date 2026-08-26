@@ -122,37 +122,56 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);f
   .rwn-leaders,.rwn-stat,.rwn-label{opacity:1;transform:none;transition:none}
 }
 
-/* 02.3 / Current Response — cinematic photo scene, editorial route overlay */
+/* 02.3 / Current Response — cinematic photo scene, editorial route overlay.
+   Positioning technique mirrors .dgs-* (02.4) below: a full-viewport pinned container, plain
+   left/top percentages for HTML (no pixel/viewBox coordinate mapping needed — the background is
+   an empty street, not a photo with painted-in objects, so nothing needs sub-pixel alignment to
+   photographed content), a 0-1000 `preserveAspectRatio="none"` SVG for route strokes only
+   (`vector-effect:non-scaling-stroke` keeps stroke width undistorted under that stretch), and
+   dots/leaders as plain HTML spans rather than SVG circles for the same reason. */
 .challenge-scene-response{position:relative}
 .rsc{position:relative;width:100%;height:100vh;min-height:600px;overflow:hidden;isolation:isolate;background:#050505}
 .rsc-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
-.rsc-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(130% 115% at 50% 50%,transparent 58%,rgba(4,5,4,.5) 100%),linear-gradient(122deg,rgba(4,5,4,.6) 0%,rgba(4,5,4,0) 34%)}
+.rsc-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(130% 115% at 50% 55%,transparent 42%,rgba(4,5,4,.55) 100%),linear-gradient(115deg,rgba(4,5,4,.62) 0%,rgba(4,5,4,0) 36%)}
 .rsc-svg{position:absolute;inset:0;z-index:2;width:100%;height:100%;display:block}
 
-.rsc-route{fill:none;stroke:var(--red);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1000;filter:drop-shadow(0 0 10px rgba(201,55,49,.8)) drop-shadow(0 0 26px rgba(201,55,49,.4))}
-.rsc-route-branch{stroke-width:7;stroke-dasharray:16 10}
-.rsc-bracket path{fill:none;stroke:var(--red);stroke-width:2.5;stroke-linecap:round;filter:drop-shadow(0 0 4px rgba(201,55,49,.6))}
-.rsc-dot{fill:var(--red);filter:drop-shadow(0 0 6px rgba(201,55,49,.85))}
-.rsc-leader{fill:none;stroke:rgba(245,245,241,.5);stroke-width:1.2}
+.rsc-route{fill:none;stroke:var(--red);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1000;filter:drop-shadow(0 0 8px rgba(201,55,49,.8)) drop-shadow(0 0 20px rgba(201,55,49,.4))}
+.rsc-route-branch{stroke-width:5;stroke-dasharray:16 10}
 
-.rsc-text{position:absolute;z-index:3;left:0;right:0;top:9%}
+.rsc-responder{position:absolute;z-index:3;left:0;bottom:0;height:52vh;max-height:520px;width:auto;object-fit:contain;filter:brightness(.9)}
+.rsc-robotaxi-wrap{position:absolute;z-index:3;left:58%;bottom:12%;width:24vw;max-width:360px;pointer-events:none}
+.rsc-robotaxi{display:block;width:100%;height:auto;object-fit:contain}
+.rsc-taillight{position:absolute;left:2%;top:30%;width:44%;height:10%;border-radius:40%;background:radial-gradient(ellipse,rgba(255,60,40,.8) 0%,rgba(255,60,40,.32) 45%,rgba(255,60,40,0) 80%);filter:blur(3px);mix-blend-mode:screen}
+
+.rsc-bracket{position:absolute;z-index:3;pointer-events:none}
+.rsc-corner{position:absolute;width:22px;height:22px;border-color:var(--red);border-style:solid;border-width:0;filter:drop-shadow(0 0 4px rgba(201,55,49,.6))}
+.rsc-corner-tl{top:0;left:0;border-top-width:2px;border-left-width:2px}
+.rsc-corner-tr{top:0;right:0;border-top-width:2px;border-right-width:2px}
+.rsc-corner-br{bottom:0;right:0;border-bottom-width:2px;border-right-width:2px}
+.rsc-corner-bl{bottom:0;left:0;border-bottom-width:2px;border-left-width:2px}
+
+.rsc-text{position:absolute;z-index:4;left:0;right:0;top:9%}
 .rsc-text h2{font-family:var(--display);font-weight:700;line-height:.88;letter-spacing:-.026em;margin:0;font-size:clamp(46px,5.8vw,88px)}
 
-.rsc-labels{position:absolute;inset:0;z-index:3;pointer-events:none}
-.rsc-label{position:absolute;max-width:220px;color:var(--white);font-size:10px;letter-spacing:.03em;text-transform:uppercase;line-height:1.6}
+.rsc-labels{position:absolute;inset:0;z-index:4;pointer-events:none}
+.rsc-label{position:absolute;max-width:200px;color:var(--white);font-size:10px;letter-spacing:.03em;text-transform:uppercase;line-height:1.6}
 .rsc-label span{display:block;margin-bottom:4px;color:var(--red);font-size:9px}
+.rsc-dot{position:absolute;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:var(--red);box-shadow:0 0 6px 1px rgba(201,55,49,.85)}
 
-.rsc-stat{position:absolute;z-index:3}
+.rsc-stat{position:absolute;z-index:4}
 .rsc-stat strong{font-family:var(--display);font-size:clamp(70px,8vw,110px);font-weight:700;line-height:.85;color:var(--red)}
 .rsc-stat p{margin-top:10px;max-width:220px;font-size:10px;line-height:1.7;color:#c7c8c3}
 
-.rsc-source{position:absolute;z-index:3;left:0;bottom:3%;padding-inline:var(--gutter);color:#8a8c87;font-size:9px;text-transform:uppercase}
+.rsc-source{position:absolute;z-index:4;left:0;bottom:3%;padding-inline:var(--gutter);color:#8a8c87;font-size:9px;text-transform:uppercase}
 
 @media(prefers-reduced-motion:no-preference){
-  /* Animates `filter`, never `opacity`/`scale` — GSAP owns those inline for the reveal, so a
-     property clash here would fight the scrub timeline instead of layering on top of it. */
+  /* Animates `filter`/opacity-of-a-different-element, never the dot's own `opacity`/`scale` —
+     GSAP owns those inline for the reveal, so a property clash here would fight the scrub
+     timeline instead of layering on top of it. */
   .rsc-dot{animation:rsc-beacon 1.6s ease-in-out infinite}
+  .rsc-taillight{animation:rsc-taillight-pulse 2.6s ease-in-out infinite}
   @keyframes rsc-beacon{0%,100%{filter:drop-shadow(0 0 4px rgba(201,55,49,.55))}50%{filter:drop-shadow(0 0 11px rgba(201,55,49,1))}}
+  @keyframes rsc-taillight-pulse{0%,100%{opacity:.8}50%{opacity:1}}
 }
 
 /* 02.4 / Design Gap — sticky external-procedure-to-local-control transformation */
@@ -175,6 +194,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);f
 .dgs-procedure{position:absolute;inset:0;z-index:5}
 .dgs-panel{position:absolute;transform:translate(-50%,calc(-100% - 16px));display:flex;align-items:center;gap:8px;width:clamp(126px,12vw,156px);padding:9px 11px;background:rgba(18,19,18,.55);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);border:1px solid rgba(255,255,255,.16);border-left:2px solid var(--red)}
 .dgs-panel-icon{flex:none;color:var(--red);display:flex}
+.dgs-panel-n{flex:none;color:var(--red);font-size:9px;font-weight:700;letter-spacing:.03em}
 .dgs-panel-label{font-size:9px;letter-spacing:.03em;line-height:1.4;text-transform:uppercase;color:var(--white)}
 .dgs-panel-dot{position:absolute;width:6px;height:6px;margin:-3px;border-radius:50%;background:var(--red);box-shadow:0 0 6px 1px rgba(201,55,49,.85)}
 
@@ -255,6 +275,18 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);f
   .dgs-node{position:static;transform:none}
   .dgs-robotaxi-wrap{position:relative;order:7;right:auto;bottom:auto;width:70%;max-width:320px;margin:26px auto 0}
   .dgs-dependencies{position:static;order:8;margin-top:36px;padding-inline:var(--gutter)}
+
+  .rsc{height:auto;min-height:auto;overflow:visible;display:flex;flex-direction:column;padding:80px 0 60px}
+  .rsc-svg{display:none}
+  .rsc-text{position:static;order:1;padding-inline:var(--gutter)}
+  .rsc-stat{position:static;order:2;margin:26px auto 0;padding-inline:var(--gutter)}
+  .rsc-responder{position:static;order:3;height:34vh;max-height:280px;margin:26px auto 0;display:block}
+  .rsc-robotaxi-wrap{position:relative;order:4;left:auto;bottom:auto;width:60%;max-width:300px;margin:20px auto 0}
+  .rsc-bracket{display:none}
+  .rsc-labels{position:static;order:5;display:flex;flex-direction:column;gap:14px;margin-top:30px;padding-inline:var(--gutter)}
+  .rsc-label{position:static}
+  .rsc-dot{display:none}
+  .rsc-source{position:static;order:6;margin-top:26px;padding-inline:var(--gutter)}
 }
 
 @media(prefers-reduced-motion:no-preference){.hero-image img{animation:hero-reveal .9s cubic-bezier(.2,.65,.2,1) both}@keyframes hero-reveal{from{opacity:.35;transform:scale(1.055)}to{opacity:1;transform:scale(1)}}}

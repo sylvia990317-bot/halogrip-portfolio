@@ -41,6 +41,15 @@ const PARTICLES = [
   [-8, 30], [18, 26], [-34, -30], [4, 36], [26, -14], [-18, 10],
 ] as const;
 
+function refreshScrollTrigger() {
+  const run = () => ScrollTrigger.refresh();
+  if (document.readyState === "complete") {
+    requestAnimationFrame(run);
+  } else {
+    window.addEventListener("load", run, { once: true });
+  }
+}
+
 function PanelIcon({ kind }: { kind: string }) {
   switch (kind) {
     case "incident":
@@ -265,6 +274,8 @@ export default function DesignGapScene() {
       return () => context.revert();
     });
 
+    refreshScrollTrigger();
+
     return () => mm.revert();
   }, []);
 
@@ -291,7 +302,7 @@ export default function DesignGapScene() {
         ))}
       </div>
 
-      <img ref={setRef("responder")} className="dgs-responder" src="/media/halogrip/design-gap/first-responder.png" alt="First responder viewed from behind, holding a tablet" />
+      <img ref={setRef("responder")} className="dgs-responder" src="/media/halogrip/shared/first-responder.png" alt="First responder viewed from behind, holding a tablet" />
 
       <div className="dgs-procedure" aria-hidden="false">
         {PROCEDURE.map((p) => (
@@ -327,7 +338,7 @@ export default function DesignGapScene() {
       </div>
 
       <div className="dgs-robotaxi-wrap">
-        <img ref={setRef("robotaxi")} className="dgs-robotaxi" src="/media/halogrip/design-gap/robotaxi.png" alt="Robotaxi, rear three-quarter view" />
+        <img ref={setRef("robotaxi")} className="dgs-robotaxi" src="/media/halogrip/shared/robotaxi.png" alt="Robotaxi, rear three-quarter view" />
         <span ref={setRef("taillight")} className="dgs-taillight" aria-hidden="true" />
       </div>
 
