@@ -110,6 +110,38 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### Fixed site-wide broken images after a `public/media/` reorg (this session)
+- `public/media/`'s flat image files (`hero.webp`, `emergency.webp`, `product-*.webp`,
+  `story-*.webp`, `id-one/two.webp`, `hud.webp`, `sketches.webp`, `prototype.webp`,
+  `night-city.webp`, `concept-*.webp`, `Bild1.png`, etc.) were moved into a new
+  `public/media/halogrip图片/other/` folder (with `2.1`/`2.2`/`2.3`/`2.4` subfolders holding new
+  bespoke assets for the CABIN SHIFT / REAL WORLD NEED work below) outside this session — by the
+  time this session picked up, `page.tsx`'s two newest sections (02.1 CABIN SHIFT, 02.2 REAL
+  WORLD NEED) already correctly pointed at the new `halogrip图片/...` paths, but every other
+  image reference across the page (`overview-backdrop.tsx`'s background photo, the research
+  gallery, design-principles product shot, concept-exploration sketches/grid, prototype-testing
+  photo, final-hero background, product-detail shot, `interaction-deck.tsx`'s control image, the
+  emergency-handover story grid + ID/HUD images, `scroll-intro.tsx`'s hero image, and the page's
+  OpenGraph/Twitter metadata images) still pointed at the old flat `/media/*.webp` paths, which no
+  longer resolve — this is what made the OVERVIEW background photo (and effectively every other
+  image on the page) disappear.
+- Fixed by repointing every stale reference to `/media/halogrip图片/other/<file>`, each wrapped in
+  `encodeURI(...)` (matching the convention the two newer sections already used for the non-ASCII
+  folder name — plain unencoded template-literal paths with non-ASCII segments are the kind of
+  thing that can silently 404 depending on how the string reaches the browser). Verified every
+  referenced filename actually exists under the new path (`ls`/`find`), `npm run build` stayed
+  clean, and confirmed in-browser that the OVERVIEW photo and other previously-broken images
+  render again.
+- Note for future sessions: `scroll-intro-scene.tsx`'s `/media/image2.png` mention is just a code
+  comment referencing a path *inside* the source `.pptx` zip (`ppt/media/image2.png`), not a real
+  asset reference — left alone, not part of this bug.
+- Also note: the "THE CHALLENGE split into 4 placeholder subsections" entry directly below this
+  one (from earlier in this session) is now partly superseded — 02.1 CABIN SHIFT and 02.2 REAL
+  WORLD NEED were subsequently rebuilt with real bespoke layouts/imagery/copy (outside this
+  session's own edits, structure not fully re-documented here yet); 02.3 CURRENT SOLUTION and
+  02.4 DESIGN GAP were still the plain `PlaceholderImage` scaffolding described below as of this
+  writing.
+
 ### THE CHALLENGE (02) split into 4 placeholder subsections: CABIN SHIFT / REAL WORLD NEED / CURRENT SOLUTION / DESIGN GAP (this session)
 - Replaced the single `.challenge` hero section (full-bleed `emergency.webp` background, REMOTE
   HELP / PUSH-TOW / NO OVERRIDE three-reasons grid) with 4 stacked sibling sections — `[ 02.1 /

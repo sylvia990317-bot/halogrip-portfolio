@@ -213,7 +213,7 @@ function HeroFallback({ titleId }: { titleId?: string }) {
         ))}
       </div>
       <div className="hero-image">
-        <img src="/media/hero.webp" alt="HALOGRIP emergency steering device in a blue-lit product render" fetchPriority="high" />
+        <img src={encodeURI("/media/halogrip图片/other/hero.webp")} alt="HALOGRIP emergency steering device in a blue-lit product render" fetchPriority="high" />
         <div className="hero-caption">
           <span>EMERGENCY CONTROL FOR AUTONOMOUS VEHICLES</span>
           <span>SYLVIA XIE</span>
