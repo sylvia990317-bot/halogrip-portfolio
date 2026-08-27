@@ -110,6 +110,145 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### 02.4 DESIGN GAP rebuilt as a bespoke pinned scroll transition; new ScrollRefresh helper added (outside this session, documented now)
+- `page.tsx`'s 02.4 section — previously the plain `PlaceholderImage`-based scaffolding from the
+  "THE CHALLENGE (02) split..." entry further below — was replaced with `<DesignGapScene />`
+  (`app/work/halogrip/design-gap-scene.tsx` + `design-gap-scene.css`, new files, not built in this
+  session; documenting now so the structure reference stays accurate). `PlaceholderImage` is no
+  longer imported anywhere in `page.tsx` — all four THE CHALLENGE subsections (02.1-02.4) now have
+  real bespoke content; the placeholder-scaffolding phase is fully superseded.
+- `DesignGapScene` is a pinned, scroll-driven GSAP/ScrollTrigger sequence (`pin:true, end:"+=250%"`,
+  same pin/scrub pattern as `scroll-intro.tsx`) that visually compresses `process-scene.tsx`'s
+  (02.3) six-step external-dependency chain (INCIDENT → CONTACT OPERATOR → VERIFY → REMOTE
+  AUTHORIZATION / ON-SITE DISPATCH → MOVE OR TOW) into a single "local control" line (FIRST
+  RESPONDER → LOCAL CONTROL → MOVE → ROBOTAXI) — same panel ids/titles/meta copy and icon set as
+  02.3, by design, so it reads as compressing that specific diagram rather than inventing a new
+  one. Real assets: `public/media/halogrip图片/2.4/assets/{design-gap-background,first-responder,
+  robotaxi}.png` (verified present). Company names/invented timestamps are deliberately excluded,
+  same reasoning as `process-scene.tsx`.
+- Has its own reduced-motion/narrow-viewport fallback (`DesignGapFallback`, mirrors
+  `scroll-intro.tsx`'s `canEnhance()` pattern — `prefers-reduced-motion` or `<760px` viewport skips
+  the pin+scrub and renders a static two-column "EXTERNAL DEPENDENCY → LOCAL CONTROL" list instead.
+- **New `app/work/halogrip/scroll-refresh.tsx`**, rendered once at the very end of `<main>` in
+  `page.tsx`. Not a visual component (`return null`) — it exists because some sections
+  (`scroll-intro.tsx`, `design-gap-scene.tsx`) defer their real pin-creating ScrollTrigger to a
+  second, hydration-safe render pass, while others (`process-scene.tsx`, `overview-backdrop.tsx`)
+  create theirs synchronously on first mount, against a document that's still the short, unpinned
+  fallback layout — so their start/end pixel positions can get baked in against the wrong page
+  height. `ScrollRefresh` calls `ScrollTrigger.refresh()` after two `requestAnimationFrame`s (past
+  the enhanced-state-flip re-render cascade), again once `document.fonts.ready` resolves, and again
+  on `window.load`, so every ScrollTrigger on the page ends up anchored to the final layout.
+- **Flagging, not fixing**: `scroll-refresh.tsx` has a `// TEMP-DIAGNOSTIC: expose for console
+  inspection, remove before finishing.` comment directly above `(window as any).__ST = ScrollTrigger;
+  (window as any).__gsap = gsap;` — by its own comment this should have been removed already and
+  wasn't. Left as-is since removing it wasn't requested; flag to Sylvia before shipping.
+- `process-scene.tsx` (02.3) also picked up minor spacing/sizing tweaks outside this session
+  (tighter `.process-node` cards, smaller intro-copy type scale, `.process-intro` no longer carries
+  the `shell` class) — noted for completeness, not re-verified in depth here.
+
+### Scroll-intro: stopped showing the old static hero as the 3D scene's loading placeholder (this session)
+- Sylvia reported a flash of "the old intro" before the 3D model appears on `/work/halogrip`.
+  Root cause: `scroll-intro.tsx`'s `HeroFallback` (the pre-3D-redesign hero — headline + metadata
+  grid + full-bleed product photo — explicitly commented `"The original static hero, verbatim.
+  Also used as the loading state of the 3D path."`) was being rendered a *second* time as an
+  opaque full-screen overlay (`.scroll-intro-preload`, z-index 6) while the 3D scene's GLB model
+  fetched/parsed/baked its environment, only crossfading out once `ready`. So every load, capable
+  browsers genuinely saw the old design twice — once as the pre-hydration first paint (correct,
+  unavoidable, SSR-hydration-safe), then again as a held loading placeholder for a variable
+  (sometimes long) duration — before landing on the sparse 3D resting pose (ghost wordmark only,
+  product parked off-screen). Not a misperception; the old hero really was flashing.
+- Fix (scroll-intro.tsx lines 534-538): the `.scroll-intro-preload` overlay no longer renders
+  `<HeroFallback />` as a child — it's now an empty `aria-hidden` div that relies on its own
+  existing CSS background (`var(--paper-light)`) to show a blank screen during the load window,
+  then crossfades into the 3D scene exactly as before (no timing/opacity/CSS changes). The *real*
+  fallback — permanently shown to visitors with no WebGL, `prefers-reduced-motion`, or a
+  narrow/mobile viewport (`canEnhance()`, scroll-intro.tsx:184-196) — is untouched: `HeroFallback`
+  is still used, unchanged, at the top-level `if (!enhanced) return <HeroFallback
+  titleId="project-title" />` branch (line 447), confirmed by grep to be the only remaining call
+  site. Explicitly confirmed with Sylvia this fallback role must stay exactly as-is.
+- Side benefit: also removes a redundant second fetch/mount of `hero.webp` (the preload's old
+  `HeroFallback` was re-rendering the same `fetchPriority="high"` image the real fallback had
+  already fetched once on first paint).
+- Verified via `npm run build` (clean) and a dev-server screenshot sequence: immediately after
+  navigation the screen is blank paper background (`.scroll-intro-preload`'s `innerHTML` confirmed
+  empty via devtools), then crossfades cleanly into the 3D scene's ghost-wordmark resting state
+  with the old hero never reappearing.
+
+### 02.1 CABIN SHIFT rebuilt to match Sylvia's reference story-prototype mockup, then bridge line removed (this session)
+- Fills half of the documentation gap the "Fixed site-wide broken images..." entry below flags
+  ("02.1 CABIN SHIFT ... subsequently rebuilt ... structure not fully re-documented here yet";
+  the other half, 02.2, is now covered by the entry directly above this one). Sylvia supplied a
+  standalone reference mockup at `public/media/section 2 reference/index.html` + `styles.css` (a
+  self-contained HTML/CSS "story prototype" not built by this session — its own `README.txt` says
+  to port its section structure/copy into the real React page) and asked for 02.1 specifically to
+  be recreated to match its `#shift` section, using the real cabin photo at
+  `public/media/halogrip图片/2.1/robotaxi-cabin.png`.
+- The reference's `#shift` section is a two-column grid: copy on the left, a `<figure>` on the
+  right holding the cabin photo with a `figcaption` overlay of two "signal" rows (a red `+` for
+  "More flexible passenger space", a grey `−` for "Traditional controls removed"), plus a
+  right-aligned "bridge line" strip under the whole section ("The driver may disappear. The need
+  to intervene does not.").
+- Rebuilt `page.tsx`'s 02.1 section to match: replaced the old single-column
+  `PlaceholderImage`-based scaffolding (described in the "THE CHALLENGE (02) split..." entry
+  further below) with a new `.cabin-shift-layout` grid (`.challenge-scene-copy` +
+  `<figure className="cabin-figure">` with the real photo + figcaption signal rows). Image is
+  sourced directly from `/media/halogrip图片/2.1/robotaxi-cabin.png` via `encodeURI(...)` —
+  matching the non-ASCII-path convention 02.2's `need-scene` background already established —
+  rather than copying the file into a flat `public/media/` location.
+- New CSS in `halogrip.css`: `.cabin-shift-layout`, `.cabin-figure` (+ `figcaption`, `.signal`,
+  `.signal-plus`, `.signal-minus`), restyled with HALOGRIP's own established tokens (`--red
+  #c93731`, `--dark`, `--white`, Nimbus Sans Narrow / DejaVu mono) instead of the reference
+  mockup's own separate palette (`--red:#df4435`, `--blue:#0c78b8`) — per Hard Rule 1, the
+  reference's layout was ported but not its visual identity. Mobile override added to the
+  existing single `@media(max-width:760px)` block.
+- The bridge-line strip was ported first (own `.bridge-line`/`.bridge-line span` CSS, right-aligned
+  under a `shell`-classed `<p>`), then Sylvia asked to remove it — the paragraph and both CSS
+  rules (desktop + the mobile-breakpoint override) were deleted outright, not just hidden.
+- Verified via `npm run build` (clean) and a dev-server screenshot at `#challenge-cabin-title`:
+  two-column layout, real cabin photo, and the plus/minus signal callouts render correctly; the
+  section transitions cleanly into 02.2 with the bridge line gone.
+- Not touched: 02.3/02.4's current state wasn't reverified in this session.
+
+### 02.2 REAL-WORLD NEED rebuilt as a bespoke cinematic scene matching a supplied reference (this session)
+- Replaced the placeholder `.challenge-scene challenge-scene-need` skeleton (eyebrow → heading/body
+  copy → one `PlaceholderImage`) with a fully bespoke, full-bleed section (`.need-scene` in
+  `page.tsx`/`halogrip.css`) built to match two assets Sylvia supplied directly: a background photo
+  and a finished visual-target reference, both at `public/media/halogrip图片/2.2/2.2 background.png`
+  / `2.2 reference.png` (1672×941, exactly 16:9). Only the background photo is ever rendered on the
+  page — the reference image is a design target, not an asset — and the section's body-copy
+  paragraph from the old skeleton was dropped entirely since the reference has no equivalent block.
+- `.need-scene` is `position:relative;aspect-ratio:1672/941` with the photo as a `background-size:
+  cover` layer (`.need-bg`) plus a top/bottom gradient scrim for text legibility. Everything else —
+  eyebrow, headline, the three numbered leader-line annotations (`01 BLOCKED ROADS` / `02 BLOCKED
+  FIRE STATION EXITS` / `03 DISRUPTED FIREFIGHTING`), the glowing dashed red route line, the red
+  technical frame + corner brackets around the stalled car, the giant "74" stat, the stat caption,
+  the "RESPONSE ORIGIN / FIRE STATION 12" bracket block, and the bottom source note — is positioned
+  with `left/top` percentages (or, for the route/leader-lines/frame, one `<svg viewBox="0 0 1672
+  941" preserveAspectRatio="none">` overlay) computed directly from pixel coordinates read off the
+  reference image, so every element's position is proportional to the same 1672×941 grid the photo
+  itself is on.
+- This is why the section scales responsively without a mobile media-query rewrite (unlike every
+  other stacked section in this file, which gets bespoke `@media(max-width:760px)` overrides): the
+  container keeps its aspect ratio at any width, and since virtually all sizing is `vw`-relative
+  (wrapped in `clamp()` with a legibility floor for narrow screens and a ceiling for very wide ones,
+  same pattern as the rest of the file's `clamp()` usage) percentages and `vw` values stay accurate
+  to the same composition at any viewport width — "responsive" here means "the same poster scaled
+  down," not "content reflows."
+- The existing global `.close-project` pill (fixed top-right, already rendered on every route) is
+  what supplies the reference's top-right `CLOSE PROJECT` control — no second one was added for
+  this section.
+- Verified with `npm run build` and `npx tsc --noEmit` (both clean) and side-by-side dev-server
+  screenshots against `2.2 reference.png`: eyebrow/headline position and size, route path shape,
+  annotation/leader-line placement, frame+"74" placement, and the bottom-left bracket/source-note
+  blocks all match closely. Full-width in-browser resize testing wasn't possible this session (see
+  the tooling-limitation note in the "THE CHALLENGE (02) split..." entry below — window resize
+  doesn't reliably change the automated browser's actual viewport here); responsiveness was instead
+  verified by reasoning through the `vw`/`clamp()`/percentage math above rather than a real
+  narrow-viewport screenshot.
+- `// TODO(sylvia)` carried forward on the "74" stat and the bottom source line (`01 — SOURCE
+  PENDING VERIFICATION.`) — the reference bakes the pending-verification caveat into the design
+  itself as in-scene text, so it's flagged in both the JSX comment and literally on the page.
+
 ### Fixed site-wide broken images after a `public/media/` reorg (this session)
 - `public/media/`'s flat image files (`hero.webp`, `emergency.webp`, `product-*.webp`,
   `story-*.webp`, `id-one/two.webp`, `hud.webp`, `sketches.webp`, `prototype.webp`,

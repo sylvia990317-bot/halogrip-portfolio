@@ -36,16 +36,16 @@ type NodeSpec = {
 };
 
 const NODES: NodeSpec[] = [
-  { id: "n01", index: "01", title: "INCIDENT DETECTED", meta: ["EVENT LOGGED", "AWAITING RESPONSE"], left: 10, top: 60, align: "above" },
-  { id: "n02", index: "02", title: "CONTACT OPERATOR", meta: ["CONNECTING TO OPERATOR", "CHANNEL SECURE"], left: 27, top: 60, align: "above" },
-  { id: "n03", index: "03", title: "VERIFY SITUATION", meta: ["IDENTITY CHECK", "SITUATION VALIDATED"], left: 44, top: 60, align: "above" },
-  { id: "n04a", index: "04A", title: "REMOTE AUTHORIZATION", meta: ["REMOTE SUPPORT", "TRAINED PROCEDURES"], left: 62, top: 30, align: "above" },
-  { id: "n04b", index: "04B", title: "ON-SITE DISPATCH", meta: ["LOCAL ASSISTANT", "DISPATCHED TO SCENE"], left: 62, top: 86, align: "below" },
-  { id: "n05", index: "05", title: "MOVE OR TOW", meta: ["CLEAR SCENE", "ROUTE VERIFIED"], left: 80, top: 60, align: "above" },
+  { id: "n01", index: "01", title: "INCIDENT DETECTED", meta: ["EVENT LOGGED", "AWAITING RESPONSE"], left: 10, top: 64, align: "above" },
+  { id: "n02", index: "02", title: "CONTACT OPERATOR", meta: ["CONNECTING TO OPERATOR", "CHANNEL SECURE"], left: 27, top: 64, align: "above" },
+  { id: "n03", index: "03", title: "VERIFY SITUATION", meta: ["IDENTITY CHECK", "SITUATION VALIDATED"], left: 44, top: 64, align: "above" },
+  { id: "n04a", index: "04A", title: "REMOTE AUTHORIZATION", meta: ["REMOTE SUPPORT", "TRAINED PROCEDURES"], left: 62, top: 40, align: "above" },
+  { id: "n04b", index: "04B", title: "ON-SITE DISPATCH", meta: ["LOCAL ASSISTANT", "DISPATCHED TO SCENE"], left: 62, top: 73, align: "below" },
+  { id: "n05", index: "05", title: "MOVE OR TOW", meta: ["CLEAR SCENE", "ROUTE VERIFIED"], left: 80, top: 64, align: "above" },
 ];
 
-const ORIGIN = { left: 3, top: 60 };
-const VEHICLE = { left: 94, top: 60 };
+const ORIGIN = { left: 3, top: 64 };
+const VEHICLE = { left: 94, top: 64 };
 
 const STAGE_LABELS = ["DETECTED", "CONTACTED", "VERIFIED", "RESPONSE INITIATED", "VEHICLE CLEARED"];
 
@@ -254,7 +254,7 @@ export default function ProcessScene() {
       <div className="process-ground" aria-hidden="true" />
       <div className="process-scrim" aria-hidden="true" />
 
-      <div className="process-intro shell" ref={introRef}>
+      <div className="process-intro" ref={introRef}>
         <span className="eyebrow">[ 02.3 / CURRENT SOLUTION ]</span>
         <h2 id="process-title">HELP EXISTS.<br />BUT IT IS NOT IMMEDIATE.</h2>
         <p>Today, moving a stalled vehicle means calling a remote operator, verifying identity, waiting for authorization or an on-site dispatch, and only then moving or towing the vehicle. Each step adds time a first responder on scene may not have.</p>

@@ -311,8 +311,13 @@ export default function ScrollIntro() {
 
   // Fallback detection runs once, post-mount, so server + first paint always agree.
   useEffect(() => {
-    if (canEnhance()) setEnhanced(true);
+    const result = canEnhance();
+    console.log("[DIAG] canEnhance() ->", result);
+    if (result) setEnhanced(true);
   }, []);
+  useEffect(() => {
+    console.log("[DIAG] enhanced state is now", enhanced);
+  }, [enhanced]);
 
   const handleReady = useCallback(() => setReady(true), []);
 
@@ -532,9 +537,7 @@ export default function ScrollIntro() {
       </svg>
 
       {!preloadGone && (
-        <div className={`scroll-intro-preload${ready ? " is-hidden" : ""}`}>
-          <HeroFallback />
-        </div>
+        <div className={`scroll-intro-preload${ready ? " is-hidden" : ""}`} aria-hidden="true" />
       )}
     </div>
   );

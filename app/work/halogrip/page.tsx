@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import "./halogrip.css";
 import "./scroll-intro.css";
+import "./design-gap-scene.css";
 import InteractionDeck from "./interaction-deck";
 import ScrollIntro from "./scroll-intro";
 import OverviewBackdrop from "./overview-backdrop";
 import ProcessScene from "./process-scene";
-import PlaceholderImage from "../../components/PlaceholderImage";
+import DesignGapScene from "./design-gap-scene";
+import ScrollRefresh from "./scroll-refresh";
 
 const title = "HALOGRIP — Sylvia Xie";
 const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
@@ -170,18 +172,7 @@ export default function HalogripPage() {
 
       <ProcessScene />
 
-      <section className="challenge-scene challenge-scene-gap dark-section" aria-labelledby="challenge-gap-title">
-        <div className="challenge-scene-inner shell">
-          <span className="eyebrow">[ 02.4 / DESIGN GAP ]</span>
-          <div className="challenge-scene-copy">
-            {/* TODO(sylvia): draft copy carried over from an earlier revision (commit 60bad72) — review/replace headline + body */}
-            <h2 id="challenge-gap-title">WHAT IF FALLBACK<br />LIVED INSIDE THE VEHICLE?</h2>
-            <p>Every step in the current process depends on personnel, connectivity, and time a blocked scene may not have. That is the gap this project designs into: a way for an authorized responder to move the vehicle directly, without waiting on any of it.</p>
-          </div>
-          {/* TODO(sylvia): replace with a real (or concept) photo of a first responder using an in-cabin fallback control */}
-          <PlaceholderImage label="First responder using an in-cabin fallback control (concept)" className="challenge-scene-image" />
-        </div>
-      </section>
+      <DesignGapScene />
 
       <section className="research section shell" id="research">
         <span className="eyebrow">[ 03 / FIELD RESEARCH ]</span>
@@ -311,6 +302,8 @@ export default function HalogripPage() {
         <div><span className="eyebrow">[ MASTER’S THESIS / 2025 ]</span><h2>DESIGNED FOR THE PEOPLE<br />WHO CANNOT AFFORD TO WAIT.</h2></div>
         <div className="footer-bottom"><span>SYLVIA XIE — USER RESEARCH &amp; CONCEPT / AUTOLIV × CHALMERS</span><a href="/">BACK TO HOME ↑</a></div>
       </footer>
+
+      <ScrollRefresh />
     </main>
   );
 }
