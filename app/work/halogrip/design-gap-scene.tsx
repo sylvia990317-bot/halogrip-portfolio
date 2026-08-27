@@ -1,42 +1,43 @@
 "use client";
 
 /**
- * 02.4 / DESIGN GAP — pinned, scroll-driven consolidation from the external, multi-step
- * dependency chain (first responder -> call operator -> verify -> remote authorization /
- * on-site dispatch -> move or tow) into a single, widely-spaced in-vehicle local-control
- * line (first responder -> local control -> move -> robotaxi).
+ * 02.4 / DESIGN GAP — pinned, scroll-driven consolidation from a hazy, receding wall of
+ * external-dependency fragments into one unmistakable idea: limited fallback control could
+ * already live inside the robotaxi's own cabin.
  *
- * Motion reference: `public/media/halogrip图片/2.4/halogrip-reflow-animation.gif` (motion
- * only — not reproduced as a video/image asset; every layer below is independent DOM/SVG/
- * canvas built from this project's own assets, fonts and colour tokens). It shows:
- *  - the FULL composition already on screen at rest (both systems, headline, background) —
- *    nothing fades in from nothing; the scroll only rearranges what's already there.
- *  - the six left panels erased in place by a particle boundary that starts at the centre
- *    seam and sweeps left, eating each panel from its right edge as it passes — panels
- *    never translate or scale, they just get wiped away.
- *  - the three right-side nodes (already visible, already connected by a line, but
- *    compressed into the original right half) sliding apart into a wide spread that
- *    spans most of the viewport, with the connecting line stretching continuously between
- *    them as they move.
- *  - the robotaxi adjusting its own position slightly, independently of the three nodes.
- *  - the headline, subhead and background never move at all.
+ * Section 2.3 (./process-scene.tsx) already told the step-by-step external story in detail.
+ * This section does not repeat it — the four left panels (INCIDENT / REMOTE SUPPORT /
+ * ON-SITE DISPATCH / MOVE OR TOW) are a visual memory of that chain, not content meant to be
+ * read: staggered scale/rotation/z-depth (GSAP `transformPerspective` + per-tier `rotateY`/
+ * `scale`/`z`, static, set once) plus a static per-tier opacity/blur (CSS `[data-tier]`) make
+ * the group read as depth and atmosphere, softening and dimming toward the back, deliberately
+ * clipped by the left viewport edge.
  *
- * All coordinates are plain 0-100 numbers used identically as SVG viewBox units
- * (viewBox="0 0 100 100", preserveAspectRatio="none") and as CSS left/top percentages —
- * one coordinate system for every layer, so nothing needs px math for positioning. The
- * canvas particle band is the one exception: it needs real pixel coordinates to draw, so
- * it reads the section's own client size (kept in sync with a ResizeObserver).
+ * Scroll choreography (unchanged in kind from the previous pass, only the two window
+ * boundaries moved): a single `ScrollTrigger` pins the section and drives one `applyFrame(t)`
+ * per scroll tick via `onUpdate`/`onRefresh` — no React state on the scroll path, only direct
+ * ref writes (`style.opacity`/`filter`/`maskImage`/`transform`, SVG attributes, a canvas
+ * redraw). `dissolveT` (t: 0.18→0.65) drives a boundary that sweeps from the old centre seam
+ * to past the left edge — panels erase in place via a `mask-image` wipe (never translate/
+ * scale) fronted by a narrow canvas particle band (capped count, capped devicePixelRatio,
+ * never one DOM node per particle). `redistT` (t: 0.28→0.82) grows/repositions the robotaxi
+ * into the released space and gives the first responder its own modest settle-in read, while
+ * a single thin line stretches between them. The headline, subhead and background are never
+ * touched by any of this — they hold their default styles for the whole scroll range.
  *
- * Pin architecture mirrors ./scroll-intro.tsx and reports through ./pin-coordinator so
- * ./process-scene.tsx and ./overview-backdrop.tsx don't measure a pre-pin document (see
- * that module's own comment for why). Reduced motion / narrow viewports skip the pin+scrub
- * entirely and render a simplified static composition instead (DesignGapFallback).
+ * The robotaxi's in-cabin "ON-BOARD FALLBACK CONTROL" marker (dot/callout/label) is a DOM
+ * descendant of the same wrapper `applyFrame` transforms for the vehicle, so it structurally
+ * cannot be read as a separate, external node — it moves and scales with the car as one rigid
+ * unit. Its ground shadow is a separately-shaped `radial-gradient` ellipse, not a `box-shadow`
+ * on the PNG's rectangular border-box, which is what a "cutout halo" would come from.
  *
- * The six panels recap the exact chain ./process-scene.tsx (02.3 CURRENT SOLUTION) just
- * built in detail one step earlier — same ids/titles/meta copy, same icon set — so this
- * section reads as compressing that specific diagram, not a freshly-invented one. Company
- * names and invented timestamps stay out for the same reason process-scene.tsx keeps them
- * out: not real/verified.
+ * Pin architecture mirrors ./scroll-intro.tsx and reports through ./pin-coordinator: this
+ * file's real ScrollTrigger is created inside `onPinsReady(["scroll-intro","process-scene"],
+ * cb)`, and `cb` calls `markPinReady("design-gap-scene")` once it exists (see that module's own
+ * comment for why — process-scene.tsx and overview-backdrop.tsx depend on this transitively).
+ * Reduced motion / narrow viewports skip the pin+scrub entirely and render a simplified static
+ * composition instead (DesignGapFallback). Company names and invented timestamps stay out, same
+ * reason process-scene.tsx keeps them out: not real/verified.
  */
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
@@ -51,7 +52,7 @@ const ROBOTAXI = encodeURI("/media/halogrip图片/2.4/assets/robotaxi.png");
 type Panel = {
   id: string;
   title: string;
-  sub: [string, string];
+  tier: 0 | 1 | 2 | 3;
   x: number;
   y: number;
   w: number;
@@ -59,31 +60,13 @@ type Panel = {
   icon: () => ReactNode;
 };
 
-/** Icon set ported 1:1 from process-scene.tsx's `icons` map (n01-n05) for visual continuity. */
+/** Icon set ported 1:1 from process-scene.tsx's `icons` map for visual continuity with 02.3. */
 function IconWarn() {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M12 4 L21 19 L3 19 Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
       <path d="M12 10.5V14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
       <circle cx="12" cy="16.6" r="0.9" fill="currentColor" />
-    </svg>
-  );
-}
-
-function IconWave() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M3 12h2.5l2-5 3 10 2-7 1.5 2H21" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function IconFace() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M6 4h-2v3M18 4h2v3M6 20h-2v-3M18 20h2v-3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-      <circle cx="12" cy="10.5" r="3" stroke="currentColor" strokeWidth="1.2" />
-      <path d="M8 17c1-2 2.5-3 4-3s3 1 4 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -120,56 +103,37 @@ function IconCar() {
   );
 }
 
-function IconHelmet() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 16.5a8 8 0 0 1 16 0Z" />
-      <path d="M4 16.5h16M12 8.5v-3" />
-    </svg>
-  );
-}
+/** tier 0 = nearest/sharpest, tier 3 = farthest/most receded — static, set once via GSAP. */
+const PANEL_TIERS = [
+  { scale: 1, rotateY: -4, z: 0 },
+  { scale: 0.9, rotateY: -6, z: -40 },
+  { scale: 0.8, rotateY: -8, z: -90 },
+  { scale: 0.7, rotateY: -10, z: -150 },
+] as const;
 
-function IconChip() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="7" y="7" width="10" height="10" rx="1" />
-      <path d="M9.5 7V4M14.5 7V4M9.5 20v-3M14.5 20v-3M7 9.5H4M7 14.5H4M20 9.5h-3M20 14.5h-3" />
-    </svg>
-  );
-}
-
-/** Titles/meta copy match process-scene.tsx's NODES exactly — same chain, one section later. */
+/** A visual memory of process-scene.tsx's chain, not content to read — four panels only,
+ *  no numbering, no sub-copy. Nearest/sharpest (MOVE OR TOW) sits closest to the boundary;
+ *  farthest/haziest (INCIDENT) is already clipped by the left viewport edge. */
 const PANELS: Panel[] = [
-  { id: "01", title: "INCIDENT", sub: ["EVENT LOGGED", "AWAITING RESPONSE"], x: 0.9, y: 44, w: 10, h: 34, icon: IconWarn },
-  { id: "02", title: "CONTACT OPERATOR", sub: ["CONNECTING TO OPERATOR", "CHANNEL SECURE"], x: 12.2, y: 44, w: 10, h: 34, icon: IconWave },
-  { id: "03", title: "VERIFY", sub: ["IDENTITY CHECK", "SITUATION VALIDATED"], x: 22.8, y: 44, w: 10, h: 34, icon: IconFace },
-  { id: "04A", title: "REMOTE AUTHORIZATION", sub: ["REMOTE SUPPORT", "TRAINED PROCEDURES"], x: 27.3, y: 29.8, w: 14.2, h: 17.8, icon: IconLock },
-  { id: "04B", title: "ON-SITE DISPATCH", sub: ["LOCAL ASSISTANT", "DISPATCHED TO SCENE"], x: 30.3, y: 57, w: 11.2, h: 16.4, icon: IconPin },
-  { id: "05", title: "MOVE OR TOW", sub: ["CLEAR SCENE", "ROUTE VERIFIED"], x: 40.4, y: 44, w: 10, h: 34, icon: IconCar },
+  { id: "incident", title: "INCIDENT", tier: 3, x: -3, y: 40, w: 10, h: 30, icon: IconWarn },
+  { id: "remote", title: "REMOTE SUPPORT", tier: 2, x: 6, y: 26, w: 11, h: 19, icon: IconLock },
+  { id: "dispatch", title: "ON-SITE DISPATCH", tier: 1, x: 15, y: 54, w: 10.5, h: 18, icon: IconPin },
+  { id: "move", title: "MOVE OR TOW", tier: 0, x: 27, y: 42, w: 11, h: 32, icon: IconCar },
 ];
 
-/** Centre point of each panel above (still used for the route's connection dots). */
+/** Centre point of each panel above, used for the thin signal line's dots. */
 const PANEL_POINTS: [number, number][] = [
-  [5.9, 55.2],
-  [17.2, 55.2],
-  [27.8, 55.2],
-  [34.4, 38.7],
-  [35.9, 65.2],
-  [45.4, 55.2],
+  [2, 55],
+  [11.5, 35.5],
+  [20.25, 63],
+  [32.5, 58],
 ];
 
 /** The dissolve boundary starts here (the old centre seam) and sweeps left past x=0. */
 const SEAM_X = 50.9;
 const BOUNDARY_END_X = -8;
-
-const NODE_Y = 55.2;
-const NODES: { label: string; icon: () => ReactNode; startX: number; endX: number }[] = [
-  { label: "FIRST RESPONDER", icon: IconHelmet, startX: 57.4, endX: 22 },
-  { label: "LOCAL CONTROL", icon: IconChip, startX: 68, endX: 50 },
-  { label: "MOVE", icon: IconCar, startX: 77.5, endX: 78 },
-];
-const TAIL_BASE_X = 84;
-const TAIL_TIP_X = 88;
+/** Vertical anchor for the boundary glow — roughly the panel group's own row. */
+const BOUNDARY_ROW_Y = 55;
 
 /** Fixed pool for the canvas disintegration band — seeded, not Math.random, so server
  *  and client agree (this is a client component, but keeping it deterministic is free). */
@@ -190,12 +154,20 @@ const BAND_PARTICLES = Array.from({ length: BAND_PARTICLE_COUNT }, (_, i) => ({
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-/** 0 outside [inLo,outHi], ramps to 1 by inHi, holds, ramps back down from outLo. */
+/** 0 outside [inLo,outHi], ramps to 1 by inHi, holds, ramps back down from outLo. Use only
+ *  for genuinely transient beats — anything that must still be visible at the final hold
+ *  needs a plain ramp-and-hold instead (see `cabinReveal`/`trailReveal` below). */
 function trapezoid(t: number, inLo: number, inHi: number, outLo: number, outHi: number) {
   if (t <= inLo || t >= outHi) return 0;
   if (t < inHi) return (t - inLo) / (inHi - inLo);
   if (t < outLo) return 1;
   return 1 - (t - outLo) / (outHi - outLo);
+}
+
+/** Ramps 0->1 over [from,from+span] and holds at 1 — for anything that must persist into
+ *  the final composition once revealed. */
+function rampHold(t: number, from: number, span: number) {
+  return clamp01((t - from) / span);
 }
 
 function canEnhance() {
@@ -212,8 +184,8 @@ function DesignGapFallback() {
       <span className="eyebrow dg-eyebrow">[ 02.4 / DESIGN GAP ]</span>
 
       <div className="dg-fb-copy">
-        <h2 id="design-gap-title">WHAT IF FALLBACK LIVED INSIDE THE VEHICLE?</h2>
-        <p className="dg-subhead">FROM EXTERNAL DEPENDENCY TO LOCAL CONTROL.</p>
+        <h2 id="design-gap-title">WHAT IF LIMITED CONTROL WAS ALREADY ON BOARD?</h2>
+        <p className="dg-subhead">FROM EXTERNAL DEPENDENCY TO DIRECT, ON-BOARD CONTROL.</p>
       </div>
 
       <div className="dg-fb-chain">
@@ -221,10 +193,7 @@ function DesignGapFallback() {
           <span className="dg-fb-chain-label">EXTERNAL DEPENDENCY</span>
           <ol className="dg-fb-steps">
             {PANELS.map((p) => (
-              <li key={p.id}>
-                <span className="dg-fb-step-id">{p.id}</span>
-                {p.title}
-              </li>
+              <li key={p.id}>{p.title}</li>
             ))}
           </ol>
         </div>
@@ -232,21 +201,15 @@ function DesignGapFallback() {
           &rarr;
         </span>
         <div className="dg-fb-chain-group">
-          <span className="dg-fb-chain-label">LOCAL CONTROL</span>
+          <span className="dg-fb-chain-label">ON-BOARD CONTROL</span>
           <ol className="dg-fb-steps dg-fb-steps-local">
             <li>FIRST RESPONDER</li>
-            <li>LOCAL CONTROL</li>
-            <li>MOVE</li>
-            <li>ROBOTAXI</li>
+            <li>ON-BOARD FALLBACK CONTROL</li>
           </ol>
         </div>
       </div>
 
-      <img className="dg-fb-robotaxi" src={ROBOTAXI} alt="Robotaxi receiving the repositioning command from local control" loading="lazy" />
-
-      <p className="dg-bottom-labels dg-fb-bottom">
-        PERSONNEL <span>&middot;</span> CONNECTIVITY <span>&middot;</span> TRAINING <span>&middot;</span> TIME
-      </p>
+      <img className="dg-fb-robotaxi" src={ROBOTAXI} alt="Robotaxi with its on-board fallback control" loading="lazy" />
     </section>
   );
 }
@@ -256,20 +219,17 @@ export default function DesignGapScene() {
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const routesRef = useRef<SVGGElement>(null);
+  const signalRef = useRef<SVGGElement>(null);
   const responderRef = useRef<HTMLImageElement>(null);
   const externalLabelRef = useRef<HTMLSpanElement>(null);
+  const panelOuterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const boundaryGlowRef = useRef<HTMLDivElement>(null);
-  const lineABRef = useRef<SVGLineElement>(null);
-  const lineBCRef = useRef<SVGLineElement>(null);
-  const lineCDRef = useRef<SVGLineElement>(null);
-  const arrowRef = useRef<SVGPolygonElement>(null);
-  const nodeWrapRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const nodeCircleRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const respLineRef = useRef<SVGLineElement>(null);
   const robotaxiRef = useRef<HTMLDivElement>(null);
-  const taillightRef = useRef<HTMLDivElement>(null);
-  const bottomLabelsRef = useRef<HTMLDivElement>(null);
+  const cabinGlowRef = useRef<SVGCircleElement>(null);
+  const cabinMarkRef = useRef<HTMLDivElement>(null);
+  const trailRef = useRef<HTMLDivElement>(null);
 
   const progressRef = useRef(0);
 
@@ -307,7 +267,7 @@ export default function DesignGapScene() {
       ctx2d.clearRect(0, 0, w, h);
       if (envelope <= 0.001) return;
       const cx = (boundaryX / 100) * w;
-      const bandTop = h * 0.27;
+      const bandTop = h * 0.24;
       const bandHeight = h * 0.52;
       const wobbleClock = progressRef.current * 40;
       BAND_PARTICLES.forEach((p) => {
@@ -323,12 +283,12 @@ export default function DesignGapScene() {
       });
     }
 
-    function setLine(el: SVGLineElement | null, x1: number, x2: number) {
+    function setLine(el: SVGLineElement | null, x1: number, y1: number, x2: number, y2: number) {
       if (!el) return;
       el.setAttribute("x1", String(x1));
+      el.setAttribute("y1", String(y1));
       el.setAttribute("x2", String(x2));
-      el.setAttribute("y1", String(NODE_Y));
-      el.setAttribute("y2", String(NODE_Y));
+      el.setAttribute("y2", String(y2));
     }
 
     function setPanelVisibility(el: HTMLDivElement | null, visible: number) {
@@ -345,8 +305,8 @@ export default function DesignGapScene() {
     function applyFrame(t: number) {
       progressRef.current = t;
 
-      const dissolveT = ease(clamp01((t - 0.2) / 0.5));
-      const redistT = ease(clamp01((t - 0.3) / 0.55));
+      const dissolveT = ease(clamp01((t - 0.18) / 0.47));
+      const redistT = ease(clamp01((t - 0.28) / 0.54));
 
       const boundaryX = lerp(SEAM_X, BOUNDARY_END_X, dissolveT);
 
@@ -358,54 +318,55 @@ export default function DesignGapScene() {
       });
 
       const leftGroupOpacity = 1 - dissolveT;
-      if (routesRef.current) routesRef.current.style.opacity = String(leftGroupOpacity);
-      if (responderRef.current) {
-        responderRef.current.style.opacity = String(leftGroupOpacity);
-        responderRef.current.style.filter = dissolveT > 0 ? `blur(${dissolveT * 5}px)` : "none";
-      }
+      if (signalRef.current) signalRef.current.style.opacity = String(leftGroupOpacity);
       if (externalLabelRef.current) externalLabelRef.current.style.opacity = String(clamp01(1 - dissolveT * 1.6));
-      if (bottomLabelsRef.current) bottomLabelsRef.current.style.opacity = String(clamp01(1 - dissolveT * 3.2));
 
-      const bandEnvelope = trapezoid(t, 0.19, 0.22, 0.68, 0.73);
+      // The first responder is one of the two final-state elements, not left-group debris:
+      // it dips through the crossfade but recovers to full presence by the time the right
+      // side has finished redistributing, with a small settle nudge of its own.
+      const responderOpacity = clamp01(1 - dissolveT * 0.5 + redistT * 0.5);
+      const responderBlur = Math.max(0, dissolveT - redistT) * 4;
+      if (responderRef.current) {
+        responderRef.current.style.opacity = String(responderOpacity);
+        responderRef.current.style.filter = responderBlur > 0.1 ? `blur(${responderBlur}px)` : "none";
+        responderRef.current.style.transform = `translateX(${lerp(-2.5, 0, redistT)}%) scale(${lerp(0.94, 1.03, redistT)})`;
+      }
+
+      const bandEnvelope = trapezoid(t, 0.17, 0.2, 0.63, 0.68);
       drawBand(boundaryX, bandEnvelope);
       if (boundaryGlowRef.current) {
         boundaryGlowRef.current.style.left = `${boundaryX}%`;
         boundaryGlowRef.current.style.opacity = String(bandEnvelope * 0.85);
       }
 
-      const fr = lerp(NODES[0].startX, NODES[0].endX, redistT);
-      const lc = lerp(NODES[1].startX, NODES[1].endX, redistT);
-      const mv = lerp(NODES[2].startX, NODES[2].endX, redistT);
-      const positions = [fr, lc, mv];
-      positions.forEach((x, i) => {
-        const wrap = nodeWrapRefs.current[i];
-        if (wrap) wrap.style.left = `${x}%`;
-      });
-
-      setLine(lineABRef.current, fr, lc);
-      setLine(lineBCRef.current, lc, mv);
-      setLine(lineCDRef.current, mv, TAIL_BASE_X);
-      if (arrowRef.current) {
-        arrowRef.current.setAttribute(
-          "points",
-          `${TAIL_BASE_X},${NODE_Y - 1.7} ${TAIL_TIP_X},${NODE_Y} ${TAIL_BASE_X},${NODE_Y + 1.7}`,
-        );
-      }
-
-      // The robotaxi stays a separate element with its own small settle-in nudge —
-      // never coupled to the three nodes' tween.
+      // The robotaxi stays a separate element with its own scale/settle nudge — never
+      // coupled to the responder's tween. Grows out of its grounded corner as it "expands
+      // into the released space," per the brief.
       if (robotaxiRef.current) {
-        const shift = lerp(2.2, 0, redistT);
-        robotaxiRef.current.style.transform = `translateX(${shift}%)`;
+        const shift = lerp(6, 0, redistT);
+        const scale = lerp(0.62, 1, redistT);
+        robotaxiRef.current.style.transform = `translateX(${shift}%) scale(${scale})`;
       }
 
-      // A single settle pulse once the nodes finish spreading, shared by all three
-      // circles and the taillight, so the arrival reads as one beat.
-      const settle = trapezoid(t, 0.78, 0.85, 0.85, 0.93);
-      nodeCircleRefs.current.forEach((el) => {
-        if (el) el.style.transform = `scale(${1 + settle * 0.16})`;
-      });
-      if (taillightRef.current) taillightRef.current.style.opacity = String(0.15 + settle * 0.65);
+      // One thin, restrained line from the responder toward the vehicle — endpoints move
+      // with `redistT`, approximate rather than pixel-locked to the transformed robotaxi
+      // wrap (reading its live transformed rect every frame would reintroduce the layout-
+      // thrash risk this whole architecture avoids elsewhere).
+      setLine(respLineRef.current, 16, 60, lerp(40, 60, redistT), lerp(62, 42, redistT));
+
+      // Cabin control: a dot/callout/label that ramp in once and STAY for the final hold
+      // (not a transient pulse), plus a short-lived brighter flash layered on top so the
+      // "illumination" reads as an event, not just a static presence.
+      const cabinReveal = rampHold(t, 0.72, 0.1);
+      const cabinFlash = trapezoid(t, 0.76, 0.83, 0.83, 0.93);
+      if (cabinMarkRef.current) cabinMarkRef.current.style.opacity = String(cabinReveal);
+      if (cabinGlowRef.current) {
+        cabinGlowRef.current.setAttribute("opacity", String(clamp01(cabinReveal * 0.3 + cabinFlash * 0.6)));
+      }
+
+      // Movement trail: reveals just after the cabin control illuminates and stays into
+      // the final hold — a short directional hint, not an arrowhead.
+      if (trailRef.current) trailRef.current.style.opacity = String(rampHold(t, 0.86, 0.08) * 0.6);
     }
 
     const resizeObserver = new ResizeObserver(() => {
@@ -418,7 +379,11 @@ export default function DesignGapScene() {
     let context: gsap.Context | undefined;
     const unsubscribe = onPinsReady(["scroll-intro", "process-scene"], () => {
       context = gsap.context(() => {
-        gsap.set(panelRefs.current, { transformPerspective: 800, rotateY: -5 });
+        gsap.set(panelOuterRefs.current, { transformPerspective: 900 });
+        PANELS.forEach((panel, i) => {
+          const tier = PANEL_TIERS[panel.tier];
+          gsap.set(panelOuterRefs.current[i], { rotateY: tier.rotateY, scale: tier.scale, z: tier.z, transformOrigin: "50% 50%" });
+        });
 
         applyFrame(0);
 
@@ -457,100 +422,64 @@ export default function DesignGapScene() {
       <span className="dg-side-label dg-side-label-left" ref={externalLabelRef}>
         EXTERNAL DEPENDENCY
       </span>
-      <span className="dg-side-label dg-side-label-right">LOCAL CONTROL</span>
+      <span className="dg-side-label dg-side-label-right">ON-BOARD CONTROL</span>
 
       <img className="dg-responder" src={RESPONDER} alt="First responder consulting a tablet before an in-vehicle handoff" ref={responderRef} loading="lazy" />
 
       <svg className="dg-graphic" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <g className="dg-routes" ref={routesRef}>
-          <path className="dg-route-glow" d="M5.9,55.2 L17.2,55.2 L27.8,55.2 L31,55.2 L41,55.2 L45.4,55.2 L50.9,55.2" />
-          <path className="dg-route" d="M5.9,55.2 L17.2,55.2 L27.8,55.2 L31,55.2 L41,55.2 L45.4,55.2 L50.9,55.2" />
-          <path className="dg-route-glow" d="M31,55.2 L31,41.5 L34.4,41.5 L34.4,38.7" />
-          <path className="dg-route" d="M31,55.2 L31,41.5 L34.4,41.5 L34.4,38.7" />
-          <path className="dg-route-glow" d="M34.4,38.7 L34.4,49 L37.6,49 L41,55.2" />
-          <path className="dg-route" d="M34.4,38.7 L34.4,49 L37.6,49 L41,55.2" />
-          <path className="dg-route-glow" d="M31,55.2 L31,68.5 L35.9,68.5 L35.9,65.2" />
-          <path className="dg-route" d="M31,55.2 L31,68.5 L35.9,68.5 L35.9,65.2" />
-          <path className="dg-route-glow" d="M35.9,65.2 L35.9,54 L38.6,54 L41,55.2" />
-          <path className="dg-route" d="M35.9,65.2 L35.9,54 L38.6,54 L41,55.2" />
+        <g className="dg-signal" ref={signalRef}>
+          <path className="dg-signal-line" d="M2,55 L11.5,35.5 L20.25,63 L32.5,58 L50.9,58" />
           {PANEL_POINTS.map(([x, y], i) => (
-            <circle key={i} className="dg-route-dot" cx={x} cy={y} r="0.55" />
+            <circle key={i} className="dg-signal-dot" cx={x} cy={y} r="0.5" />
           ))}
         </g>
-
-        <line className="dg-line" ref={lineABRef} />
-        <line className="dg-line" ref={lineBCRef} />
-        <line className="dg-line" ref={lineCDRef} />
-        <polygon className="dg-line-arrow" ref={arrowRef} />
+        <line className="dg-resp-line" ref={respLineRef} />
       </svg>
 
       <canvas className="dg-canvas" ref={canvasRef} aria-hidden="true" />
-      <div className="dg-boundary-glow" ref={boundaryGlowRef} style={{ top: `${NODE_Y}%` }} aria-hidden="true" />
+      <div className="dg-boundary-glow" ref={boundaryGlowRef} style={{ top: `${BOUNDARY_ROW_Y}%` }} aria-hidden="true" />
 
       {PANELS.map((panel, i) => (
         <div
           key={panel.id}
           className="dg-panel"
+          data-tier={panel.tier}
           style={{ left: `${panel.x}%`, top: `${panel.y}%`, width: `${panel.w}%`, height: `${panel.h}%` }}
           ref={(el) => {
-            panelRefs.current[i] = el;
+            panelOuterRefs.current[i] = el;
           }}
         >
-          <div className="dg-panel-head">
-            <span className="dg-panel-id">{panel.id}</span>
+          <div
+            className="dg-panel-surface"
+            ref={(el) => {
+              panelRefs.current[i] = el;
+            }}
+          >
             <span className="dg-panel-icon">
               <panel.icon />
             </span>
-          </div>
-          <h3>{panel.title}</h3>
-          <p>
-            {panel.sub[0]}
-            <br />
-            {panel.sub[1]}
-          </p>
-        </div>
-      ))}
-
-      {NODES.map((node, i) => (
-        <div
-          key={node.label}
-          className="dg-node"
-          style={{ left: `${node.startX}%`, top: `${NODE_Y}%` }}
-          ref={(el) => {
-            nodeWrapRefs.current[i] = el;
-          }}
-        >
-          <span className="dg-node-label">{node.label}</span>
-          <div
-            className="dg-node-circle"
-            ref={(el) => {
-              nodeCircleRefs.current[i] = el;
-            }}
-          >
-            <node.icon />
+            <h3>{panel.title}</h3>
           </div>
         </div>
       ))}
 
       <div className="dg-robotaxi-wrap" ref={robotaxiRef}>
-        <img className="dg-robotaxi-img" src={ROBOTAXI} alt="Robotaxi receiving the repositioning command from local control" loading="lazy" />
-        <div className="dg-taillight-glow" ref={taillightRef} />
-        <span className="dg-robotaxi-label">ROBOTAXI</span>
+        <div className="dg-robotaxi-shadow" aria-hidden="true" />
+        <img className="dg-robotaxi-img" src={ROBOTAXI} alt="Robotaxi with its on-board fallback control, illuminated in the rear cabin window" loading="lazy" />
+        <div className="dg-motion-trail" ref={trailRef} aria-hidden="true" />
+        <div className="dg-cabin-mark" ref={cabinMarkRef} aria-hidden="true">
+          <svg className="dg-cabin-marker" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line className="dg-cabin-callout" x1="33" y1="31" x2="50" y2="8" />
+            <circle className="dg-cabin-glow" ref={cabinGlowRef} cx="33" cy="31" r="4.5" />
+            <circle className="dg-cabin-dot" cx="33" cy="31" r="1.5" />
+          </svg>
+          <span className="dg-cabin-label">ON-BOARD FALLBACK CONTROL</span>
+        </div>
       </div>
 
       <div className="dg-headline">
-        <h2 id="design-gap-title">WHAT IF FALLBACK LIVED INSIDE THE VEHICLE?</h2>
-        <p className="dg-subhead">FROM EXTERNAL DEPENDENCY TO LOCAL CONTROL.</p>
-      </div>
-
-      <div className="dg-bottom-labels" ref={bottomLabelsRef}>
-        <span>PERSONNEL</span>
-        <span aria-hidden="true">&middot;</span>
-        <span>CONNECTIVITY</span>
-        <span aria-hidden="true">&middot;</span>
-        <span>TRAINING</span>
-        <span aria-hidden="true">&middot;</span>
-        <span>TIME</span>
+        <h2 id="design-gap-title">WHAT IF LIMITED CONTROL WAS ALREADY ON BOARD?</h2>
+        <p className="dg-subhead">From external dependency to direct, on-board control.</p>
       </div>
     </section>
   );

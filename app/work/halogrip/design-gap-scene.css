@@ -1,13 +1,13 @@
-/* 02.4 / DESIGN GAP — pinned scroll consolidation (external dependency -> local control).
+/* 02.4 / DESIGN GAP — pinned scroll consolidation (external dependency -> on-board control).
    Route-scoped: imported only from app/work/halogrip/page.tsx, never from globals.css.
 
    Every absolutely-positioned HTML/SVG element here shares one 0-100 left/top coordinate
-   space read off `2.4 reference.png`, so nothing needs px math for positioning — see
-   ./design-gap-scene.tsx for the shared point tables. The one exception is `.dg-canvas`,
-   whose particle band is drawn in real pixels each frame from JS. Colour tokens come from
-   halogrip.css. The headline (`.dg-headline`) and background (`.dg-bg`/`.dg-scrim`) are
-   deliberately never touched by ./design-gap-scene.tsx's scroll handler — they hold their
-   default styles below for the entire scroll range. */
+   space, so nothing needs px math for positioning — see ./design-gap-scene.tsx for the
+   shared point tables. The one exception is `.dg-canvas`, whose particle band is drawn in
+   real pixels each frame from JS. Colour tokens come from halogrip.css. The headline
+   (`.dg-headline`) and background (`.dg-bg`/`.dg-scrim`) are deliberately never touched by
+   ./design-gap-scene.tsx's scroll handler — they hold their default styles below for the
+   entire scroll range. */
 
 .design-gap-scene{position:relative;isolation:isolate;overflow:hidden;min-height:100svh;border-top:1px solid rgba(255,255,255,.14);font-family:var(--mono)}
 .dg-bg{position:absolute;inset:0;background-size:cover;background-position:50% 85%;z-index:-2}
@@ -18,62 +18,61 @@
 .dg-side-label-left{left:13%;top:12%}
 .dg-side-label-right{left:65%;top:12%}
 
-.dg-responder{position:absolute;left:0;bottom:0;z-index:2;width:19%;height:auto;max-height:58%;object-fit:contain;object-position:bottom left;filter:drop-shadow(0 20px 30px rgba(0,0,0,.5))}
+.dg-responder{position:absolute;left:0;bottom:0;z-index:6;width:19%;height:auto;max-height:58%;object-fit:contain;object-position:bottom left;filter:drop-shadow(0 20px 30px rgba(0,0,0,.5))}
 
-/* Left system: six glass panels + their dashed red route, staircase style matching
-   the existing .need-route pattern elsewhere on this page. Panels are erased in place
-   (mask-image + opacity + blur, driven per-frame from JS) — they never translate. */
+/* Left system: four glass panels standing in for process-scene.tsx's full chain — a visual
+   memory, not something to read. Static per-tier recession (opacity/blur) lives here on the
+   outer `.dg-panel`; the inner `.dg-panel-surface` is what ./design-gap-scene.tsx's scroll
+   handler masks/dims/blurs per frame to erase it in place (never translated or scaled). */
 .dg-graphic{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:2;pointer-events:none}
-.dg-route-glow{fill:none;stroke:#e0453a;stroke-width:.35;stroke-linecap:round;stroke-linejoin:round;opacity:.45;filter:blur(1px)}
-.dg-route{fill:none;stroke:#ff5b46;stroke-width:.15;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.9 .6}
-.dg-route-dot{fill:var(--red)}
-.dg-line{fill:none;stroke:var(--red);stroke-width:.16;stroke-linecap:round}
-.dg-line-arrow{fill:var(--red)}
+.dg-signal-line{fill:none;stroke:#ff5b46;stroke-width:.12;stroke-linecap:round;opacity:.55}
+.dg-signal-dot{fill:var(--red);opacity:.7}
+.dg-resp-line{fill:none;stroke:#ff5b46;stroke-width:.1;stroke-linecap:round;opacity:.4}
 
-.dg-panel{position:absolute;display:flex;flex-direction:column;padding:14px 14px 16px;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(10,10,10,.55));border:1px solid rgba(255,255,255,.16);border-radius:2px;backdrop-filter:blur(10px);box-shadow:0 18px 40px rgba(0,0,0,.35);z-index:3}
-.dg-panel-head{display:flex;align-items:center;justify-content:space-between}
-.dg-panel-id{font-family:var(--display);font-weight:700;color:var(--red);font-size:clamp(13px,1vw,17px)}
-.dg-panel-icon{width:20px;height:20px;color:rgba(245,245,241,.75)}
+.dg-panel{position:absolute;z-index:3}
+.dg-panel[data-tier="0"]{opacity:1;filter:none}
+.dg-panel[data-tier="1"]{opacity:.84;filter:blur(1.5px)}
+.dg-panel[data-tier="2"]{opacity:.7;filter:blur(2.6px)}
+.dg-panel[data-tier="3"]{opacity:.58;filter:blur(3.4px)}
+.dg-panel-surface{width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:14px;background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(8,8,8,.62));border:1px solid rgba(199,190,174,.16);border-radius:2px;backdrop-filter:blur(12px);box-shadow:0 14px 30px rgba(0,0,0,.28)}
+.dg-panel-icon{width:19px;height:19px;color:rgba(245,245,241,.7)}
 .dg-panel-icon svg{width:100%;height:100%}
-.dg-panel h3{margin:14px 0 0;font-family:var(--display);font-weight:700;font-size:clamp(11px,.92vw,14px);line-height:1.15;letter-spacing:-.01em;text-transform:uppercase;color:var(--white)}
-.dg-panel p{margin:auto 0 0;padding-top:10px;font-size:8.5px;letter-spacing:.03em;text-transform:uppercase;color:rgba(245,245,241,.55)}
+.dg-panel h3{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(11px,.9vw,14px);line-height:1.15;letter-spacing:-.01em;text-transform:uppercase;color:var(--white)}
 
 /* The disintegration boundary: a narrow canvas particle band (not one DOM node per
    particle) plus a soft glow that both track the same scroll-driven x position. */
 .dg-canvas{position:absolute;inset:0;z-index:4;pointer-events:none}
 .dg-boundary-glow{position:absolute;z-index:4;width:2.4%;height:56%;opacity:0;transform:translate(-50%,-50%);background:linear-gradient(180deg,transparent,rgba(255,90,70,.55) 20%,rgba(255,90,70,.55) 80%,transparent);filter:blur(5px);pointer-events:none}
 
-/* Right system: three circular nodes strung on the drawn line + the robotaxi — all
-   visible from rest, all independently positioned; only their `left`/transform is
-   rewritten per frame, never merged into one shared container. */
-.dg-node{position:absolute;z-index:4;transform:translate(-50%,-50%)}
-.dg-node-label{position:absolute;left:50%;bottom:100%;margin-bottom:12px;transform:translateX(-50%);white-space:nowrap;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,245,241,.85)}
-.dg-node-circle{width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(20,20,20,.55);backdrop-filter:blur(6px);color:var(--white);box-shadow:0 0 14px 2px rgba(233,42,42,.22)}
-.dg-node-circle svg{width:22px;height:22px}
+/* Right system: one robotaxi as the dominant final focus. Everything that belongs to the
+   vehicle — ground shadow, motion trail, in-cabin control marker — lives inside this same
+   wrapper, so it all moves and scales together as one rigid unit; it can never read as a
+   separate, external node. */
+.dg-robotaxi-wrap{position:absolute;right:2%;bottom:0;z-index:9;width:40%;transform-origin:100% 100%}
+.dg-robotaxi-img{position:relative;display:block;width:100%;height:auto}
+.dg-robotaxi-shadow{position:absolute;left:14%;right:10%;bottom:2%;height:16%;background:radial-gradient(ellipse 60% 100% at 50% 60%,rgba(201,55,49,.28),rgba(0,0,0,.32) 55%,transparent 78%);filter:blur(9px);pointer-events:none}
+.dg-motion-trail{position:absolute;left:74%;bottom:8%;width:17%;height:2px;opacity:0;background:repeating-linear-gradient(90deg,rgba(255,91,70,.7) 0 6px,transparent 6px 14px);filter:blur(.5px);pointer-events:none}
 
-.dg-robotaxi-wrap{position:absolute;right:0;bottom:0;z-index:3;width:21%}
-.dg-robotaxi-img{display:block;width:100%;height:auto}
-.dg-taillight-glow{position:absolute;left:0;top:22%;width:46%;height:16%;opacity:0;background:radial-gradient(ellipse,rgba(255,60,40,.9),transparent 72%);filter:blur(10px);pointer-events:none}
-.dg-robotaxi-label{position:absolute;left:0;top:-22px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,245,241,.8)}
+.dg-cabin-mark{position:absolute;inset:0;opacity:0;pointer-events:none}
+.dg-cabin-marker{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.dg-cabin-callout{stroke:rgba(233,42,42,.6);stroke-width:.25;fill:none}
+.dg-cabin-glow{fill:rgba(233,42,42,.55);filter:blur(3px)}
+.dg-cabin-dot{fill:var(--red)}
+.dg-cabin-label{position:absolute;left:51%;top:2%;white-space:nowrap;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,245,241,.9);text-shadow:0 2px 8px rgba(0,0,0,.6)}
 
-.dg-headline{position:absolute;left:0;right:0;top:17%;z-index:5;padding-inline:8%;text-align:center}
-.dg-headline h2{margin:0;font-family:var(--display);font-weight:700;line-height:.98;letter-spacing:-.02em;text-transform:uppercase;color:#ece7d8;font-size:clamp(30px,4vw,56px);text-shadow:0 3px 26px rgba(0,0,0,.5)}
+.dg-headline{position:absolute;left:0;right:0;top:17%;z-index:8;padding-inline:8%;text-align:center}
+.dg-headline h2{margin:0;font-family:var(--display);font-weight:700;line-height:.98;letter-spacing:-.02em;text-transform:uppercase;color:#ece7d8;font-size:clamp(28px,3.6vw,54px);text-shadow:0 3px 26px rgba(0,0,0,.5)}
 .dg-subhead{margin:14px 0 0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
-
-.dg-bottom-labels{position:absolute;left:0;right:0;bottom:6%;z-index:5;display:flex;justify-content:center;gap:14px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,245,241,.7)}
-.dg-bottom-labels span[aria-hidden]{color:var(--red)}
 
 /* Reduced-motion / narrow-viewport fallback: static composition, no pin, no particles. */
 .design-gap-scene.dg-fallback{min-height:auto;padding-block:100px;display:flex;flex-direction:column;align-items:center;gap:44px;text-align:center}
 .dg-fallback .dg-eyebrow{position:static;display:block}
-.dg-fb-copy h2{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(34px,8vw,54px);line-height:1;letter-spacing:-.02em;text-transform:uppercase;color:#ece7d8}
+.dg-fb-copy h2{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(30px,7vw,50px);line-height:1.05;letter-spacing:-.02em;text-transform:uppercase;color:#ece7d8}
 .dg-fb-chain{display:flex;flex-direction:column;align-items:center;gap:26px;width:100%}
 .dg-fb-chain-group{width:100%;max-width:420px}
 .dg-fb-chain-label{display:block;margin-bottom:14px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,245,241,.6)}
 .dg-fb-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12)}
-.dg-fb-steps li{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(15,16,15,.82);font-size:10px;letter-spacing:.03em;text-transform:uppercase;text-align:left}
-.dg-fb-step-id{font-family:var(--display);font-weight:700;font-size:12px;color:var(--red)}
-.dg-fb-steps-local li{justify-content:center;color:var(--white)}
+.dg-fb-steps li{padding:12px 14px;background:rgba(15,16,15,.82);font-size:10px;letter-spacing:.03em;text-transform:uppercase;text-align:left}
+.dg-fb-steps-local li{text-align:center;color:var(--white)}
 .dg-fb-arrow{font-size:22px;color:var(--red)}
 .dg-fb-robotaxi{width:70%;max-width:320px;height:auto}
-.dg-fb-bottom{position:static;opacity:1}
