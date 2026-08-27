@@ -65,27 +65,15 @@ export default function HalogripPage() {
 
       <ScrollIntro />
 
-      <section className="overview section shell" id="overview">
+      <section className="overview section" id="overview">
         <OverviewBackdrop />
-        <span className="eyebrow overview-marker">[ 01 / OVERVIEW ]</span>
-        <div className="overview-copy">
-          <h2>WHEN AUTONOMY FAILS,<br />SOMEONE STILL NEEDS<br />TO MOVE THE VEHICLE.</h2>
-          <p>HALOGRIP gives first responders direct, local control of a stalled robotaxi when remote assistance, towing, or unfamiliar procedures take too long.</p>
-          <p>The project brings together field research, physical ergonomics, interaction design, prototyping, and real-time system feedback.</p>
+        <div className="overview-content shell">
+          <span className="eyebrow overview-marker">[ 01 / OVERVIEW ]</span>
+          <div className="overview-copy">
+            <h2>WHEN THE VEHICLE STOPS,<br />THE RESPONSE SHOULD NOT.</h2>
+            <p>HALOGRIP is a compact, low-speed fallback interface that lets authorized first responders reposition a stalled robotaxi on site.</p>
+          </div>
         </div>
-        <figure className="city-banner">
-          <img src="/media/city.webp" alt="Autonomous vehicle moving through an urban street at dusk" loading="lazy" />
-          <div className="city-banner-scrim" aria-hidden="true" />
-          <figcaption className="stat-panel">
-            <strong>74</strong>
-            <span>AV-RELATED DISRUPTIONS TO EMERGENCY RESPONSE IN SAN FRANCISCO, NOV 2022–AUG 2023.</span>
-            <ul className="stat-panel-list">
-              <li>Blocked narrow roads and fire station exits</li>
-              <li>Parked in front of fire stations, trapping fire trucks inside</li>
-              <li>Obstructed firefighting operations</li>
-            </ul>
-          </figcaption>
-        </figure>
       </section>
 
       <section className="challenge dark-section" aria-labelledby="challenge-title">

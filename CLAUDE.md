@@ -110,6 +110,54 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### Git history: reverted to the 26082601 snapshot, then re-applied just the OVERVIEW change (this session)
+- The working tree had drifted through several dated checkpoint commits (`26082601` →
+  `26082602` → `26082603` → two follow-up commits literally titled "破了，得重新做"/"垃圾" —
+  "broken, redo"/"garbage" — indicating that work regressed). At Sylvia's request the tree was
+  restored to match the `26082601` commit's content, twice (`git rm -rf .` +
+  `git checkout <commit> -- .` + a new commit, not `reset --hard`, so full history stays intact
+  and nothing was force-pushed). In between she asked to check `26082602` specifically to see
+  whether THE CHALLENGE (02) had already been split into subsections there (it had — 4 files:
+  `challenge-chapter.tsx`, `design-gap-scene.tsx`, `real-world-scene.tsx`, `response-scene.tsx`)
+  before deciding to land on `26082601` instead, which predates that split entirely.
+- Net effect: this file, `app/work/halogrip/page.tsx`, and `app/work/halogrip/halogrip.css` are
+  currently at the `26082601` shape (THE CHALLENGE is still the old single `.challenge` section
+  with the REMOTE HELP / PUSH-TOW / NO OVERRIDE three-reasons grid — **not** the 5-scene
+  `ChallengeChapter` described in older revisions of this file's history). If a future session
+  finds this file's "Structure reference" not mentioning `challenge-chapter.tsx` etc., that's why
+  — it's not a documentation gap, the files really aren't here right now.
+- With the tree at `26082601`, Sylvia asked for just the OVERVIEW (section 01) content/layout
+  edit that `26082602` had introduced — without pulling back the THE CHALLENGE split — so it was
+  re-applied by hand on top of the reverted tree (not by re-merging `26082602`):
+  headline changed to "WHEN THE VEHICLE STOPS,<br/>THE RESPONSE SHOULD NOT.", body copy collapsed
+  to one line ("HALOGRIP is a compact, low-speed fallback interface that lets authorized first
+  responders reposition a stalled robotaxi on site."), and the `<figure className="city-banner">`
+  (city photo + "74 AV-related disruptions" `stat-panel` figcaption) was deleted outright — same
+  content edit `26082602` made, same reasoning: the "74" stat wasn't otherwise used anywhere in
+  this `26082601`-based tree, unlike in `26082602` where it had already moved into
+  `real-world-scene.tsx`'s 02.2 scene. `.overview` went from a 2-column grid to
+  `display:grid;place-items:center;text-align:center`; `.city-banner`/`.stat-panel*` rules were
+  deleted from `halogrip.css` as dead CSS.
+- Follow-up bug found by Sylvia after that edit: the OVERVIEW background photo
+  (`overview-backdrop.tsx`'s `.overview-bg`, `position:absolute;inset:0`) was rendering narrow —
+  capped to `.shell`'s `width:min(100%,1700px)` instead of full-bleed — because `shell` was on
+  the outer `<section className="overview section shell">` itself, so the absolutely-positioned
+  background's containing block was that already-narrowed section. Fixed by moving `shell` off
+  the outer section onto a new inner `<div className="overview-content shell">` wrapping just the
+  eyebrow marker + copy (mirrors how `.challenge`/`.challenge-content` already split
+  background-vs-content this exact way): outer section keeps `overview section` only, background
+  is now full-bleed to the viewport, content stays constrained/centered inside the new wrapper.
+  Added `overflow:hidden` to `.overview` to match `.challenge`'s pattern.
+- Second follow-up: `.overview{min-height:850px}` didn't fill the viewport on the reviewer's
+  actual screen (a 2560×1271 display — 850px left visible empty space above/below). Changed to
+  `min-height:100vh` so the section is full-screen the moment it's scrolled into view, matching
+  Sylvia's ask ("看到overview的时候是满屏"). The `max-width:760px` mobile override
+  (`.overview{min-height:auto;padding-block:90px}`) was left untouched — not requested, and mobile
+  intentionally sizes to content there rather than forcing full-screen.
+- Verified via `npm run build` (clean each step) and dev-server screenshots at `#overview`'s live
+  scroll position (same "layout can shift mid-scroll" caveat as other sessions in this file — this
+  page's pinned `ScrollIntro` GSAP timeline affects document height while scrolling).
+
 ### Multi-project restructure (earlier session)
 - Moved the entire former `app/page.tsx` (the HALOGRIP case study) to `app/work/halogrip/page.tsx`
   unchanged, with its CSS split out into `app/work/halogrip/halogrip.css` and its
