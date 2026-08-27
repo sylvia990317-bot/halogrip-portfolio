@@ -1,721 +1,233 @@
-[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
-    at dispatchAppRouterAction (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:916:37)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11823:61)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at Object.hmrRefresh (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11822:40)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13990:64)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13989:44)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52)
-[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
-    at dispatchAppRouterAction (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:916:37)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11823:61)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at Object.hmrRefresh (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11822:40)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13990:64)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13989:44)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52)
-[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
-    at dispatchAppRouterAction (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:916:37)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11823:61)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at Object.hmrRefresh (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11822:40)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13990:64)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13989:44)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] ./app/work/halogrip/page.tsx:7:1
-Module not found: Can't resolve './challenge-chapter'
-   5 | import ScrollIntro from "./scroll-intro";
-   6 | import OverviewBackdrop from "./overview-backdrop";
->  7 | import ChallengeChapter from "./challenge-chapter";
-     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   8 |
-   9 | const title = "HALOGRIP — Sylvia Xie";
-  10 | const description = "A human-centered emergency steering system for autonomous vehicles. A...
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/page.tsx:7:1
-Module not found: Can't resolve './challenge-chapter'
-   5 | import ScrollIntro from "./scroll-intro";
-   6 | import OverviewBackdrop from "./overview-backdrop";
->  7 | import ChallengeChapter from "./challenge-chapter";
-     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   8 |
-   9 | const title = "HALOGRIP — Sylvia Xie";
-  10 | const description = "A human-centered emergency steering system for autonomous vehicles. A...
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/page.tsx:7:1
-Module not found: Can't resolve './challenge-chapter'
-   5 | import ScrollIntro from "./scroll-intro";
-   6 | import OverviewBackdrop from "./overview-backdrop";
->  7 | import ChallengeChapter from "./challenge-chapter";
-     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   8 |
-   9 | const title = "HALOGRIP — Sylvia Xie";
-  10 | const description = "A human-centered emergency steering system for autonomous vehicles. A...
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/page.tsx:7:1
-Module not found: Can't resolve './challenge-chapter'
-   5 | import ScrollIntro from "./scroll-intro";
-   6 | import OverviewBackdrop from "./overview-backdrop";
->  7 | import ChallengeChapter from "./challenge-chapter";
-     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   8 |
-   9 | const title = "HALOGRIP — Sylvia Xie";
-  10 | const description = "A human-centered emergency steering system for autonomous vehicles. A...
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/page.tsx:7:1
-Module not found: Can't resolve './challenge-chapter'
-   5 | import ScrollIntro from "./scroll-intro";
-   6 | import OverviewBackdrop from "./overview-backdrop";
->  7 | import ChallengeChapter from "./challenge-chapter";
-     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   8 |
-   9 | const title = "HALOGRIP — Sylvia Xie";
-  10 | const description = "A human-centered emergency steering system for autonomous vehicles. A...
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/page.tsx:7:1
-Module not found: Can't resolve './challenge-chapter'
-   5 | import ScrollIntro from "./scroll-intro";
-   6 | import OverviewBackdrop from "./overview-backdrop";
->  7 | import ChallengeChapter from "./challenge-chapter";
-     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   8 |
-   9 | const title = "HALOGRIP — Sylvia Xie";
-  10 | const description = "A human-centered emergency steering system for autonomous vehicles. A...
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/page.tsx:7:1
-Module not found: Can't resolve './challenge-chapter'
-   5 | import ScrollIntro from "./scroll-intro";
-   6 | import OverviewBackdrop from "./overview-backdrop";
->  7 | import ChallengeChapter from "./challenge-chapter";
-     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   8 |
-   9 | const title = "HALOGRIP — Sylvia Xie";
-  10 | const description = "A human-centered emergency steering system for autonomous vehicles. A...
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/page.tsx:7:1
-Module not found: Can't resolve './challenge-chapter'
-   5 | import ScrollIntro from "./scroll-intro";
-   6 | import OverviewBackdrop from "./overview-backdrop";
->  7 | import ChallengeChapter from "./challenge-chapter";
-     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   8 |
-   9 | const title = "HALOGRIP — Sylvia Xie";
-  10 | const description = "A human-centered emergency steering system for autonomous vehicles. A...
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
-    at dispatchAppRouterAction (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:916:37)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11823:61)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at Object.hmrRefresh (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11822:40)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13990:64)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13989:44)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52)
-[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
-    at dispatchAppRouterAction (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:916:37)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11823:61)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at Object.hmrRefresh (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11822:40)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13990:64)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13989:44)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52)
-[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
-    at dispatchAppRouterAction (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:916:37)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11823:61)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at Object.hmrRefresh (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11822:40)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13990:64)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13989:44)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52)
-[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
-    at dispatchAppRouterAction (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:916:37)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11823:61)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at Object.hmrRefresh (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11822:40)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13990:64)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13989:44)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52)
-[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
-    at dispatchAppRouterAction (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:916:37)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11823:61)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at Object.hmrRefresh (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:11822:40)
-    at <unknown> (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13990:64)
-    at startTransition (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:1279:31)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13989:44)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-
-
-  (app/work/halogrip/scroll-intro-scene.tsx:168:30)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-⨯ ReferenceError: processSteps is not defined
-    at ChallengeChapter (app\work\halogrip\challenge-chapter.tsx:110:14)
-  108 |           </h2>
-  109 |           <div className="response-process">
-> 110 |             {processSteps.map((step, i) => (
-      |              ^
-  111 |               <Fragment key={step}>
-  112 |                 <div className="response-process-step">
-  113 |                   <span>{String(i + 1).padStart(2, "0")}</span> {
-  digest: '1295056790'
-}
-⨯ ReferenceError: processSteps is not defined
-    at ChallengeChapter (app\work\halogrip\challenge-chapter.tsx:110:14)
-  108 |           </h2>
-  109 |           <div className="response-process">
-> 110 |             {processSteps.map((step, i) => (
-      |              ^
-  111 |               <Fragment key={step}>
-  112 |                 <div className="response-process-step">
-  113 |                   <span>{String(i + 1).padStart(2, "0")}</span> {
-  digest: '1295056790'
-}
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'progress')
+    at ScrollIntro.useEffect.context.timeline [as _onUpdate] (app/work/halogrip/scroll-intro.tsx:198:76)
+  196 | ... },
+  197 | ...
+> 198 | ...Record<string, unknown>).__hgp = { p: self.progress(), state: { ...state } };
+      |                                               ^
+  199 | ...orTilt(state.tilt);
+  200 | ...ket.current) {
+  201 | ... bucket;
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
 ⚠ Fast Refresh had to perform a full reload due to a runtime error.
 ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-
-
-  (app/work/halogrip/scroll-intro-scene.tsx:168:30)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-⨯ ReferenceError: incidentTypes is not defined
-    at ChallengeChapter (app\work\halogrip\challenge-chapter.tsx:84:14)
-  82 |           </div>
-  83 |           <div className="incident-types">
-> 84 |             {incidentTypes.map(([n, label]) => (
-     |              ^
-  85 |               <div key={n}>
-  86 |                 <span>{n}</span>
-  87 |                 {label} {
-  digest: '3561764278'
-}
-⨯ ReferenceError: incidentTypes is not defined
-    at ChallengeChapter (app\work\halogrip\challenge-chapter.tsx:84:14)
-  82 |           </div>
-  83 |           <div className="incident-types">
-> 84 |             {incidentTypes.map(([n, label]) => (
-     |              ^
-  85 |               <div key={n}>
-  86 |                 <span>{n}</span>
-  87 |                 {label} {
-  digest: '3561764278'
-}
 ⚠ Fast Refresh had to perform a full reload due to a runtime error.
 ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-
-
-  (app/work/halogrip/scroll-intro-scene.tsx:168:30)
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-[browser] ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-[browser] ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found 
-    at handleErrors (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-    at processMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
-    at WebSocket.handleMessage (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-[browser] Uncaught Error: ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-    at <unknown> (Error: ./app/work/halogrip/challenge-chapter.tsx:2:1)
-    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
-    at <unknown> (Error: (./app/work/halogrip/challenge-chapter.tsx:2:1)
-    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
-[browser] ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found 
-[browser] ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found 
-⨯ ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  [90m1 |[0m [36mimport[0m [33mPlaceholderImage[0m [36mfrom[0m [32m"../../components/PlaceholderImage"[0m;
-[31m[1m>[0m [90m2 |[0m [36mimport[0m [33mResponseFlow[0m [36mfrom[0m [32m"./response-flow"[0m;
-  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-  [90m3 |[0m [36mimport[0m [33mRealWorldScene[0m [36mfrom[0m [32m"./real-world-scene"[0m;
-  [90m4 |[0m
-  [90m5 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mChallengeChapter[0m() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-[browser] Uncaught Error: ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-    at <unknown> (Error: ./app/work/halogrip/challenge-chapter.tsx:2:1)
-    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
-    at <unknown> (Error: (./app/work/halogrip/challenge-chapter.tsx:2:1)
-    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
-[browser] ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found 
-[browser] ./app/work/halogrip/challenge-chapter.tsx:2:1
-Module not found: Can't resolve './response-flow'
-  1 | import PlaceholderImage from "../../components/PlaceholderImage";
-> 2 | import ResponseFlow from "./response-flow";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  3 | import RealWorldScene from "./real-world-scene";
-  4 |
-  5 | export default function ChallengeChapter() {
-
-Import trace:
-  Server Component:
-    ./app/work/halogrip/challenge-chapter.tsx
-    ./app/work/halogrip/page.tsx
-
-https://nextjs.org/docs/messages/module-not-found 
-⨯ ReferenceError: ResponseFlow is not defined
-    at ChallengeChapter (app\work\halogrip\challenge-chapter.tsx:78:12)
-  76 |             or on-site dispatch.
-  77 |           </p>
-> 78 |           <ResponseFlow />
-     |            ^
-  79 |         </div>
-  80 |       </section>
-  81 | {
-  digest: '3954235671'
-}
 ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
 [browser] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
 (209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
 (210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
@@ -724,7 +236,9 @@ https://nextjs.org/docs/messages/module-not-found
 
 
   (app/work/halogrip/scroll-intro-scene.tsx:168:30)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
 [browser] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
 (209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
 (210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
@@ -733,8 +247,11 @@ https://nextjs.org/docs/messages/module-not-found
 
 
   (app/work/halogrip/scroll-intro-scene.tsx:168:30)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
 [browser] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
 (209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
 (210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
@@ -743,7 +260,24 @@ https://nextjs.org/docs/messages/module-not-found
 
 
   (app/work/halogrip/scroll-intro-scene.tsx:168:30)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
 [browser] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
 (209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
 (210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
@@ -752,34 +286,3 @@ https://nextjs.org/docs/messages/module-not-found
 
 
   (app/work/halogrip/scroll-intro-scene.tsx:168:30)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-
-
-  (app/work/halogrip/scroll-intro-scene.tsx:168:30)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-
-
-  (app/work/halogrip/scroll-intro-scene.tsx:168:30)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision
-(209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-(210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision
-
-
-  (app/work/halogrip/scroll-intro-scene.tsx:168:30)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
-[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. (file://C:/Users/sylvi/Desktop/HALOGRIP_VSCode_Project/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
