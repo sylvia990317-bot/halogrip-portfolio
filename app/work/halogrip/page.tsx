@@ -4,7 +4,6 @@ import "./scroll-intro.css";
 import InteractionDeck from "./interaction-deck";
 import ScrollIntro from "./scroll-intro";
 import OverviewBackdrop from "./overview-backdrop";
-import ChallengeChapter from "./challenge-chapter";
 
 const title = "HALOGRIP — Sylvia Xie";
 const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
@@ -70,12 +69,39 @@ export default function HalogripPage() {
         <OverviewBackdrop />
         <span className="eyebrow overview-marker">[ 01 / OVERVIEW ]</span>
         <div className="overview-copy">
-          <h2>WHEN THE VEHICLE STOPS,<br />THE RESPONSE SHOULD NOT.</h2>
-          <p>HALOGRIP is a compact, low-speed fallback interface that lets authorized first responders reposition a stalled robotaxi on site.</p>
+          <h2>WHEN AUTONOMY FAILS,<br />SOMEONE STILL NEEDS<br />TO MOVE THE VEHICLE.</h2>
+          <p>HALOGRIP gives first responders direct, local control of a stalled robotaxi when remote assistance, towing, or unfamiliar procedures take too long.</p>
+          <p>The project brings together field research, physical ergonomics, interaction design, prototyping, and real-time system feedback.</p>
         </div>
+        <figure className="city-banner">
+          <img src="/media/city.webp" alt="Autonomous vehicle moving through an urban street at dusk" loading="lazy" />
+          <div className="city-banner-scrim" aria-hidden="true" />
+          <figcaption className="stat-panel">
+            <strong>74</strong>
+            <span>AV-RELATED DISRUPTIONS TO EMERGENCY RESPONSE IN SAN FRANCISCO, NOV 2022–AUG 2023.</span>
+            <ul className="stat-panel-list">
+              <li>Blocked narrow roads and fire station exits</li>
+              <li>Parked in front of fire stations, trapping fire trucks inside</li>
+              <li>Obstructed firefighting operations</li>
+            </ul>
+          </figcaption>
+        </figure>
       </section>
 
-      <ChallengeChapter />
+      <section className="challenge dark-section" aria-labelledby="challenge-title">
+        <img className="challenge-background" src="/media/emergency.webp" alt="Firefighters responding to a building fire" loading="lazy" />
+        <div className="challenge-content shell">
+          <span className="eyebrow">[ 02 / THE CHALLENGE ]</span>
+          <h2 id="challenge-title">NO STEERING WHEEL.<br />NO TIME TO WAIT.</h2>
+          <p>A stalled autonomous vehicle can block a fire engine or prevent first responders from reaching someone in time.</p>
+          <div className="challenge-reasons">
+            <article><span>01</span><strong>REMOTE HELP</strong><p>May arrive too late.</p></article>
+            <article><span>02</span><strong>PUSH / TOW</strong><p>Needs space and equipment.</p></article>
+            <article><span>03</span><strong>NO OVERRIDE</strong><p>Creates uncertainty on scene.</p></article>
+          </div>
+          <p className="challenge-gap"><span>A CRITICAL DESIGN GAP</span> — Lack of manual interaction methods.</p>
+        </div>
+      </section>
 
       <section className="research section shell" id="research">
         <span className="eyebrow">[ 03 / FIELD RESEARCH ]</span>
