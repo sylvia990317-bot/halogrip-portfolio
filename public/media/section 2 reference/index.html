@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="HALOGRIP emergency fallback-control case-study prototype">
+  <title>HALOGRIP Story Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="case-study">
+    <aside class="rail" aria-label="Case study sections">
+      <a class="rail-mark" href="#overview">N</a>
+      <nav>
+        <a href="#overview"><span>01</span></a><a href="#shift"><span>02</span></a><a href="#consequence"><span>03</span></a><a href="#response"><span>04</span></a><a href="#gap"><span>05</span></a>
+      </nav>
+    </aside>
+    <a class="close-project" href="#overview">Close project</a>
+
+    <section id="overview" class="story-section hero-section">
+      <div class="ambient ambient-red"></div><div class="ambient ambient-blue"></div>
+      <div class="hero-grid section-inner reveal">
+        <div><p class="section-label">[ 01 / Overview ]</p><h1>When the vehicle stops,<br><span>the response should not.</span></h1></div>
+        <div class="hero-summary">
+          <p><strong>HALOGRIP</strong> is a compact, low-speed fallback interface that lets authorized first responders reposition a stalled robotaxi on site.</p>
+          <div class="hero-meta"><span>Master thesis</span><span>Industrial design + HMI</span><span>2025</span></div>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#shift">Scroll to follow the gap <span>↓</span></a>
+    </section>
+
+    <section id="shift" class="story-section shift-section">
+      <div class="section-inner shift-layout reveal">
+        <div class="shift-copy"><p class="section-label">[ 02 / The shift ]</p><h2>The driver is disappearing from the cabin.</h2><p class="body-copy">Purpose-built robotaxis are beginning to move beyond the conventional driver's cockpit. Deployment, however, remains in transition as regulations and emergency systems adapt.</p></div>
+        <figure class="cabin-figure">
+          <img src="images/robotaxi-cabin.png" alt="Purpose-built robotaxi cabin without conventional driving controls">
+          <figcaption><div><span class="signal plus">+</span><p>More flexible passenger space</p></div><div><span class="signal minus">−</span><p>Traditional controls removed</p></div></figcaption>
+        </figure>
+      </div>
+      <p class="bridge-line">The driver may disappear. <span>The need to intervene does not.</span></p>
+    </section>
+
+    <section id="consequence" class="story-section consequence-section">
+      <img class="consequence-image" src="images/sf-emergency.png" alt="A stalled robotaxi obstructing a fire engine on a steep San Francisco street"><div class="consequence-overlay"></div>
+      <div class="section-inner consequence-content reveal">
+        <div class="consequence-heading"><p class="section-label">[ 03 / Real-world consequence ]</p><h2>The need to move the vehicle remains.</h2></div>
+        <div class="incident-stat"><p class="stat-number">74</p><p>AV-related disruptions to emergency response in San Francisco, Nov 2022–Aug 2023.<sup>01</sup></p></div>
+        <div class="incident-types"><div><span>01</span>Blocked roads</div><div><span>02</span>Blocked fire station exits</div><div><span>03</span>Disrupted firefighting</div></div>
+        <p class="incident-meaning">These incidents reveal the need for rapid human intervention when an automated vehicle cannot resolve the situation itself.</p>
+        <p class="source-note">01 — Replace with the verified source from the project research.</p>
+      </div>
+    </section>
+
+    <section id="response" class="story-section response-section">
+      <div class="section-inner reveal">
+        <p class="section-label">[ 04 / Current response ]</p><h2>Today, fallback is a procedure.</h2>
+        <div class="process">
+          <div class="process-fragment"><div class="process-step"><span>01</span><strong>Call</strong></div><b>→</b></div>
+          <div class="process-fragment"><div class="process-step"><span>02</span><strong>Verify</strong></div><b>→</b></div>
+          <div class="process-fragment"><div class="process-step"><span>03</span><strong>Authorize or dispatch</strong></div><b>→</b></div>
+          <div class="process-fragment"><div class="process-step"><span>04</span><strong>Move or tow</strong></div></div>
+        </div>
+        <div class="response-cards">
+          <article><span>01</span><h3>On-site assistance</h3><p>A trained operator is dispatched to the scene.</p></article>
+          <article><span>02</span><h3>Remote authorization</h3><p>Responders contact the company and verify access.</p></article>
+          <article><span>03</span><h3>Vehicle-specific training</h3><p>Procedures vary across models and operators.</p></article>
+        </div>
+        <p class="response-conclusion">These safeguards are valuable—but intervention still depends on external personnel, connectivity, training and vehicle-specific procedures.</p>
+      </div>
+    </section>
+
+    <section id="gap" class="story-section gap-section">
+      <div class="ambient gap-glow"></div>
+      <div class="section-inner gap-layout reveal">
+        <div class="gap-copy">
+          <p class="section-label">[ 05 / The design gap ]</p><h2>What if fallback lived inside the vehicle?</h2>
+          <p class="body-copy">Not full manual driving. Not a conventional driver's cockpit. A compact, authorized interface for low-speed repositioning.</p>
+          <div class="principles"><div><span>01</span><h3>Local</h3><p>Available at the vehicle</p></div><div><span>02</span><h3>Limited</h3><p>Restricted to ≤15 km/h</p></div><div><span>03</span><h3>Intuitive</h3><p>Usable under pressure</p></div></div>
+        </div>
+        <div class="product-stage"><div class="model-orbit orbit-one"></div><div class="model-orbit orbit-two"></div><p>Insert HALOGRIP 3D model</p><span>Scroll-driven reveal area</span></div>
+      </div>
+      <div class="final-statement reveal"><span>HALOGRIP / 2025</span><p>Controlled, low-speed maneuverability inside the robotaxi—without bringing back the conventional driver's seat.</p></div>
+    </section>
+  </main>
+  <script>
+    const links=[...document.querySelectorAll('.rail nav a')];
+    const sections=[...document.querySelectorAll('.story-section')];
+    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+      if(entry.isIntersecting){links.forEach(a=>a.style.color='');const active=document.querySelector('.rail nav a[href="#'+entry.target.id+'"]');if(active)active.style.color='#fff';}
+    }),{threshold:.52});
+    sections.forEach(section=>observer.observe(section));
+  </script>
+</body>
+</html>

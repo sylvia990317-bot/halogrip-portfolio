@@ -4,6 +4,7 @@ import "./scroll-intro.css";
 import InteractionDeck from "./interaction-deck";
 import ScrollIntro from "./scroll-intro";
 import OverviewBackdrop from "./overview-backdrop";
+import PlaceholderImage from "../../components/PlaceholderImage";
 
 const title = "HALOGRIP — Sylvia Xie";
 const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
@@ -76,18 +77,55 @@ export default function HalogripPage() {
         </div>
       </section>
 
-      <section className="challenge dark-section" aria-labelledby="challenge-title">
-        <img className="challenge-background" src="/media/emergency.webp" alt="Firefighters responding to a building fire" loading="lazy" />
-        <div className="challenge-content shell">
-          <span className="eyebrow">[ 02 / THE CHALLENGE ]</span>
-          <h2 id="challenge-title">NO STEERING WHEEL.<br />NO TIME TO WAIT.</h2>
-          <p>A stalled autonomous vehicle can block a fire engine or prevent first responders from reaching someone in time.</p>
-          <div className="challenge-reasons">
-            <article><span>01</span><strong>REMOTE HELP</strong><p>May arrive too late.</p></article>
-            <article><span>02</span><strong>PUSH / TOW</strong><p>Needs space and equipment.</p></article>
-            <article><span>03</span><strong>NO OVERRIDE</strong><p>Creates uncertainty on scene.</p></article>
+      <section className="challenge-scene challenge-scene-cabin dark-section" aria-labelledby="challenge-cabin-title">
+        <div className="challenge-scene-inner shell">
+          <span className="eyebrow">[ 02.1 / CABIN SHIFT ]</span>
+          <div className="challenge-scene-copy">
+            {/* TODO(sylvia): draft copy carried over from an earlier revision (commit 60bad72) — review/replace headline + body */}
+            <h2 id="challenge-cabin-title">THE DRIVER IS DISAPPEARING<br />FROM THE CABIN.</h2>
+            <p>Purpose-built robotaxis are beginning to remove conventional driving controls to create more space for passengers. Emergency procedures and regulations, however, are still adapting to the shift.</p>
           </div>
-          <p className="challenge-gap"><span>A CRITICAL DESIGN GAP</span> — Lack of manual interaction methods.</p>
+          {/* TODO(sylvia): replace with a real photo of a robotaxi cabin with no steering wheel or pedals */}
+          <PlaceholderImage label="Robotaxi cabin without a steering wheel or pedals" className="challenge-scene-image" />
+        </div>
+      </section>
+
+      <section className="challenge-scene challenge-scene-need dark-section" aria-labelledby="challenge-need-title">
+        <div className="challenge-scene-inner shell">
+          <span className="eyebrow">[ 02.2 / REAL WORLD NEED ]</span>
+          <div className="challenge-scene-copy">
+            {/* TODO(sylvia): draft copy carried over from an earlier revision (commit 60bad72) — review/replace headline + body, and verify/cite the "74" stat source */}
+            <h2 id="challenge-need-title">THE NEED TO MOVE<br />THE VEHICLE REMAINS.</h2>
+            <p>Even without a driver, a stalled vehicle can still block a fire engine or delay first responders reaching someone in time. In San Francisco alone, 74 AV-related incidents disrupted emergency response between November 2022 and August 2023 — blocked roads, blocked fire-station exits, and interrupted firefighting.</p>
+          </div>
+          {/* TODO(sylvia): replace with a real photo of an autonomous vehicle blocking emergency access */}
+          <PlaceholderImage label="Autonomous vehicle blocking emergency access" className="challenge-scene-image" />
+        </div>
+      </section>
+
+      <section className="challenge-scene challenge-scene-solution dark-section" aria-labelledby="challenge-solution-title">
+        <div className="challenge-scene-inner shell">
+          <span className="eyebrow">[ 02.3 / CURRENT SOLUTION ]</span>
+          <div className="challenge-scene-copy">
+            {/* TODO(sylvia): draft copy carried over from an earlier revision (commit 60bad72, formerly labeled "CURRENT RESPONSE") — review/replace headline + body */}
+            <h2 id="challenge-solution-title">HELP EXISTS.<br />BUT IT IS NOT IMMEDIATE.</h2>
+            <p>Today, moving a stalled vehicle means calling a remote operator, verifying identity, waiting for authorization or an on-site dispatch, and only then moving or towing the vehicle. Each step adds time a fire engine on scene may not have.</p>
+          </div>
+          {/* TODO(sylvia): replace with a real photo/screenshot of the remote-operator call/verification workflow */}
+          <PlaceholderImage label="Remote operator call center screen (concept)" className="challenge-scene-image" />
+        </div>
+      </section>
+
+      <section className="challenge-scene challenge-scene-gap dark-section" aria-labelledby="challenge-gap-title">
+        <div className="challenge-scene-inner shell">
+          <span className="eyebrow">[ 02.4 / DESIGN GAP ]</span>
+          <div className="challenge-scene-copy">
+            {/* TODO(sylvia): draft copy carried over from an earlier revision (commit 60bad72) — review/replace headline + body */}
+            <h2 id="challenge-gap-title">WHAT IF FALLBACK<br />LIVED INSIDE THE VEHICLE?</h2>
+            <p>Every step in the current process depends on personnel, connectivity, and time a blocked scene may not have. That is the gap this project designs into: a way for an authorized responder to move the vehicle directly, without waiting on any of it.</p>
+          </div>
+          {/* TODO(sylvia): replace with a real (or concept) photo of a first responder using an in-cabin fallback control */}
+          <PlaceholderImage label="First responder using an in-cabin fallback control (concept)" className="challenge-scene-image" />
         </div>
       </section>
 

@@ -110,6 +110,45 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### THE CHALLENGE (02) split into 4 placeholder subsections: CABIN SHIFT / REAL WORLD NEED / CURRENT SOLUTION / DESIGN GAP (this session)
+- Replaced the single `.challenge` hero section (full-bleed `emergency.webp` background, REMOTE
+  HELP / PUSH-TOW / NO OVERRIDE three-reasons grid) with 4 stacked sibling sections — `[ 02.1 /
+  CABIN SHIFT ]`, `[ 02.2 / REAL WORLD NEED ]`, `[ 02.3 / CURRENT SOLUTION ]`, `[ 02.4 / DESIGN
+  GAP ]` — at Sylvia's request, as placeholder scaffolding only; she'll give real content/design
+  direction for each in a future session.
+- Deliberately lightweight: everything is plain inline JSX in `page.tsx` (no new component
+  files, no GSAP/ScrollTrigger, no custom SVG, no reveal-on-scroll animation) — this project's
+  history shows these exact scenes (`real-world-scene.tsx`, `response-scene.tsx`,
+  `design-gap-scene.tsx` from the reverted `60bad72`/"26082602" checkpoint) got fully rewritten
+  from scratch once real direction arrived, so there was no benefit to building bespoke structure
+  now. Each of the 4 sections shares one skeleton: eyebrow → heading+body copy → one
+  `PlaceholderImage` (`app/components/PlaceholderImage.tsx`, imported via
+  `../../components/PlaceholderImage`).
+- Copy is a draft carried over from the reverted `60bad72` version's wording (per Sylvia's
+  choice), not freshly invented — every heading/body block has its own
+  `{/* TODO(sylvia): draft copy carried over from an earlier revision (commit 60bad72) —
+  review/replace headline + body */}` comment, and every `PlaceholderImage` has its own
+  `{/* TODO(sylvia): replace with a real ... */}` comment above it (per Hard Rule 5). The old
+  "CURRENT RESPONSE" label is now "CURRENT SOLUTION" per Sylvia's explicit renaming — its copy
+  still covers the same call/verify/authorize-or-dispatch/move-or-tow process, just relabeled.
+  02.2's "74 AV-related disruptions" stat carried its existing `TODO(sylvia): verify and cite the
+  source` flag forward.
+- CSS: removed all 8 old `.challenge*` rules from `halogrip.css` and added a shared
+  `.challenge-scene` base (padding-block + a `border-top` seam between subsections, sized to
+  match `.principles`/`.journey`'s stacked-section rhythm) plus `.challenge-scene-inner`/
+  `-copy`/`-image`. The 4 per-section modifier classes (`.challenge-scene-cabin`, `-need`,
+  `-solution`, `-gap`) are wired into the JSX as hooks but intentionally carry no CSS of their
+  own yet — no per-section tweaks were invented ahead of real design direction. Updated the
+  shared display-font selector (`.hero-heading h1,.section h2,...`) to point at `.challenge-scene
+  h2` instead of the removed `.challenge h2`. Mobile override (the file's one
+  `@media(max-width:760px)` block) updated in place to match the new classes.
+- Verified via `npm run build` (clean) and dev-server screenshots scrolling through all 4
+  sections into `#research` (no overlap, seams render correctly); the mobile CSS rule was
+  sanity-checked by injecting the new mobile-breakpoint rules as a scratch `!important` override
+  at the current ~1536px automation viewport (confirms the `PlaceholderImage` aspect-ratio
+  actually switches to `1.4/1` etc.) rather than a real narrow-viewport resize, then removed —
+  same technique other sessions in this file have used for the same tooling limitation.
+
 ### Git history: reverted to the 26082601 snapshot, then re-applied just the OVERVIEW change (this session)
 - The working tree had drifted through several dated checkpoint commits (`26082601` →
   `26082602` → `26082603` → two follow-up commits literally titled "破了，得重新做"/"垃圾" —
