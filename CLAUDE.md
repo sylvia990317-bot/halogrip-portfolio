@@ -70,6 +70,17 @@ app/
       page.tsx              HALOGRIP case study — own `metadata` export, own CSS import
       halogrip.css          HALOGRIP-only styles (fonts, tokens, all component classes)
       interaction-deck.tsx  Client component, steering-state demo ("use client")
+      overview-backdrop.tsx Client component, scroll-scrubbed strobe-in for the OVERVIEW
+                             section's background photo (GSAP ScrollTrigger)
+      challenge-chapter.tsx THE CHALLENGE section (02) — a 5-scene sequence (intro, industry
+                             shift, real-world need/stat, current response process, design gap),
+                             not a single section — see Recent changes
+      real-world-scene.tsx  Client component ("use client"), the 02.2 / REAL-WORLD NEED scene —
+                             an inline-SVG top-down illustration (fire station, robotaxi,
+                             destination fire, glowing/interrupted route) with HTML text overlays
+                             positioned by percentage to match the SVG's viewBox — see Recent changes
+      response-flow.tsx     Client component, the 02.3 / CURRENT RESPONSE perspective process
+                             diagram (see Recent changes further down)
       scroll-intro*.tsx/css Pinned scroll-driven 3D opening (R3F + GSAP ScrollTrigger), ported
                              1:1 from Sylvia's PowerPoint reference — see Recent changes
 public/
@@ -99,6 +110,12 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 - The homepage's logo marquee (`chalmers logo.svg`) markup looks scraped from a web page (purple
   `#6746EB` before recoloring, Tailwind-style classes baked into the SVG) rather than Chalmers'
   official seal — flagging in case it's the wrong sub-brand mark
+- `/work/halogrip`'s `ChallengeChapter` (THE CHALLENGE, section 02) has one more open slot: a
+  real "conventional cockpit" and "open cabin" comparison photo (currently `PlaceholderImage`,
+  `challenge-chapter.tsx`). The real citation for the "74 AV-related disruptions" stat is still
+  outstanding too (flagged `// TODO(sylvia): verify and cite the source for the "74" figure` in
+  `real-world-scene.tsx`, which now renders that stat as part of the 02.2 scene — see Recent
+  changes).
 
 ## Deployment
 
@@ -109,6 +126,102 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
   from this directory with `vercel --prod --yes`.
 
 ## Recent changes
+
+### 02.2 / REAL-WORLD NEED rebuilt as a top-down emergency-route scene (this session)
+- Replaced the old flat `.scene-consequence-bg` (a full-bleed `emergency.webp` photo of firefighters
+  with headline/stat/three-column `.incident-types` text on top) with a bespoke composition matching
+  a visual reference Sylvia supplied (`public/media/2.2.png` — reference image only, never rendered
+  on the site): a new `app/work/halogrip/real-world-scene.tsx` client component (`RealWorldScene`),
+  rendered inside `ChallengeChapter`'s `.challenge-scene-consequence` section. No new dependencies —
+  the whole scene (buildings, road, fire station, robotaxi, destination fire, route) is hand-drawn
+  inline SVG, not a photo; the brief explicitly ruled out inserting the reference screenshot or an
+  unverified incident photo, and no top-down aerial asset existed in `public/media/` to use instead.
+- Content is unchanged (headline, "74" stat + caption, three incident labels, source note) but the
+  layout is entirely different: the "74" now sits inside a dashed red bracket directly at the
+  robotaxi's position on the route (as a warning-marker-embedded-in-the-road, not a stat block below
+  the headline), and the three incident labels (`BLOCKED ROADS` / `BLOCKED FIRE STATION EXITS` /
+  `DISRUPTED FIREFIGHTING`) are each attached to a specific point in the scene via a thin SVG leader
+  line + dot, not `.incident-types`' old 3-column grid (that class and `.incident-stat` were deleted
+  from `halogrip.css`; `.source-note` survives, now just repositioned per-context).
+- Coordinate system: all decorative graphics (buildings, road, station, destination, car, route
+  paths, obstruction bracket, leader lines) live in one SVG (`viewBox="0 0 1600 720"`, constants
+  `VB_W`/`VB_H` in `real-world-scene.tsx`) and are `aria-hidden`. All real text (headline, stat,
+  labels, source note) is HTML, absolutely positioned via percentages computed from those same
+  viewBox units (`pctX`/`pctY`), so it lines up with the graphics underneath. This only works because
+  `.rwn`'s CSS `aspect-ratio` (`1600/720`) is kept numerically in sync with `VB_W`/`VB_H` — noted as
+  a comment at both ends since nothing enforces it automatically.
+- Animation (one-shot `IntersectionObserver` toggling an `is-visible` class, same pattern as
+  `response-flow.tsx`): the route draws in from the fire station to the robotaxi
+  (`stroke-dashoffset`), the dashed bracket fades in and pulses at the obstruction, a broken/dashed
+  diverted path draws an arc up and over the car toward the destination, then the "74"/caption and
+  the three leader-line labels fade in staggered. All gated behind
+  `@media(prefers-reduced-motion:no-preference)`, with a `reduce` block forcing the fully-drawn end
+  state instantly — same progressive-enhancement pattern as `hero-reveal`/`response-flow`.
+- Real bug hit and fixed during this session: the three incident labels were initially positioned
+  high up in the scene (near the fire station/road, mirroring the reference image's spacing), which
+  put labels 01 and 02 directly behind the large headline text — both were readable in the DOM/CSS
+  inspector but visually illegible against "THE VEHICLE REMAINS." Fixed by moving all three labels
+  down closer to their leader-line targets (short elbow instead of a long one), clearing the
+  headline's vertical footprint entirely rather than trying to track its variable clamp()'d height.
+- Mobile (`max-width:760px`): headline and the "74"/caption stat come first (`order` on flex
+  children of `.rwn`, which switches from `aspect-ratio`-sized `position:relative` to
+  `display:flex;flex-direction:column`), then a shorter, `slice`-cropped version of the same SVG
+  (`.rwn-visual{aspect-ratio:2.6/1}`, leader-line group hidden — bracket/route stay, per "preserve
+  the interruption"), then the three labels reflow from absolute-positioned (`left/top` via CSS
+  custom properties `--lx`/`--ly`/`--sx`/`--sy` set inline per label, so the mobile media query can
+  just override `left`/`top` directly without fighting inline-style specificity) to a static stacked
+  column. Verified with the same technique the `response-flow` session used: since this browser
+  automation tool's window cannot actually resize below ~1536px, mobile rules were temporarily
+  forced on unconditionally (an injected `<style>`, removed after) rather than tested at a real
+  narrow viewport.
+- Verified: `npm run build` clean (compiles, typechecks, no console errors beyond a pre-existing
+  unrelated THREE.js shader precision warning from the scroll-intro). Desktop composition checked
+  via dev-server screenshots at the section's exact scroll position (this page's pinned
+  `ScrollIntro` GSAP animation makes document height/offsets shift while scrolling, so a couple of
+  early screenshots were taken mid-layout-shift and looked broken — re-verified by scrolling to
+  `.rwn`'s live `getBoundingClientRect()` immediately before each capture).
+
+### THE CHALLENGE rebuilt as a 5-scene chapter (external — not from a session captured here)
+- `page.tsx`'s old single `.challenge` section (a dark hero with a REMOTE HELP / PUSH-TOW / NO
+  OVERRIDE three-reasons grid) was replaced by `<ChallengeChapter />`
+  (`app/work/halogrip/challenge-chapter.tsx`), rendering five stacked `dark-section` scenes under
+  `[ 02 / THE CHALLENGE ]`: intro statement, industry shift (cabin comparison with two
+  `PlaceholderImage` slots — `// TODO(sylvia)` real cockpit/cabin photos), real-world need (the
+  "74 AV-related disruptions" stat, now with a `// TODO(sylvia)` note that the source itself still
+  needs verifying — was previously asserted without a caveat), current response (a 4-step
+  CALL → VERIFY → AUTHORIZE OR DISPATCH → MOVE OR TOW process plus 3 response-approach cards), and
+  a closing design-gap statement.
+- New CSS in `halogrip.css`: `.challenge-intro` (replaces old `.challenge`),
+  `.challenge-scene` + its per-scene modifiers (`-shift`, `-consequence`, `-response`, `-gap`),
+  `.scene-shift-layout`, `.cabin-compare` (+ `.signal.plus`/`.signal.minus`), `.incident-stat`,
+  `.incident-types`, `.response-process` (+ `-step`/`-arrow`), `.response-approaches`,
+  `.scene-gap-lede`/`.scene-gap-statement`. The old `.challenge`/`.challenge-content`/
+  `.challenge-background`/`.challenge-reasons`/`.challenge-gap` rules are gone.
+- Not reconciled with this file when it landed — documenting now so the structure reference and
+  hard rules stay accurate. If Sylvia didn't request this, flag it back to her before iterating
+  further on THE CHALLENGE.
+
+### OVERVIEW section: new headline, dropped the city-banner stat figure (this session)
+- Per Sylvia's request: headline changed from "WHEN AUTONOMY FAILS, SOMEONE STILL NEEDS TO MOVE
+  THE VEHICLE." to "WHEN THE VEHICLE STOPS,<br/>THE RESPONSE SHOULD NOT.", and the body copy
+  replaced with a single line: "HALOGRIP is a compact, low-speed fallback interface that lets
+  authorized first responders reposition a stalled robotaxi on site." The old second paragraph
+  (field research/ergonomics summary) was dropped, not merged in.
+- Removed the `<figure className="city-banner">` entirely — the city photo + "74 AV-related
+  disruptions" `stat-panel` figcaption that used to sit below the headline in this section. (That
+  same "74" stat still exists, now inside `ChallengeChapter`'s real-world-need scene — see above —
+  so the number wasn't lost, just no longer duplicated here.)
+- Sylvia then asked to move the remaining headline/copy toward the center of the backdrop photo.
+  `.overview` went from a 2-column grid (`grid-template-columns:1fr 1fr`, marker left / copy
+  right, with the now-removed banner spanning a second row) to `position:relative; min-height:
+  850px; display:grid; place-items:center; text-align:center` — the same pattern already used by
+  `.challenge-intro`/`.final-hero`. `.overview-copy` is now a centered flex column and its `<p>`
+  is `margin:34px auto 0` instead of left-aligned.
+- Cleaned up the `@media(max-width:760px)` block to match: dropped its now-dead `.city-banner`/
+  `.stat-panel` overrides and the stale `.overview{grid-template-columns:1fr}` rule, replaced with
+  `.overview{min-height:auto;padding-block:90px}`.
+- `app/work/halogrip/overview-backdrop.tsx` (the scroll-scrubbed background photo, unrelated to
+  this change) was left as-is.
 
 ### Multi-project restructure (earlier session)
 - Moved the entire former `app/page.tsx` (the HALOGRIP case study) to `app/work/halogrip/page.tsx`
@@ -302,3 +415,63 @@ site's DOM/computed styles rather than guessing:
   tight zoomed screenshots on all three states (Forward/Brake/Reverse): clean triangular tip
   clearly proud of the line, no notch, symmetric barbs, in every state.
 - Nothing from this pass has been committed to git either — still sitting in the working tree.
+
+### 02.3 / CURRENT RESPONSE rebuilt as a perspective process diagram (this session)
+- Replaced the old simple `.response-process`/`.response-approaches` (a flat step row + 3
+  approach cards) with a bespoke composition matching a visual reference Sylvia supplied
+  (`public/media/step.png` — reference image only, never rendered on the site): a new
+  `app/work/halogrip/response-flow.tsx` client component (`ResponseFlow`), rendered inside
+  `ChallengeChapter`'s existing `.challenge-scene-response` section. Headline/copy updated to
+  match the reference: "HELP EXISTS. BUT IT IS NOT IMMEDIATE." plus a new lede paragraph
+  (`.scene-response-lede`); the eyebrow label `[ 02.3 / CURRENT RESPONSE ]` was already correct
+  and unchanged.
+- Structure: 01 Incident → 02 Call Operator → 03 Verify, forking after Verify into 04A Remote
+  Authorization (evidence line "Waymo — remote support and trained procedures") and 04B On-Site
+  Dispatch ("Apollo Go — local assistant"), reconnecting at 05 Move or Tow, ending at a small
+  distant "Vehicle stalled" marker. A `PERSONNEL · CONNECTIVITY · TRAINING · TIME` dependency row
+  sits above the first three panels. All process-step captions ("Event detected", "Connecting… /
+  Channel secure", etc.) are illustrative UI flavor text, not sourced data — no citation needed,
+  same spirit as other HUD-style readouts elsewhere in this deck.
+- No new dependencies: perspective/depth is done with CSS only (`.rf-slot-*` classes apply a
+  constant `scale()`/`translateZ()` per stage under a `perspective:1600px` parent; panels
+  ("translucent technical glass") are `rgba` background + border + `backdrop-filter:blur` +
+  box-shadow). Every panel gets a hand-rolled inline-SVG icon (warning pulse, waveform, ID-scan
+  brackets+face, padlock, map-pin+route, tow icon), no icon library.
+- The connecting route is inline SVG per connector segment (not one global path): a plain
+  `Connector` for the straight hops, plus `ForkConnector`/`MergeConnector` for the split/rejoin,
+  each scoped to its own flex-child slot so its `viewBox`+`preserveAspectRatio="none"` coordinate
+  space lines up with that slot's own box — avoids needing JS-measured global coordinates. Hit a
+  real bug here first: giving every connector `align-self:stretch` made the *straight* connectors
+  stretch to the branch section's full row height, and non-uniformly scaling a short horizontal
+  line/circle by ~15x in Y (via `preserveAspectRatio="none"`) rendered as a giant red plus-sign
+  crosshair over the panels instead of a thin line. Fixed by only stretching the fork/merge
+  connectors (which need full height to reach both branch panels) and giving straight connectors
+  a small fixed `clamp()` height instead; also moved the connector "nodes" out of the distorted
+  SVG coordinate space entirely into absolutely-positioned DOM `<span class="rf-node">` dots (so
+  they stay circular regardless of the SVG's non-uniform stretch), and added
+  `vector-effect="non-scaling-stroke"` to every line/path so stroke width stays crisp under the
+  stretch. Path-drawing animation uses SVG2 `pathLength={100}` + `stroke-dasharray:100` so
+  `stroke-dashoffset` maps to a clean 0–100 progress regardless of actual curve geometry.
+  `response-track` also got `overflow-x:auto` with a hidden scrollbar as a safety net against the
+  6-panel row overflowing at in-between (tablet) widths, matching this file's existing practice of
+  not adding extra breakpoints beyond the site's single 760px one.
+  the tip never actually cleared the line (it read as buried,
+- Reveal-on-scroll (near → far, pause at Verify, branches drawn separately, vehicle last) is a
+  one-shot `IntersectionObserver` in `ResponseFlow` toggling an `is-visible` class; the actual
+  animation (opacity/translateY on panels, `stroke-dashoffset` on lines, scale/opacity on nodes,
+  plus small looping icon animations — pulse rings, waveform bars, a scanning line) all lives
+  inside `@media(prefers-reduced-motion:no-preference)` in `halogrip.css`, with a plain
+  `@media(prefers-reduced-motion:reduce)` block forcing the fully-drawn end state — same
+  progressive-enhancement pattern as the existing `hero-reveal` keyframe.
+- Mobile (`max-width:760px`, the site's one existing breakpoint): perspective transforms are
+  cancelled (`.rf-slot{transform:none}`), the track stacks vertically, every connector's SVG is
+  hidden and replaced by a plain CSS vertical tick+dot (`.rf-connector::after`), and the two
+  branch panels sit side-by-side in a row (`.rf-branch-wrap{flex-direction:row}`) so the fork/
+  reconnect structure survives the switch to a vertical flow. Verified by temporarily forcing
+  these mobile rules on unconditionally (this session's browser-automation tool could not actually
+  resize the emulated window below its fixed ~1536px, so true viewport-width testing wasn't
+  possible) — logic checked, but flag to re-verify on a real narrow device/DevTools if anything
+  looks off.
+- `npm run build` and the desktop composition were verified via the dev server + browser
+  screenshots (panel layout, icons, connector draw, dependency row); mobile was only verified via
+  the forced-rule technique above, not a real narrow viewport.
