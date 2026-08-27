@@ -22,6 +22,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { markPinReady, onPinsReady } from "./pin-coordinator";
 
 type Align = "above" | "below";
 
@@ -142,11 +143,16 @@ export default function ProcessScene() {
 
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section || !canEnhance()) return;
+    if (!section || !canEnhance()) {
+      markPinReady("process-scene");
+      return;
+    }
 
     gsap.registerPlugin(ScrollTrigger);
 
-    const context = gsap.context(() => {
+    let context: gsap.Context | undefined;
+    const unsubscribe = onPinsReady(["scroll-intro"], () => {
+      context = gsap.context(() => {
       const segEntries = Object.entries(segRefs.current) as [string, SVGPathElement][];
       const lengths: Record<string, number> = {};
       segEntries.forEach(([key, el]) => {
@@ -243,9 +249,15 @@ export default function ProcessScene() {
 
       // Stage 5 (0.86 - 1.0) — hold on the complete process.
       timeline.to(fillRef.current, { scaleX: 1, duration: 0.98, ease: "none" }, 0.02);
-    }, section);
 
-    return () => context.revert();
+      markPinReady("process-scene");
+      }, section);
+    });
+
+    return () => {
+      unsubscribe();
+      context?.revert();
+    };
   }, []);
 
   return (

@@ -29,6 +29,7 @@ import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { Poppins } from "next/font/google";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { markPinReady } from "./pin-coordinator";
 
 const ScrollIntroScene = dynamic(() => import("./scroll-intro-scene"), { ssr: false });
 
@@ -311,13 +312,9 @@ export default function ScrollIntro() {
 
   // Fallback detection runs once, post-mount, so server + first paint always agree.
   useEffect(() => {
-    const result = canEnhance();
-    console.log("[DIAG] canEnhance() ->", result);
-    if (result) setEnhanced(true);
+    if (canEnhance()) setEnhanced(true);
+    else markPinReady("scroll-intro");
   }, []);
-  useEffect(() => {
-    console.log("[DIAG] enhanced state is now", enhanced);
-  }, [enhanced]);
 
   const handleReady = useCallback(() => setReady(true), []);
 
@@ -444,6 +441,8 @@ export default function ScrollIntro() {
         0.95,
       );
       timeline.to(pin, { backgroundColor: PAPER, duration: 0.04 }, 0.95);
+
+      markPinReady("scroll-intro");
     }, pin);
 
     return () => context.revert();

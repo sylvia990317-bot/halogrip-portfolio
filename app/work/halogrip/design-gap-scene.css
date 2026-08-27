@@ -1,10 +1,13 @@
-/* 02.4 / DESIGN GAP — pinned scroll transition (external dependency -> local control).
+/* 02.4 / DESIGN GAP — pinned scroll consolidation (external dependency -> local control).
    Route-scoped: imported only from app/work/halogrip/page.tsx, never from globals.css.
 
-   Every absolutely-positioned element here (HTML and the SVG routes/line, viewBox
-   "0 0 100 100" preserveAspectRatio="none") shares one 0-100 left/top coordinate space
-   read off `2.4 reference.png`, so nothing needs px math or a resize handler — see
-   ./design-gap-scene.tsx for the shared point tables. Colour tokens come from halogrip.css. */
+   Every absolutely-positioned HTML/SVG element here shares one 0-100 left/top coordinate
+   space read off `2.4 reference.png`, so nothing needs px math for positioning — see
+   ./design-gap-scene.tsx for the shared point tables. The one exception is `.dg-canvas`,
+   whose particle band is drawn in real pixels each frame from JS. Colour tokens come from
+   halogrip.css. The headline (`.dg-headline`) and background (`.dg-bg`/`.dg-scrim`) are
+   deliberately never touched by ./design-gap-scene.tsx's scroll handler — they hold their
+   default styles below for the entire scroll range. */
 
 .design-gap-scene{position:relative;isolation:isolate;overflow:hidden;min-height:100svh;border-top:1px solid rgba(255,255,255,.14);font-family:var(--mono)}
 .dg-bg{position:absolute;inset:0;background-size:cover;background-position:50% 85%;z-index:-2}
@@ -13,18 +16,19 @@
 .dg-eyebrow{position:absolute;left:var(--gutter);top:5%;z-index:6;color:rgba(245,245,241,.92)}
 .dg-side-label{position:absolute;z-index:5;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,245,241,.6)}
 .dg-side-label-left{left:13%;top:12%}
-.dg-side-label-right{left:65%;top:12%;opacity:0}
+.dg-side-label-right{left:65%;top:12%}
 
 .dg-responder{position:absolute;left:0;bottom:0;z-index:2;width:19%;height:auto;max-height:58%;object-fit:contain;object-position:bottom left;filter:drop-shadow(0 20px 30px rgba(0,0,0,.5))}
 
 /* Left system: six glass panels + their dashed red route, staircase style matching
-   the existing .need-route pattern elsewhere on this page. */
+   the existing .need-route pattern elsewhere on this page. Panels are erased in place
+   (mask-image + opacity + blur, driven per-frame from JS) — they never translate. */
 .dg-graphic{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:2;pointer-events:none}
 .dg-route-glow{fill:none;stroke:#e0453a;stroke-width:.35;stroke-linecap:round;stroke-linejoin:round;opacity:.45;filter:blur(1px)}
 .dg-route{fill:none;stroke:#ff5b46;stroke-width:.15;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.9 .6}
 .dg-route-dot{fill:var(--red)}
-.dg-line{fill:none;stroke:var(--red);stroke-width:.16;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400}
-.dg-line-arrow{fill:var(--red);opacity:0}
+.dg-line{fill:none;stroke:var(--red);stroke-width:.16;stroke-linecap:round}
+.dg-line-arrow{fill:var(--red)}
 
 .dg-panel{position:absolute;display:flex;flex-direction:column;padding:14px 14px 16px;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(10,10,10,.55));border:1px solid rgba(255,255,255,.16);border-radius:2px;backdrop-filter:blur(10px);box-shadow:0 18px 40px rgba(0,0,0,.35);z-index:3}
 .dg-panel-head{display:flex;align-items:center;justify-content:space-between}
@@ -34,27 +38,29 @@
 .dg-panel h3{margin:14px 0 0;font-family:var(--display);font-weight:700;font-size:clamp(11px,.92vw,14px);line-height:1.15;letter-spacing:-.01em;text-transform:uppercase;color:var(--white)}
 .dg-panel p{margin:auto 0 0;padding-top:10px;font-size:8.5px;letter-spacing:.03em;text-transform:uppercase;color:rgba(245,245,241,.55)}
 
-.dg-particles{position:absolute;inset:0;z-index:3;pointer-events:none}
-.dg-particle{position:absolute;opacity:0;border-radius:50%;background:radial-gradient(circle,#ff8a73,var(--red) 60%,transparent 100%);box-shadow:0 0 6px 1px rgba(233,42,42,.65);transform:translate(-50%,-50%)}
+/* The disintegration boundary: a narrow canvas particle band (not one DOM node per
+   particle) plus a soft glow that both track the same scroll-driven x position. */
+.dg-canvas{position:absolute;inset:0;z-index:4;pointer-events:none}
+.dg-boundary-glow{position:absolute;z-index:4;width:2.4%;height:56%;opacity:0;transform:translate(-50%,-50%);background:linear-gradient(180deg,transparent,rgba(255,90,70,.55) 20%,rgba(255,90,70,.55) 80%,transparent);filter:blur(5px);pointer-events:none}
 
-.dg-seam-glow{position:absolute;z-index:4;width:110px;height:210px;opacity:0;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(255,90,70,.85),rgba(233,42,42,.25) 45%,transparent 75%);filter:blur(6px);pointer-events:none}
-
-/* Right system: three circular nodes strung on the drawn line + the robotaxi. */
-.dg-node{position:absolute;z-index:4;opacity:0;transform:translate(-50%,-50%)}
+/* Right system: three circular nodes strung on the drawn line + the robotaxi — all
+   visible from rest, all independently positioned; only their `left`/transform is
+   rewritten per frame, never merged into one shared container. */
+.dg-node{position:absolute;z-index:4;transform:translate(-50%,-50%)}
 .dg-node-label{position:absolute;left:50%;bottom:100%;margin-bottom:12px;transform:translateX(-50%);white-space:nowrap;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,245,241,.85)}
 .dg-node-circle{width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(20,20,20,.55);backdrop-filter:blur(6px);color:var(--white);box-shadow:0 0 14px 2px rgba(233,42,42,.22)}
 .dg-node-circle svg{width:22px;height:22px}
 
-.dg-robotaxi-wrap{position:absolute;right:0;bottom:0;z-index:3;width:21%;opacity:0}
+.dg-robotaxi-wrap{position:absolute;right:0;bottom:0;z-index:3;width:21%}
 .dg-robotaxi-img{display:block;width:100%;height:auto}
 .dg-taillight-glow{position:absolute;left:0;top:22%;width:46%;height:16%;opacity:0;background:radial-gradient(ellipse,rgba(255,60,40,.9),transparent 72%);filter:blur(10px);pointer-events:none}
 .dg-robotaxi-label{position:absolute;left:0;top:-22px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,245,241,.8)}
 
-.dg-headline{position:absolute;left:0;right:0;top:17%;z-index:5;padding-inline:8%;text-align:center;opacity:0;transform:translateY(14px)}
+.dg-headline{position:absolute;left:0;right:0;top:17%;z-index:5;padding-inline:8%;text-align:center}
 .dg-headline h2{margin:0;font-family:var(--display);font-weight:700;line-height:.98;letter-spacing:-.02em;text-transform:uppercase;color:#ece7d8;font-size:clamp(30px,4vw,56px);text-shadow:0 3px 26px rgba(0,0,0,.5)}
 .dg-subhead{margin:14px 0 0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
 
-.dg-bottom-labels{position:absolute;left:0;right:0;bottom:6%;z-index:5;opacity:0;display:flex;justify-content:center;gap:14px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,245,241,.7)}
+.dg-bottom-labels{position:absolute;left:0;right:0;bottom:6%;z-index:5;display:flex;justify-content:center;gap:14px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,245,241,.7)}
 .dg-bottom-labels span[aria-hidden]{color:var(--red)}
 
 /* Reduced-motion / narrow-viewport fallback: static composition, no pin, no particles. */

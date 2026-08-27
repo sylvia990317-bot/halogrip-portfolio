@@ -7,7 +7,6 @@ import ScrollIntro from "./scroll-intro";
 import OverviewBackdrop from "./overview-backdrop";
 import ProcessScene from "./process-scene";
 import DesignGapScene from "./design-gap-scene";
-import ScrollRefresh from "./scroll-refresh";
 
 const title = "HALOGRIP — Sylvia Xie";
 const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
@@ -302,8 +301,6 @@ export default function HalogripPage() {
         <div><span className="eyebrow">[ MASTER’S THESIS / 2025 ]</span><h2>DESIGNED FOR THE PEOPLE<br />WHO CANNOT AFFORD TO WAIT.</h2></div>
         <div className="footer-bottom"><span>SYLVIA XIE — USER RESEARCH &amp; CONCEPT / AUTOLIV × CHALMERS</span><a href="/">BACK TO HOME ↑</a></div>
       </footer>
-
-      <ScrollRefresh />
     </main>
   );
 }
