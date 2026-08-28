@@ -250,24 +250,24 @@ export default function HalogripPage() {
       </section>
 
       <section className="final-hero dark-section" id="solution">
-        <img className="final-background" src={encodeURI("/media/halogrip图片/other/hero.webp")} alt="Final HALOGRIP steering system illuminated in deep blue and teal" loading="lazy" />
+        <img className="final-background" src={encodeURI("/media/halogrip图片/other/section 7.1.png")} alt="Robotaxi cockpit interior with gloved hands operating the HALOGRIP steering device embedded in the dashboard" loading="lazy" />
+        <div className="final-scrim" />
         <div className="final-content shell">
           <span className="eyebrow">[ 07 / FINAL CONCEPT ]</span>
           <h2>HALOGRIP</h2>
-          <p>A VISIBLE, ANALOG FALLBACK STEERING DEVICE EMBEDDED IN THE ROBOTAXI DASHBOARD.</p>
-          <div className="final-specs">
-            {[["OPEN GRIP", "RECOGNIZABLE"], ["ID ACCESS", "AUTHORIZED"], ["TILT INPUT", "HANDS-ONLY"], ["15 KM/H", "LIMITED"]].map(([title, note], index) => (
-              <article key={title}><span>0{index + 1}</span><strong>{title}</strong><small>{note}</small></article>
-            ))}
-          </div>
+          <p>A compact, on-board fallback control for safely repositioning a stalled robotaxi.</p>
         </div>
       </section>
 
       <section className="product-detail section shell">
         <div className="product-copy">
-          <span className="eyebrow">[ VISIBLE BY DEFAULT ]</span>
-          <h2>DESIGNED TO<br />BE RECOGNIZED<br />IN A SECOND.</h2>
-          <p>The open steering profile remains recognizable inside the dashboard while maintaining enough space for gloved hands.</p>
+          <span className="eyebrow">[ PRODUCT OVERVIEW ]</span>
+          <h2>DESIGNED TO BE VISIBLE,<br />ACCESSIBLE AND<br />DELIBERATELY LIMITED.</h2>
+          <div className="final-specs">
+            {[["OPEN GRIP", "RECOGNIZABLE"], ["ID ACCESS", "AUTHORIZED"], ["TILT INPUT", "HANDS-ONLY"], ["15 KM/H", "LIMITED"]].map(([title, note], index) => (
+              <article key={title}><span>0{index + 1}</span><strong>{title}</strong><small>{note}</small></article>
+            ))}
+          </div>
         </div>
         <img src={encodeURI("/media/halogrip图片/other/product-front.webp")} alt="Front view of the HALOGRIP steering device showing its open, angular hand grips and illuminated controls" loading="lazy" />
         <div className="product-spec-line"><span>OPEN GEOMETRY / PROTECTIVE GLOVES</span><span>TACTILE SWITCHES / NFC AUTHENTICATION</span></div>

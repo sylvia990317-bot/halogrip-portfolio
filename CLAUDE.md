@@ -110,6 +110,166 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### 05 / CONCEPT EXPLORATION replaced again — the click-gallery is out, a scattered "sketch deck" (five overlapping paper sheets) is in; assets switched to ppt slides 18-22's iteration sketches (this session, follow-up)
+- Sylvia sent a real mockup she'd made herself,
+  `public/media/halogrip图片/other/skets reference.png`, and asked for the section to match it:
+  five overlapping paper-sheet cards (one large/sharp/centred, four smaller/faded/rotated behind
+  it), switching only via left/right circular arrow buttons — no pagination boxes, no big
+  "SELECTED" button (both explicitly asked to be removed) — with a bottom-left "SELECTED
+  DIRECTION / PULL-OUT WHEEL" reveal on the last card. This is a layout/interaction reference,
+  not literal content: it uses placeholder sketch names ("Pop-up yoke," "Sliding control
+  handle") that don't exist in the project. The actual content came from a separate, explicit
+  instruction — "use the real sketches from PPT pages 18-22" — which is a *different* slide
+  range than every earlier round of this section (those all used slides 11-15's "Concepts
+  Exploration" filmstrip).
+- **Re-extracted the full pptx** (a previous partial extraction in the scratchpad only had
+  slides 9 and 11-15 cached from earlier rounds) and read slides 18-22: four "iteration" sketches
+  (ppt's own numbering, `Sketch 1-4`) each pairing a shape/mechanism/interaction choice — 1:
+  D-shaped wheel + single pedal + mechanical pull-out + HUD; 2: U-shape yoke + on-screen +
+  electrical insert; 3: oblique ellipse + NFC + aircraft-throttle-style speed control; 4: classic
+  round + electrical slide rails + voice control — converging on slide 22's own "Final" sketch,
+  whose on-slide handwritten text literally reads "Final = B pillar + Mechanical + HUD + U-shape
+  + attached to dashboard": the pull-out wheel. That's a direct, ppt-sourced justification for
+  the "5th card = selected direction" structure, not an assumption. Copied the 5 real images
+  (`ppt/media/image23.png`/`24`/`25`/`26`/`28.jpg`) to
+  `public/media/halogrip图片/05-iteration/sketch-{1-4}-*.png` +
+  `sketch-5-final-pullout-wheel.jpg` — the previous round's `05/` folder assets (from slides
+  11-15) are now unused but left on disk, same as every other superseded-but-kept asset folder in
+  this project's history.
+- **`app/work/halogrip/concept-carousel.tsx` rewritten again.** Click/keyboard-only (Left/Right
+  arrow keys), exactly as before — nothing new added around scroll/wheel/drag. New per-card
+  positioning model: each non-active concept is assigned one of four fixed background slots
+  (upper-left/lower-left/upper-right/lower-right) by its position in the array *relative to
+  whichever is currently active* (recomputed every index change via `slotFor()`), so the
+  background cards visibly reshuffle into their new slots rather than jumping. GSAP tweens each
+  card's `xPercent`/`yPercent`/`rotation`/`scale`/`opacity` to match. On the final card
+  (`index===LAST`), every non-active card's target opacity is forced to `0` instead of its usual
+  background-slot opacity — a full fade-out, not just a dim — matching "fade the other sketches
+  out" from the brief.
+- **A real centering bug found and fixed.** First pass set each card's *initial* position via a
+  raw multi-function CSS `transform` string in a React inline `style` prop (`translate(...%, ...%
+  ) rotate(...) scale(...)`), then handed the element to GSAP's `xPercent`/`yPercent` for
+  subsequent tweens. Confirmed directly via `getBoundingClientRect()`: the "centre" slot
+  (`xPercent:0, yPercent:0`, meant to be a no-op offset) rendered ~290px off from the stage's
+  actual measured centre. Root cause: GSAP must parse and internally decompose whatever
+  transform already exists on an element the first time it tweens it, and a multi-function
+  string it didn't itself author doesn't decompose cleanly into the xPercent/yPercent baseline it
+  expects. Fixed by never writing a raw CSS `transform` at all — an additional `useEffect(() =>
+  {...}, [])` calls `gsap.set()` (not `gsap.to()`) once on mount to establish GSAP's own
+  baseline for every card, before the index-driven effect's `gsap.to()` calls ever run on them.
+  Re-verified after the fix: stage centre and the centred card's own centre matched to within
+  rounding.
+- Verified via `npx tsc --noEmit` and `npm run build` (clean) and dev-server interaction:
+  confirmed the centred card sits precisely centred with symmetric background cards on both
+  sides (not just visually — re-checked computed rects), clicked through all 5 sketches via the
+  arrow buttons, confirmed the readout text/labels match each sketch's real ppt content, and
+  confirmed the final click shows "SELECTED DIRECTION" (red) / "PULL-OUT WHEEL" with every other
+  sketch faded to fully invisible, matching the supplied mockup.
+
+### 05 / CONCEPT EXPLORATION gallery — sizing pass: frame and both headings shrunk (this session, follow-up)
+- Sylvia's next look at the new click-controlled gallery (previous entry): "图片和字都太大了看不清"
+  (the image and text are all too big, hard to see clearly). Two separate, real sizing problems,
+  both fixed in `halogrip.css` only (no JS/structure changes):
+  - **`.concept-gallery-frame`** was `width:100%;aspect-ratio:1.431` — at the shell's max width
+    (~1530px inside the 1700px shell minus gutters) that resolves to a ~1069px-tall box, taller
+    than most real browser viewports. The image was technically never cropped (per the previous
+    round's fix) but practically couldn't be *seen* — its top and bottom didn't fit on screen at
+    once, so seeing the whole sketch required scrolling within the section. Fixed by making
+    height the driving dimension instead of width: `width:min(100%,calc(52vh * 1.431))` (pure
+    CSS, no JS measurement) caps the frame at roughly 52% of viewport height — `aspect-ratio`
+    then derives width from that capped height — while `min(100%, ...)` still lets width (and so
+    height) shrink further on narrow viewports where 100% is the tighter constraint. Also added
+    `margin-inline:auto` since the frame no longer reliably fills the shell's width.
+  - **`.concept-heading h2`** (`page.tsx`'s "HOW SHOULD CONTROL APPEAR IN A VEHICLE DESIGNED
+    WITHOUT IT?", part of the section's outer heading block above the gallery component, not
+    the gallery itself) was `clamp(57px,7.4vw,98px)` — sized like the page's other big section
+    headlines, but those are short punchy phrases ("LISTEN BEFORE DESIGNING.") while this one is
+    a full question that wraps to 3 lines at that scale, eating a disproportionate amount of
+    vertical space. Sylvia called this heading out by name in her feedback, so it's fair game
+    despite being outside the gallery component proper. Reduced to `clamp(36px,4.4vw,58px)`
+    (mobile override 54px→32px) — now wraps to 2 lines and reads proportionate to the content
+    below it instead of dominating the section.
+  - `.concept-gallery-copy h3` (the per-concept title, e.g. "PULL-OUT WHEEL") was also nudged
+    down slightly, `clamp(22px,2.6vw,34px)` → `clamp(18px,1.8vw,26px)`, as part of the same pass.
+- Verified via `npx tsc --noEmit` and `npm run build` (clean) and dev-server screenshots: the
+  outer heading now wraps to 2 lines at a proportionate size, and the gallery frame (with its
+  title/eyebrow) fits comfortably within a normal viewport with room to spare — no more
+  scrolling within the section just to see one image top-to-bottom.
+
+### 05 / CONCEPT EXPLORATION replaced entirely — scroll/wheel-driven carousel out, click-controlled gallery in (this session, follow-up)
+- After three rounds of carousel fixes (see the two entries below this one), Sylvia's next
+  message wasn't a tweak — it was a full pivot away from the whole interaction model, delivered
+  as a complete, explicit spec (reproduced almost verbatim into the plan file this session, then
+  implemented directly per her own "implement the change directly rather than describing it").
+  Root complaint: **vertical page scroll should only ever move between page sections.** Every
+  carousel version up to this point intercepted scroll/wheel input inside 05 itself (first as a
+  `position:sticky` scroll-scrub, then as a wheel-capturing self-contained widget) — visitors
+  couldn't scroll upward through it, pause on one image, or skip past it naturally. That's gone
+  now: `concept-carousel.tsx` no longer reads scroll position, wheel deltas, or drag gestures at
+  all. It's a plain click/keyboard-driven index (`useState`, changed only by clicking a
+  selector/arrow or pressing Left/Right with the gallery focused) — nothing here can ever trap
+  or hijack the page's own scroll.
+- **Also reverses the dark full-bleed navy panel** from the previous two rounds (`#121B32`,
+  `left:50%;margin-left:-50vw` breakout) back to the page's normal warm off-white background,
+  sitting inline in the existing `.concepts.shell` padding like any other section content — no
+  more dark theme, no more edge-to-edge bleed. `page.tsx`'s `[ 05 / CONCEPT EXPLORATION ]`
+  eyebrow/heading/intro paragraph above the component were untouched throughout (never part of
+  the carousel component itself).
+- **Presentation order changed for storytelling**, asset identity did not: Screen + Pedal →
+  Modular Device → Touchscreen → HUD + Joystick → **Pull-out Wheel last**, labeled `SELECTED`
+  instead of `05` in the selector row. The Pull-out Wheel asset is still `concept-2-pullout-
+  wheel.jpg` internally (`id:"pullout-wheel"`) — moving it to the end of the *display* order is
+  not a relabel to "Concept 05." Titles reverted from round 3's full ppt sentences back to short
+  editorial names ("Screen + Pedal", "Modular Device", etc., matching what Sylvia's own spec
+  listed verbatim as the concept order) — this is a deliberate reuse of existing project wording,
+  not new copy invented for this round.
+- **Structure**: one `.concept-gallery-frame` (`aspect-ratio:1.431`, unchanged real ratio of all
+  5 sketch assets, so the box never resizes and the page never jumps switching concepts) with all
+  5 images stacked as absolutely-positioned layers from mount — only the active one is
+  `opacity:1`, the rest sit at `0`. Rendering all 5 up front *is* the preload Sylvia's spec asked
+  for (no flash switching, no separate `<link rel=preload>` needed). On index change, GSAP
+  crossfades the outgoing layer out (`opacity:0,x:-10`) while the incoming one fades in from the
+  opposite offset (`x:10→0,opacity:1`), ~250ms, `prefers-reduced-motion` skips the duration
+  entirely — restrained, matches the spec's 220-300ms/8-12px numbers, no scale/3D/bounce.
+- Below the image: 5 real `<button>` selectors (`01`/`02`/`03`/`04`/`SELECTED`) +
+  Previous/Next arrow buttons (disabled at either end). The `SELECTED` selector is styled in
+  `var(--red)` **unconditionally**, independent of `aria-pressed` — it reads as red from first
+  paint (concept 1 is what's actually shown on load, per spec) so a visitor can identify and jump
+  straight to the chosen direction without clicking through the other four; a separate
+  `aria-pressed="true"` style (bordered/ink-colored) marks whichever is currently *being viewed*,
+  so the two signals ("this is the selected direction" vs "this is what you're looking at right
+  now") stay visually distinct and can coexist once you land on it.
+- Clicking `SELECTED` swaps in the Pull-out Wheel image and switches the eyebrow from the plain
+  `01`-style number to `SELECTED DIRECTION` (red) with the title reading `PULL-OUT WHEEL` — same
+  crossfade as every other switch, no separate animation path, no dark treatment.
+- Removed entirely, all now dead: the `wheel` event listener and its threshold/cooldown
+  accumulator, the manual `pointerdown`/`pointermove`/`pointerup` drag tracking, the
+  `ResizeObserver`-measured filmstrip geometry (`cardW`/`cardH`/`step`/`xFor`/`FOCUS_SCALE`), the
+  background crossfade+tint+wash layers, the bottom progress rail, and — because this component
+  no longer mounts an async, non-trivial-height section — the `gsap`/`ScrollTrigger` import and
+  its `ScrollTrigger.refresh()` mount-effect workaround that every prior round of this component
+  needed (documented in each of the entries below) to counteract the site's
+  `normalizeScroll()` stale-max-scroll-bound bug. That bug was a symptom of async layout height
+  changes interacting with page-scroll bounds; a component that never captures scroll and has a
+  simple, CSS-fixed-aspect-ratio frame doesn't create the same failure mode, so the workaround
+  is gone along with everything else that needed it.
+- The old narrow-viewport (`<760px`) static-grid fallback (`ConceptFallback`) is also gone — that
+  existed specifically because the old pin/scroll-scrub mechanic got fragile on narrow viewports;
+  a click/tap-driven gallery has no such constraint, so the same component now serves every
+  viewport width, and `.concept-gallery-selectors` just wraps via `flex-wrap` at narrow widths
+  instead.
+- CSS: the entire `.concept-carousel*` (dark full-bleed hero) and `.concept-fallback*` (static
+  grid) blocks in `halogrip.css` were deleted and replaced with a new, much smaller
+  `.concept-gallery*` block — deliberately renamed off "carousel" since the mechanic it now
+  describes isn't a carousel at all.
+- Verified via `npx tsc --noEmit` and `npm run build` (clean) and dev-server interaction: real
+  mouse-wheel scrolling now passes straight through Section 05 in both directions with zero
+  interception (confirmed scrolling up back into it, not just down past it); clicked every
+  selector and the arrows; confirmed `SELECTED` reads red before ever being clicked; confirmed
+  clicking it shows the `SELECTED DIRECTION` label + `PULL-OUT WHEEL` title with the ordinary
+  crossfade only; confirmed Section 05 flows directly into the existing `06 / PROTOTYPE TESTING`
+  content with nothing else on the page disturbed.
+
 ### 05 / CONCEPT EXPLORATION carousel — third round: cards no longer crop, copy replaced with the ppt's actual wording (this session, follow-up)
 - Sylvia flagged two more things after seeing the second (wheel/drag/GSAP) rewrite: unfocused
   cards still felt "uncomfortable" because half of each was cropped away, and the copy on the
