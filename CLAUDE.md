@@ -115,6 +115,35 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### Font-size tokens re-pinned to mason-wong.com's actual pixel numbers, not just consolidated (this session, follow-up)
+- Immediately after the previous entry's token-consolidation pass (same session), Sylvia asked to go
+  further: "我想要mason的字号数字套到我的case里" — don't just organize HALOGRIP's own sizes into named
+  tokens, actually replace their *values* with the specific pixel numbers measured off mason-wong.com.
+  Two real constraints surfaced and were resolved with her before editing (via a plan-mode
+  `AskUserQuestion`/plan-file round): (1) mason's numbers are static px, not fluid — HALOGRIP's desktop
+  rules lean on `clamp(min,vw,max)`; resolved by keeping every existing clamp's `min`/`vw` slope
+  untouched and only replacing the `max` ceiling with mason's number, so large-screen sizing now
+  genuinely matches mason while the 760px-breakpoint fluid scaling behavior is undisturbed. (2) mason
+  never uses anything below 12px anywhere on either page it was inspected on (home or `/liverpoolfc`)
+  — HALOGRIP's `--fs-label`/`--fs-caption`/`--fs-micro` were 10/9/8px. First proposed leaving those
+  three untouched (mason has no equivalent to copy); Sylvia rejected that and said explicitly "我想所有
+  字都12px以上的，和mason一样" (I want everything 12px or above, same as mason) — so all three now sit
+  at 12px too, same as `--fs-body`. This is a real, visible change: every eyebrow/footer/index-
+  number/caption on the page got noticeably bigger, confirmed intentional rather than incidental.
+- New `:root` values in `halogrip.css` (only the token *values* changed, no selectors touched — every
+  selector already referenced these tokens from the prior consolidation pass): `--fs-hero` max
+  270→**167** (mason's own Liverpool-FC-page project-title size — same role, a case study's own H1),
+  `--fs-display-1` 205→**158**, `--fs-display-2` 147→**120**, `--fs-display-3` 138→**86**, `--fs-title`
+  90→**80** (mason's Liverpool-page section-heading size), `--fs-stat` 76→**74**, `--fs-heading-lg`
+  58→**61**, `--fs-heading-sm` 38→**37** (mason's Liverpool-page "Mobile app" sub-heading, exact
+  match), `--fs-card-title-lg` 29→**34**, `--fs-meta-stat` max 27→**25**, `--fs-card-title-sm`
+  22→**24**; body tiers `--fs-body-lg` 12→**14** (mason's nav/label size), `--fs-body` 11→**12**
+  (mason's paragraph size), and `--fs-label`/`--fs-caption`/`--fs-micro` all 10/9/8→**12** per above.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and live `getComputedStyle` checks
+  in the dev server (`.hero-heading h1`→167px, `.overview-copy h2`→80px, `.overview-copy>p`→14px,
+  `.eyebrow`/`.research-findings article p`/`.footer-bottom`/`.final-specs small`→12px, confirming
+  nothing on the page renders below 12px anymore) plus a screenshot of the hero section.
+
 ### HALOGRIP's type system swapped to Koulen + Roboto Mono (mason-wong.com's own font pairing), and its scattered font sizes consolidated into named tokens (this session)
 - This followed a separate conversation where Sylvia asked to inspect the font system on
   https://www.mason-wong.com/ (and its `/liverpoolfc` case-study page) via live browser

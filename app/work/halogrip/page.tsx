@@ -267,7 +267,6 @@ export default function HalogripPage() {
           </div>
         </div>
         <img src={encodeURI("/media/halogrip图片/other/product-front.webp")} alt="Front view of the HALOGRIP steering device showing its open, angular hand grips and illuminated controls" loading="lazy" />
-        <div className="product-spec-line"><span>OPEN GEOMETRY / PROTECTIVE GLOVES</span><span>TACTILE SWITCHES / NFC AUTHENTICATION</span></div>
       </section>
 
       <section className="interaction section shell" id="interaction">
