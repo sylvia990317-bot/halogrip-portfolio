@@ -113,14 +113,17 @@ function rampHold(t: number, from: number, span: number) {
 }
 
 function canEnhance() {
-  return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  if (window.innerWidth < 760) return false;
+  return true;
 }
 
 /**
- * Reduced-motion fallback: no pin, no scrub, no crossfade math — just the two narrative
- * beats presented as ordinary stacked static sections, each fully legible at rest. This is
- * the "simple fade from the 2.3 state to the final interior state" the brief asks for,
- * read literally as "no complex movement": there is no movement at all here.
+ * Reduced-motion (and narrow-viewport, matching every other pinned section on this page)
+ * fallback: no pin, no scrub, no crossfade math — just the two narrative beats presented as
+ * ordinary stacked static sections, each fully legible at rest. For reduced motion, this is
+ * the "simple fade from the 2.3 state to the final interior state" read literally as "no
+ * complex movement": there is no movement at all here.
  */
 function DesignGapSequenceFallback() {
   return (
@@ -176,24 +179,25 @@ export default function DesignGapSequence() {
   const lineARef = useRef<SVGLineElement>(null);
   const lineBRef = useRef<SVGLineElement>(null);
 
-  const enhancedRef = useRef<boolean | null>(null);
+  // First pass: decide, once, whether this browser gets the pinned/scrubbed sequence or the
+  // static fallback. Mirrors every other pinned section on this page (scroll-intro.tsx,
+  // the removed process-scene.tsx/design-gap-scene.tsx) — a one-time state flip on mount,
+  // never touched again; the actual scroll handler below never calls setState.
+  useEffect(() => {
+    const result = canEnhance();
+    setEnhanced(result);
+    if (!result) markPinReady("design-gap-sequence");
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
-    const result = canEnhance();
-    enhancedRef.current = result;
-    if (!section) return;
+    if (!enhanced || !section) return;
 
     // Preload + decode all three plates up front so the crossfades never stall on a
-    // mid-scroll image decode, regardless of whether the pinned path below even runs.
+    // mid-scroll image decode.
     [farRef.current, closeRef.current, inCarRef.current].forEach((img) => {
       if (img && "decode" in img) img.decode().catch(() => {});
     });
-
-    if (!result) {
-      markPinReady("design-gap-sequence");
-      return;
-    }
 
     gsap.registerPlugin(ScrollTrigger);
     const ease = gsap.parseEase("power1.inOut");
@@ -304,11 +308,13 @@ export default function DesignGapSequence() {
       unsubscribe();
       context?.revert();
     };
-  }, []);
+  }, [enhanced]);
+
+  if (enhanced === null) return null;
+  if (!enhanced) return <DesignGapSequenceFallback />;
 
   return (
-    <>
-      <section className="design-gap-sequence dark-section" id="design-gap" ref={sectionRef} aria-label="Current response and design gap">
+    <section className="design-gap-sequence dark-section" id="design-gap" ref={sectionRef} aria-label="Current response and design gap">
         <div className="dgs-bg-stack" ref={bgStackRef}>
           <img className="dgs-bg" ref={farRef} src={FAR} alt="A first responder views a stalled robotaxi from a distance on a wet city street at night." loading="eager" decoding="async" />
           <img className="dgs-bg" ref={closeRef} src={CLOSE} alt="The first responder approaches the stalled robotaxi, now close, on the wet street." loading="eager" decoding="async" style={{ opacity: 0 }} />
@@ -400,10 +406,6 @@ export default function DesignGapSequence() {
           </div>
         ))}
       </section>
-
-      <noscript>
-        <DesignGapSequenceFallback />
-      </noscript>
-    </>
   );
 }
+

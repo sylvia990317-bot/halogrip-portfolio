@@ -110,6 +110,51 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### 05 / CONCEPT EXPLORATION carousel — third round: cards no longer crop, copy replaced with the ppt's actual wording (this session, follow-up)
+- Sylvia flagged two more things after seeing the second (wheel/drag/GSAP) rewrite: unfocused
+  cards still felt "uncomfortable" because half of each was cropped away, and the copy on the
+  carousel ("SCREEN + PEDAL" / "Screen control paired with a floor pedal — space-intensive." —
+  carried over from the old static four-card grid, never actually sourced from the ppt) didn't
+  match what the ppt itself says. Both fixed together, same files
+  (`app/work/halogrip/concept-carousel.tsx`, `halogrip.css`), no plan-mode disagreement — just
+  finished the ppt-fidelity work the earlier rounds hadn't gotten to yet.
+- **No more cropping.** The half-height crop was inherited wholesale from the reference
+  `HeroCarousel`'s own mechanic (`fullH`/`halfH`, shared top edge, `object-position` picking
+  which half survives) — a deliberate choice *there* because it's built for portrait photography
+  (cropping a portrait to its top half still reads as "a person"). Applied to landscape technical
+  sketches, cropping to half just amputates the diagram. Replaced with: every card keeps the same
+  fixed box at the sketches' real, uncropped ratio (`aspect-ratio:1.431`, unchanged from before),
+  laid out at a constant `step` that never changes with focus — only the focused card's
+  `transform:scale()` changes (`FOCUS_SCALE=1.38`, `transform-origin:50% 50%`, matching the
+  centre-anchored growth already confirmed against the ppt's own coordinates in the previous
+  round's entry). Because scale doesn't reflow the row, `xFor`/`step`/drag-snap math needed zero
+  changes — only `.concept-carousel-card`'s box sizing and the per-card GSAP tween (now animating
+  `scale`+`zIndex`+`boxShadow` instead of `height`) changed. `track`/`strip` switched from
+  `align-items:flex-start` (needed for the old shared-top-edge crop) to `align-items:center`
+  (matches the confirmed centre anchor). `gap` widened (`cardW*0.16` vs the old `*0.05`) so a
+  scaled-up focused card has room before visually crowding its neighbours.
+- **Copy now sourced from the ppt itself**, not the old grid's paraphrase. Re-read
+  `ppt/slides/slide11-15.xml`'s body text and each sketch's own handwritten title bar (already
+  extracted once, in an earlier round's changelog entry) and built the new `STAGES` fields
+  directly from that: `conceptLabel` is the ppt's own numbering (`CONCEPT 01`../`03`, then
+  `4A`/`4B` — not sequential 04/05, that's a deliberate mismatch: the position rail below still
+  counts 01-05 sequentially through the 5 *cards*, while the headline's `conceptLabel` reports
+  the ppt's own concept numbering, which two of the five cards share); `title` is each slide's
+  body text verbatim (4a and 4b render the *identical* sentence, "Decision-making based steering
+  device" — that's not a copy-paste bug, the ppt genuinely repeats it); `variant` (new field,
+  `.concept-carousel-variant`, shown only on 4a/4b) is the one place the ppt actually distinguishes
+  the two in words — each sketch's own title-bar text, "Touch Screen" / "HUD + Joystick". The old
+  invented one-line justifications ("space-intensive," "potential misuse," "higher mental load" —
+  never in the ppt, carried over from the pre-rebuild static grid) are gone entirely rather than
+  kept alongside the real copy. "SELECTED DIRECTION" on Concept 02 was left alone — real site
+  content about which direction was chosen, not a ppt-fidelity question.
+- Verified via `npx tsc --noEmit` and `npm run build` (clean) and stepping through all 5 cards in
+  the dev server (arrow keys + click): every neighbour card now shows its complete sketch at
+  reduced size, the focused card is visibly larger without any crop boundary, and each card's
+  headline text (checked directly against the table in the previous round's own changelog entry)
+  matches — confirmed on-screen for Concept 01, 02 (tag renders cleanly beside the wrapped
+  two-line title), and 4B (variant line "HUD + JOYSTICK" renders under the shared 4a/4b title).
+
 ### 05 / CONCEPT EXPLORATION rebuilt as a scroll-scrubbed filmstrip carousel, ported from `public/media/halogrip ppt.pptx` slides 11-15; `sketches.webp` hidden but kept on disk (this session)
 - Sylvia asked to replace the static 4-card `.concept-grid` with "the animation" from pptx
   slides 11-15 ("Ideation - Concepts Exploration") — a Morph-transition sequence where each of

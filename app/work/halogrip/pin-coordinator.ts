@@ -1,7 +1,11 @@
 /**
  * Coordinates GSAP ScrollTrigger creation across this page's independently-mounted,
- * stacked pinned sections (scroll-intro.tsx -> process-scene.tsx -> design-gap-scene.tsx,
- * with overview-backdrop.tsx's scrub sandwiched in after scroll-intro).
+ * stacked pinned sections (scroll-intro.tsx -> design-gap-sequence.tsx, with
+ * overview-backdrop.tsx's scrub sandwiched in after scroll-intro).
+ *
+ * design-gap-sequence.tsx merges what used to be two separate pinned sections
+ * (process-scene.tsx / 02.3 and design-gap-scene.tsx / 02.4) into one continuous pinned
+ * sequence — both of those files are gone; this module's `Source` union reflects that.
  *
  * Each of these measures its own trigger's `start`/`end` from the live document at the
  * moment it creates its ScrollTrigger. If a *later* (further down the page) section's
@@ -10,13 +14,13 @@
  * pin-spacer is inserted before everything ABOVE it has finished growing will bake in a
  * `start`/`end` that's too small.
  *
- * Two of these sections (scroll-intro.tsx, design-gap-scene.tsx) already defer their real
+ * Both of these sections (scroll-intro.tsx, design-gap-sequence.tsx) defer their real
  * pin-creating ScrollTrigger to a second render pass behind an async `enhanced` flag
  * (checked post-mount, for SSR/hydration safety) — and scroll-intro's real pin specifically
  * only lands once React actually gets around to processing that state flip, which under
  * real page load (heavy JS payload, WebGL setup) has been measured taking up to ~1s, not
- * one frame. The other two (process-scene.tsx, overview-backdrop.tsx) used to create their
- * ScrollTrigger synchronously on first mount — before scroll-intro's real pin exists.
+ * one frame. overview-backdrop.tsx used to create its ScrollTrigger synchronously on first
+ * mount — before scroll-intro's real pin exists.
  *
  * Calling `ScrollTrigger.refresh()` afterward to fix an already-created trigger does NOT
  * work here: verified empirically (multiple times, including a manual refresh() from the
@@ -34,7 +38,7 @@
  * `onPinsReady([...deps], callback)`.
  */
 
-export type Source = "scroll-intro" | "process-scene" | "design-gap-scene" | "overview-backdrop";
+export type Source = "scroll-intro" | "design-gap-sequence" | "overview-backdrop";
 
 const readySources = new Set<Source>();
 const waiters: { deps: readonly Source[]; fn: () => void }[] = [];

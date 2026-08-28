@@ -11,21 +11,27 @@
  * all GSAP; nothing on this route uses Tailwind). This is NOT tied to page-scroll position —
  * unlike every other pinned scene on this page, it's a self-driving widget: wheel / drag /
  * click-a-card / arrow keys all step a discrete `index` (never a continuous scroll-scrubbed
- * float), and GSAP tweens the track/card-heights/background to match on every change.
+ * float), and GSAP tweens the track/cards/background to match on every change.
  *
- * Reference's core trick, ported directly: the focused card is always centred in the stage —
- * `xFor(i) = stageWidth/2 - (i*step + cardW/2)`, and the *track* translates to align whichever
- * card is focused, rather than the card moving to a fixed spot. The previous (scroll-scrubbed)
- * version of this component pinned the focused card to the track's own origin (x=0, i.e. the
- * stage's left edge), which is why it clipped/crowded against the left edge when enlarged —
- * this rewrite is the fix for that.
+ * Card treatment deliberately does NOT copy the reference's "fixed height, focused=full,
+ * others=half, shared top edge, cropped via object-fit" mechanic. That's built for portrait
+ * photography (crop to half height still reads as "a person's face," on purpose). Our sketches
+ * are landscape technical drawings — cropping one in half chops off half the diagram. Every
+ * card here keeps its full, uncropped aspect ratio (`aspect-ratio:1.431`, the sketches' own
+ * real ratio — both card sizes in the source ppt, 2245800x1569300 and 2831100x1978200 EMU,
+ * reduce to that exact number) at a fixed layout size; only the *focused* card gets visually
+ * bigger, via `transform:scale()` from a centred origin — confirmed against the ppt's own
+ * coordinates that its spotlight card really does scale from centre (every slide's spotlight
+ * has the identical vertical centre as that slide's un-enlarged row, 1811825 EMU on all 5).
+ * Scaling (not resizing the box) is also why the track's `step` spacing stays constant — focus
+ * changes never reflow the row, only re-paint one card larger on top of it.
  *
- * Card aspect ratio is the one deliberate departure from the reference: it's built for
- * portrait photography (CARD_AR=0.75, a 3:4 crop). HALOGRIP's sketches are landscape technical
- * drawings — both card sizes in the source ppt (2245800x1569300 and 2831100x1978200 EMU) work
- * out to the exact same 1.431:1 ratio, so CARD_AR here is that number instead. The "fixed
- * height, width = height x aspect ratio, focused = full height, others = half height, shared
- * top edge" framework itself is aspect-ratio-agnostic and needed no other change.
+ * Copy is the ppt's own wording, not an editorialized paraphrase: `title` is each slide's body
+ * text verbatim ("Screen and Pedal", etc. — 4a and 4b share the *exact same* sentence in the
+ * ppt, "Decision-making based steering device," which is why both show it), `conceptLabel` is
+ * the ppt's own numbering (note 4a/4b, not a sequential 5th/6th), and `variant` is pulled from
+ * each sketch's own handwritten title bar ("4a. L4-L2 Touch Screen" / "4b. L4-L2 HUD +
+ * Joystick") — the only place the ppt actually distinguishes 4a from 4b in words.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -34,8 +40,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 type Stage = {
   id: string;
+  conceptLabel: string;
   title: string;
-  note: string;
+  variant?: string;
   image: string;
   alt: string;
   selected?: boolean;
@@ -44,44 +51,47 @@ type Stage = {
 const STAGES: Stage[] = [
   {
     id: "screen-pedal",
-    title: "SCREEN + PEDAL",
-    note: "Screen control paired with a floor pedal — space-intensive.",
+    conceptLabel: "CONCEPT 01",
+    title: "Screen and Pedal",
     image: encodeURI("/media/halogrip图片/05/concept-1-screen-pedal.jpg"),
-    alt: "Concept 1 sketch: a dashboard screen control paired with a floor pedal and emergency seat",
+    alt: 'Concept 1 sketch, titled "① Screen + External Device": a dashboard screen control paired with a floor pedal and emergency seat',
   },
   {
     id: "pullout-wheel",
-    title: "PULL-OUT WHEEL",
-    note: "A traditional wheel that pulls out from the dash — selected direction.",
+    conceptLabel: "CONCEPT 02",
+    title: "Traditional steering wheel with pull-out mechanism",
     image: encodeURI("/media/halogrip图片/05/concept-2-pullout-wheel.jpg"),
-    alt: "Concept 2 sketch: a traditional steering wheel that pulls out from the dashboard",
+    alt: 'Concept 2 sketch, titled "2. Steering wheel + Pull out + Functions": a traditional steering wheel that pulls out from the dashboard',
     selected: true,
   },
   {
     id: "modular-device",
-    title: "MODULAR DEVICE",
-    note: "A detachable steering device, inserted to unlock control — potential misuse.",
+    conceptLabel: "CONCEPT 03",
+    title: "Removable modular steering wheel",
     image: encodeURI("/media/halogrip图片/05/concept-3-modular-device.png"),
-    alt: "Concept 3 sketch: a detachable steering device inserted into the dashboard to unlock control",
+    alt: 'Concept 3 sketch, titled "Concept 3 Detachable Steering Device": a detachable steering device inserted into the dashboard to unlock control',
   },
   {
     id: "decision-touch",
-    title: "DECISION UI",
-    note: "A touchscreen accept/reject prompt for each maneuver — higher mental load.",
+    conceptLabel: "CONCEPT 4A",
+    title: "Decision-making based steering device",
+    variant: "Touch Screen",
     image: encodeURI("/media/halogrip图片/05/concept-4a-touchscreen.png"),
-    alt: "Concept 4a sketch: a touch-screen prompt for accepting or rejecting an autonomous maneuver",
+    alt: 'Concept 4a sketch, titled "4a. L4-L2 Touch Screen": a touch-screen prompt for accepting or rejecting an autonomous maneuver',
   },
   {
     id: "decision-hud",
-    title: "DECISION UI",
-    note: "The same accept/reject choice via heads-up display and joystick.",
+    conceptLabel: "CONCEPT 4B",
+    title: "Decision-making based steering device",
+    variant: "HUD + Joystick",
     image: encodeURI("/media/halogrip图片/05/concept-4b-hud-joystick.jpg"),
-    alt: "Concept 4b sketch: a heads-up display and joystick used to accept or reject an autonomous maneuver",
+    alt: 'Concept 4b sketch, titled "4b. L4-L2 HUD + Joystick": a heads-up display and joystick used to accept or reject an autonomous maneuver',
   },
 ];
 
 const LAST = STAGES.length - 1;
 const CARD_AR = 1.431;
+const FOCUS_SCALE = 1.38;
 const WHEEL_THRESHOLD = 60;
 const WHEEL_COOLDOWN = 420;
 
@@ -98,11 +108,12 @@ function ConceptFallback() {
         <article key={stage.id} className={stage.selected ? "concept-fallback-selected" : ""}>
           <img src={stage.image} alt={stage.alt} loading="lazy" />
           <div>
+            <span className="concept-carousel-eyebrow">{stage.conceptLabel}</span>
             <h3>
               {stage.title}
               {stage.selected && <em className="concept-carousel-tag">SELECTED DIRECTION</em>}
             </h3>
-            <p>{stage.note}</p>
+            {stage.variant && <p>{stage.variant}</p>}
           </div>
         </article>
       ))}
@@ -121,8 +132,9 @@ export default function ConceptCarousel() {
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const bgRefs = useRef<(HTMLDivElement | null)[]>([]);
   const railFillRef = useRef<HTMLDivElement>(null);
+  const eyebrowRef = useRef<HTMLSpanElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const noteRef = useRef<HTMLParagraphElement>(null);
+  const variantRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     setEnhanced(canEnhance());
@@ -142,20 +154,22 @@ export default function ConceptCarousel() {
     // some point during page load; if that happens before this layout change lands, native
     // scroll silently caps below the real document height (confirmed directly: `window
     // ._scrollTop(x)` echoes `x` back from its getter while real `window.scrollY` stays
-    // capped). `ScrollTrigger.refresh()` recomputes that bound — same fix as the previous
-    // (scroll-driven) version of this component needed, still required even though this
-    // rewrite creates no ScrollTrigger of its own.
+    // capped). `ScrollTrigger.refresh()` recomputes that bound — same fix as every previous
+    // version of this component needed, still required even though this rewrite creates no
+    // ScrollTrigger of its own.
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.refresh();
 
     return () => ro.disconnect();
   }, [enhanced]);
 
-  const fullH = clamp(box.h * 0.46, 160, 420);
-  const halfH = fullH / 2;
-  const cardW = fullH * CARD_AR;
-  const gap = Math.max(10, cardW * 0.05);
+  // Every card keeps this same box at all times — focus never reflows the row, it only scales
+  // one card larger in place (see file header for why, and for the ppt-verified centre anchor).
+  const cardH = clamp(box.h * 0.3, 130, 260);
+  const cardW = cardH * CARD_AR;
+  const gap = Math.max(20, cardW * 0.16);
   const step = cardW + gap;
+  const stripH = cardH * FOCUS_SCALE * 1.06;
 
   const xFor = useCallback((i: number) => box.w / 2 - (i * step + cardW / 2), [box.w, step, cardW]);
 
@@ -166,7 +180,8 @@ export default function ConceptCarousel() {
   }, []);
 
   // Every focus change (from wheel, drag release, click, or keyboard) lands here: tween the
-  // track into alignment, tween each card's height, crossfade the background, restate the copy.
+  // track into alignment, scale the focused card up in place, crossfade the background, and
+  // restate the copy.
   useEffect(() => {
     if (!enhanced || !box.w) return;
     const track = trackRef.current;
@@ -174,7 +189,15 @@ export default function ConceptCarousel() {
 
     STAGES.forEach((_, i) => {
       const card = cardRefs.current[i];
-      if (card) gsap.to(card, { height: i === index ? fullH : halfH, duration: 0.5, ease: "power2.out" });
+      if (card) {
+        gsap.to(card, {
+          scale: i === index ? FOCUS_SCALE : 1,
+          zIndex: i === index ? 10 : 1,
+          boxShadow: i === index ? "0 30px 60px rgba(0,0,0,.45)" : "0 0px 0px rgba(0,0,0,0)",
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      }
       const bg = bgRefs.current[i];
       if (bg) gsap.to(bg, { opacity: i === index ? 1 : 0, duration: 0.6, ease: "power2.out" });
     });
@@ -182,14 +205,11 @@ export default function ConceptCarousel() {
     if (railFillRef.current) {
       gsap.to(railFillRef.current, { left: `${(index / STAGES.length) * 100}%`, duration: 0.5, ease: "power2.out" });
     }
-    if (titleRef.current && noteRef.current) {
-      gsap.fromTo(
-        [titleRef.current, noteRef.current],
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.05 }
-      );
+    const copyTargets = [eyebrowRef.current, titleRef.current, variantRef.current].filter(Boolean) as HTMLElement[];
+    if (copyTargets.length) {
+      gsap.fromTo(copyTargets, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.05 });
     }
-  }, [index, enhanced, box.w, fullH, halfH, xFor]);
+  }, [index, enhanced, box.w, xFor]);
 
   // Wheel: accumulate delta into discrete ±1 steps (reference's threshold/cooldown numbers).
   // At either end, don't preventDefault — hand the gesture back to the page so this full-bleed
@@ -311,21 +331,28 @@ export default function ConceptCarousel() {
       </div>
 
       <div className="concept-carousel-headline">
+        <span className="concept-carousel-eyebrow" ref={eyebrowRef}>
+          {active.conceptLabel}
+        </span>
         <h3 ref={titleRef}>
           {active.title}
           {active.selected && <em className="concept-carousel-tag">SELECTED DIRECTION</em>}
         </h3>
-        <p ref={noteRef}>{active.note}</p>
+        {active.variant && (
+          <p className="concept-carousel-variant" ref={variantRef}>
+            {active.variant}
+          </p>
+        )}
       </div>
 
-      <div className="concept-carousel-strip">
+      <div className="concept-carousel-strip" style={{ height: stripH }}>
         <div className="concept-carousel-track" ref={trackRef} style={{ gap }}>
           {STAGES.map((stage, i) => (
             <button
               key={stage.id}
               type="button"
               className="concept-carousel-card"
-              style={{ width: cardW, height: i === index ? fullH : halfH }}
+              style={{ width: cardW, height: cardH }}
               aria-label={stage.title}
               aria-current={i === index}
               onClick={() => go(i)}

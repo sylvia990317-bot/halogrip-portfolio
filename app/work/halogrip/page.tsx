@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import "./halogrip.css";
 import "./scroll-intro.css";
-import "./design-gap-scene.css";
+import "./design-gap-sequence.css";
 import InteractionDeck from "./interaction-deck";
 import ScrollIntro from "./scroll-intro";
 import OverviewBackdrop from "./overview-backdrop";
-import ProcessScene from "./process-scene";
-import DesignGapScene from "./design-gap-scene";
+import DesignGapSequence from "./design-gap-sequence";
 import ConceptCarousel from "./concept-carousel";
 
 const title = "HALOGRIP — Sylvia Xie";
@@ -170,9 +169,7 @@ export default function HalogripPage() {
         <p className="need-source" style={{ left: "2.39%", top: "95.0%" }}>01 — SOURCE PENDING VERIFICATION.</p>
       </section>
 
-      <ProcessScene />
-
-      <DesignGapScene />
+      <DesignGapSequence />
 
       <section className="research section shell" id="research">
         <span className="eyebrow">[ 03 / PROBLEM STATEMENT ]</span>

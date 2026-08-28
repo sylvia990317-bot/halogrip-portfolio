@@ -74,14 +74,6 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);f
 .need-origin strong{display:block;margin-top:6px;font-size:clamp(10px,.85vw,15px);letter-spacing:.02em;color:var(--white);font-weight:700}
 .need-source-mark{position:absolute;width:1.67%;height:1px;background:var(--red)}
 .need-source{position:absolute;margin:0;font-size:clamp(7px,.55vw,10px);color:#9b9c97;letter-spacing:.02em}
-.response-scene{position:relative;isolation:isolate;overflow:hidden;min-height:100svh;background:#050505}
-.response-scene-frame{position:absolute;inset:0}
-.response-scene-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:12% 60%;transform-origin:12% 60%}
-.response-scene-gradient{position:absolute;inset:0;background:radial-gradient(58% 66% at 6% 12%,rgba(2,2,2,.96) 0%,rgba(2,2,2,.86) 28%,rgba(2,2,2,.56) 50%,rgba(2,2,2,.22) 68%,rgba(2,2,2,0) 84%)}
-.response-scene-copy{position:absolute;z-index:1;left:clamp(32px,3vw,64px);top:8vh;width:min(540px,calc(100% - 2*clamp(32px,3vw,64px)))}
-.response-scene-label{color:var(--white);opacity:.85}
-.response-scene-headline{margin:14px 0 0;font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.9;letter-spacing:-.02em;color:#f2e9d6;font-size:clamp(54px,5.2vw,96px);text-shadow:0 4px 30px rgba(0,0,0,.7)}
-.response-scene-paragraph{margin:18px 0 0;max-width:450px;font-size:11px;line-height:1.55;color:#d8d4c8;letter-spacing:.01em;text-shadow:0 2px 12px rgba(0,0,0,.8)}
 .research{background:var(--paper-light)}
 .research>h2{font-size:clamp(66px,10vw,138px);margin-top:28px;margin-bottom:0}
 .research-intro{max-width:480px;margin:24px 0 46px;font-size:12px;line-height:1.9;color:var(--muted)}
@@ -106,13 +98,14 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);f
 .concept-carousel-bg-tint{position:absolute;inset:0;background:#121B32;mix-blend-mode:multiply;opacity:.7}
 .concept-carousel-bg-wash{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,11,20,.8) 0%,rgba(8,11,20,.1) 32%,rgba(8,11,20,.3) 62%,rgba(8,11,20,.88) 100%)}
 .concept-carousel-headline{position:relative;z-index:2;padding:clamp(40px,6vw,72px) var(--gutter) 0}
-.concept-carousel-headline h3{margin:0;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(34px,4.6vw,64px);line-height:.94;letter-spacing:-.02em;color:var(--white)}
-.concept-carousel-headline p{margin:14px 0 0;max-width:520px;font-size:12px;line-height:1.8;color:#cfd3da}
+.concept-carousel-eyebrow{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--red)}
+.concept-carousel-headline h3{margin:10px 0 0;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(26px,3.6vw,50px);line-height:.98;letter-spacing:-.02em;color:var(--white)}
+.concept-carousel-variant{margin:12px 0 0;font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#cfd3da}
 .concept-carousel-tag{margin-left:14px;font-family:var(--mono);font-style:normal;font-size:9px;letter-spacing:.06em;color:var(--red);vertical-align:middle}
-.concept-carousel-strip{position:relative;z-index:2;margin-top:clamp(30px,5vw,56px)}
-.concept-carousel-track{display:flex;align-items:flex-start;will-change:transform}
-.concept-carousel-card{position:relative;flex:0 0 auto;overflow:hidden;border-radius:4px;background:#0a0e1a;border:none;padding:0;cursor:pointer}
-.concept-carousel-card img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.concept-carousel-strip{position:relative;z-index:2;margin-top:clamp(30px,5vw,56px);display:flex;align-items:center}
+.concept-carousel-track{display:flex;align-items:center;will-change:transform}
+.concept-carousel-card{position:relative;flex:0 0 auto;overflow:hidden;border-radius:4px;background:#0a0e1a;border:none;padding:0;cursor:pointer;transform-origin:50% 50%}
+.concept-carousel-card img{width:100%;height:100%;object-fit:cover}
 .concept-carousel-rail{position:absolute;z-index:2;left:var(--gutter);bottom:var(--gutter);width:min(220px,30%)}
 .concept-carousel-rail-count{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--white);opacity:.85}
 .concept-carousel-rail-track{position:relative;margin-top:10px;height:1px;background:rgba(255,255,255,.25)}
