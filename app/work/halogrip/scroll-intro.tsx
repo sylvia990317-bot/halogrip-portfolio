@@ -35,8 +35,9 @@ const ScrollIntroScene = dynamic(() => import("./scroll-intro-scene"), { ssr: fa
 
 /**
  * The deck is set in Poppins throughout — a deliberate, scoped exception to the rest of
- * this page's Nimbus Sans Narrow. Loading it here rather than in the root layout keeps it
- * off `/` and off the rest of `/work/halogrip`: only `.scroll-intro` carries the variable.
+ * this page's Koulen (--display, loaded in page.tsx). Loading it here rather than in the
+ * root layout keeps it off `/` and off the rest of `/work/halogrip`: only `.scroll-intro`
+ * carries the variable.
  */
 const poppins = Poppins({
   subsets: ["latin"],

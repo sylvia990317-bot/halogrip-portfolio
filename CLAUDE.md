@@ -21,7 +21,8 @@ More project pages will be added over time as Sylvia has content for them.
 
 1. **Each project case-study page keeps its own bespoke visual style.** Do not unify
    `/work/halogrip` (or future project pages) into the homepage's design system. This was an
-   explicit decision from Sylvia. HALOGRIP is red/black/Nimbus-Sans-Narrow on purpose — leave it
+   explicit decision from Sylvia. HALOGRIP is red/black/Koulen-and-Roboto-Mono on purpose (see
+   Recent changes — swapped from Nimbus Sans Narrow/DejaVu Sans Mono this session) — leave it
    alone unless she asks to redesign it specifically.
 2. **CSS isolation is load-bearing, not incidental.** `app/globals.css` is shared across every
    route (Tailwind import + `@theme` tokens + a minimal reset). `app/work/halogrip/halogrip.css`
@@ -68,7 +69,9 @@ app/
   work/
     halogrip/
       page.tsx              HALOGRIP case study — own `metadata` export, own CSS import
-      halogrip.css          HALOGRIP-only styles (fonts, tokens, all component classes)
+      halogrip.css          HALOGRIP-only styles (font-size tokens + --display/--mono
+                             tokens, all component classes) — see Recent changes for the
+                             Koulen/Roboto Mono type-scale overhaul
       interaction-deck.tsx  Client component, steering-state demo ("use client")
       scroll-intro*.tsx/css Pinned scroll-driven 3D opening (R3F + GSAP ScrollTrigger), ported
                              1:1 from Sylvia's PowerPoint reference — see Recent changes
@@ -77,7 +80,9 @@ public/
                             per-project since there's only one project with real assets)
   home/                    Homepage's real assets (avatar, portrait, logos/, projects/) — see
                             Recent changes below for the source→destination mapping
-  fonts/                   HALOGRIP's self-hosted fonts (Nimbus Sans Narrow, DejaVu Sans Mono)
+  fonts/                   HALOGRIP's old self-hosted fonts (Nimbus Sans Narrow, DejaVu Sans
+                            Mono) — superseded by Koulen/Roboto Mono (next/font/google, loaded
+                            in page.tsx), left on disk unused, not deleted
 ```
 
 ## Open items Sylvia still needs to supply
@@ -109,6 +114,80 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
   from this directory with `vercel --prod --yes`.
 
 ## Recent changes
+
+### HALOGRIP's type system swapped to Koulen + Roboto Mono (mason-wong.com's own font pairing), and its scattered font sizes consolidated into named tokens (this session)
+- This followed a separate conversation where Sylvia asked to inspect the font system on
+  https://www.mason-wong.com/ (and its `/liverpoolfc` case-study page) via live browser
+  `getComputedStyle` inspection — confirmed that site's headings are all set in **Koulen**
+  (Google Fonts, SIL OFL 1.1, free to use commercially) and its body/UI text in **Roboto Mono**
+  (Google Fonts, Apache 2.0, free commercially); the site also uses a decorative Chinese
+  calligraphy typeface (HanyiSentyFoundation — free for personal use only, commercial use needs
+  a paid Hanyi license) and two minor accent faces (Pinyon Script, Albert Sans for bracket
+  glyphs) that Sylvia explicitly asked to skip. Confirmed with Sylvia via `AskUserQuestion` before
+  touching code that "套用大小" meant: swap the fonts, and reorganize HALOGRIP's own existing
+  (already fluid/`clamp()`-based, already tuned across many earlier sessions per the entries
+  below) font sizes into a named tier system — not overwrite them with mason-wong's literal
+  pixel numbers, which belong to a completely different, much simpler page layout.
+- **Font loading** (`app/work/halogrip/page.tsx`): added `Koulen` (`weight:["400"]` — it's a
+  single-weight display face, so `font-weight:700` on headings synthesizes/faux-bolds in the
+  browser, same as it would with any single-weight display font) and `Roboto_Mono`
+  (`weight:["400","500","700"]`) via `next/font/google`, following the exact route-scoped
+  pattern `scroll-intro.tsx` already established for Poppins — variables land on `<main
+  id="top">` via `className`, never touching the root layout or `/`. The old self-hosted
+  `@font-face` rules (Nimbus Sans Narrow, DejaVu Sans Mono) were deleted from `halogrip.css`;
+  the actual font files stay on disk unused, per this project's convention for superseded
+  assets.
+- **A real scoping bug hit and fixed**: `--halogrip-display`/`--halogrip-mono` (the CSS custom
+  properties next/font/google's `variable` option defines) only exist on `#top` and its
+  descendants — but `halogrip.css`'s `--display`/`--mono` tokens, and `body`'s own
+  `font-family`, live on `:root`/`body`, which are *ancestors* of `#top`. CSS custom properties
+  only inherit downward, so `:root` referencing `var(--halogrip-display)` was invalid at that
+  scope and silently fell through to the fallback stack (confirmed live: computed
+  `font-family` was resolving to the browser's generic `ui-sans-serif`/`Courier New`, not
+  Koulen/Roboto Mono, even though the variables themselves were correctly defined one level
+  down). Fixed with a second rule, `#top{--display:var(--halogrip-display),...;--mono:
+  var(--halogrip-mono),...;font-family:var(--mono)}`, added right after `:root` — since `#top`
+  wraps 100% of this route's rendered markup, redeclaring both the tokens and the base
+  `font-family` there (rather than on `body`, which sits one level too high to see the
+  variables) is what actually gets every element on the page onto the new fonts. `:root`'s
+  copies of `--display`/`--mono` were reduced to plain fallback stacks (`'Arial Narrow',
+  sans-serif` / `'Courier New',monospace`) so they're never invalid, just unused once `#top`'s
+  override applies.
+- **Font-size consolidation**: added ~14 named tokens to `halogrip.css`'s `:root` — heading
+  tiers `--fs-hero` (the H1 only) / `--fs-display-1/2/3` / `--fs-title` / `--fs-heading-lg/sm` /
+  `--fs-card-title-lg/sm` / `--fs-stat` / `--fs-meta-stat`, and body tiers `--fs-body-lg` (12px)
+  / `--fs-body` (11px) / `--fs-label` (10px) / `--fs-caption` (9px) / `--fs-micro` (8px) — then
+  replaced essentially every hardcoded `font-size` in the file's *desktop* rules with the
+  matching token. This is a **consolidation, not a redesign**: most selectors just got their
+  existing exact value wrapped in a shared, named variable (e.g. every already-identical 9px
+  caption across `journey-lede`/`story-grid article>p`/`interaction-footer`/etc. now reads
+  `var(--fs-caption)`), and only genuinely-drifted near-duplicates were snapped together (e.g.
+  the card-title cluster 20/22/24/29/31px collapsed to two tokens, `--fs-card-title-sm`(22)/
+  `-lg`(29)). The `@media(max-width:760px)` block was **not touched** — it overrides the same
+  selectors with its own fixed px values regardless of what the desktop rule resolves to, so it
+  keeps working unchanged. `.need-*` (section 02.2's photo-overlay annotations, coordinate-matched
+  pixel-for-pixel against a reference image per an earlier session's entry) was **deliberately
+  excluded** from size consolidation — only its font-family changes via the shared token, its
+  sizes are untouched, since nudging them risks misaligning text against the SVG leader-lines.
+- **Letter-spacing cleanup**: removed the negative tracking (`-.01em` to `-.026em`) that every
+  Koulen-driven heading selector had inherited from Nimbus Sans Narrow. Koulen is already a
+  tightly-set condensed display face (confirmed against mason-wong.com's own CSS, which uses
+  `letter-spacing:normal` throughout) and reads cramped with extra negative tracking on top.
+- `design-gap-sequence.css` and `scroll-intro.css` need no direct edits — both already reference
+  `var(--display)`/`var(--mono)` rather than hardcoding a font name, so they picked up
+  Koulen/Roboto Mono automatically once the shared tokens changed. Updated two stale code
+  comments in `scroll-intro.tsx`/`scroll-intro.css` that described Poppins as "a deliberate,
+  scoped exception to this page's Nimbus Sans Narrow" to say Koulen instead — Poppins itself is
+  untouched, still exclusive to `.scroll-intro`.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean, run twice — once before the
+  `#top` scoping fix, once after) and live `getComputedStyle` checks in the dev server across
+  representative elements (`.hero-heading h1`, `.overview-copy h2`/`>p`, `.eyebrow`, `.research-
+  findings h3`, `.wordmark`, `body`, `#top`) confirming Koulen/Roboto Mono actually resolve (not
+  just that the token chain looks right on paper) — this is what caught the `#top`-scoping bug
+  above, a plain visual screenshot would not have surfaced it since the fallback stacks
+  (`ui-sans-serif`, `Courier New`) don't look obviously broken. Also confirmed visually via
+  screenshots at the hero, `02.3 CURRENT RESPONSE`, `01 OVERVIEW`, and `03 PROBLEM STATEMENT`
+  sections post-fix.
 
 ### Section 6 replaced: PROTOTYPE TESTING out, SKETCH PROCESS in — reusing a previously-shelved sketch-sheet asset (this session)
 - Sylvia asked to put `public/media/halogrip图片/other/sketches.webp` (a wide hand-sketch summary

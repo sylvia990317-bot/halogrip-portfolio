@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Koulen, Roboto_Mono } from "next/font/google";
 import "./halogrip.css";
 import "./scroll-intro.css";
 import "./design-gap-sequence.css";
@@ -8,6 +9,13 @@ import OverviewBackdrop from "./overview-backdrop";
 import DesignGapSequence from "./design-gap-sequence";
 import ConceptCarousel from "./concept-carousel";
 import SectionReveal from "./section-reveal";
+
+// Route-scoped, same pattern as scroll-intro.tsx's Poppins load: keeps these fonts
+// off `/` and off every other route. Replaces the self-hosted Nimbus Sans Narrow /
+// DejaVu Sans Mono files (still on disk, unused) with the Mason Wong reference site's
+// own display/mono pairing (--display / --mono in halogrip.css).
+const koulen = Koulen({ subsets: ["latin"], weight: ["400"], display: "swap", variable: "--halogrip-display" });
+const robotoMono = Roboto_Mono({ subsets: ["latin"], weight: ["400", "500", "700"], display: "swap", variable: "--halogrip-mono" });
 
 const title = "HALOGRIP — Sylvia Xie";
 const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
@@ -47,7 +55,7 @@ const steps = [
 
 export default function HalogripPage() {
   return (
-    <main id="top">
+    <main id="top" className={`${koulen.variable} ${robotoMono.variable}`}>
       <header className="topbar shell">
         <a className="wordmark" href="/">SYLVIA XIE</a>
         <span className="topbar-note">A COLLECTION OF WORK / 2025</span>

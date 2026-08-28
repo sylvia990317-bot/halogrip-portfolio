@@ -7,7 +7,8 @@
    and every left/top/width/height below is the slide's own percentage.
 
    Type is Poppins (--si-poppins, loaded route-locally by scroll-intro.tsx) — a deliberate,
-   scoped exception to this page's Nimbus Sans Narrow. Colour tokens come from halogrip.css.
+   scoped exception to this page's Koulen (--display, see halogrip.css). Colour tokens come
+   from halogrip.css.
    No mobile/reduced-motion blocks: those paths never render this markup at all. */
 
 .scroll-intro{position:relative;height:100vh;overflow:hidden;background:#fff;font-family:var(--si-poppins),Poppins,system-ui,sans-serif}
