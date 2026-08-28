@@ -110,6 +110,86 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### 05 / CONCEPT EXPLORATION rebuilt as a scroll-scrubbed filmstrip carousel, ported from `public/media/halogrip ppt.pptx` slides 11-15; `sketches.webp` hidden but kept on disk (this session)
+- Sylvia asked to replace the static 4-card `.concept-grid` with "the animation" from pptx
+  slides 11-15 ("Ideation - Concepts Exploration") — a Morph-transition sequence where each of
+  5 slides enlarges a different one of 5 sketch cards into a "spotlight" while the rest sit in a
+  row behind it. Ground truth pulled from the OOXML (`ppt/slides/slide11-15.xml`'s `<p:pic>`
+  `<a:off>`/`<a:ext>` values, confirmed `<p159:morph option="byObject">` on all 5) — see the note
+  below on why the literal per-slide EMU coordinates weren't ported 1:1.
+- Also asked to drop the `sketch-sheet` full sheet image (`sketches.webp`, the large hand-drawn
+  overview shown above the old grid) "for now" but keep the file on disk for later — removed only
+  the `<img className="sketch-sheet">` JSX line and its now-dead CSS (`.sketch-sheet` rule, both
+  desktop and the `max-width:760px` override); the file itself was left untouched in
+  `public/media/halogrip图片/other/`.
+- **New assets**: the pptx's own 5 sketch images (`ppt/media/image15-19.{jpg,png}`) were extracted
+  and copied to `public/media/halogrip图片/05/concept-{1-screen-pedal,2-pullout-wheel,
+  3-modular-device,4a-touchscreen,4b-hud-joystick}.{jpg,png}` — real filenames/captions read
+  directly off each sketch's own handwritten title ("① Screen + External Device", "2. Steering
+  wheel + Pull out + Functions", "Concept 3 Detachable Steering Device", "4a. L4-L2 Touch
+  Screen", "4b. L4-L2 HUD + Joystick"). This incidentally corrected a pre-existing mismatch: the
+  old `.concept-grid`'s `concept-screen.webp` (labeled "SCREEN + PEDAL" on the card) was actually
+  a crop of the "4a Touch Screen" decision-UI sketch, not a screen-and-pedal concept — confirmed
+  by opening the file directly. Not flagged further since this rebuild replaces that whole grid.
+- **New `app/work/halogrip/concept-carousel.tsx`** (`ConceptCarousel`, "use client") + matching
+  CSS in `halogrip.css` (`.concept-carousel*`, `.concept-fallback*`). What was ported from the
+  pptx is the animation's *grammar* — a row of cards drifting horizontally, continuous scale/
+  elevation falloff by distance from a fixed focus point, a connecting line with a filled
+  progress bar and per-stage dots, and a title/description readout synced to whichever card is
+  in focus — not the literal per-slide pixel coordinates: those aren't even self-consistent
+  slide-to-slide (the enlarge target's on-slide x position was hand-placed per slide by whoever
+  built the deck, not formulaic — verified by extracting and diffing all 5 slides' coordinates
+  before deciding this). Implementation: a tall (`(STAGES.length-1)*90+100`vh) container with a
+  `position:sticky` inner stage (mirrors `ScrollZoomImage.tsx`'s entry-progress technique, not
+  GSAP `ScrollTrigger.create({pin:true})` — deliberate, see below); scroll progress drives a
+  continuous `focus` value (0..4) via `-container.getBoundingClientRect().top / (containerHeight
+  - stageHeight)`; each card's scale/lift/opacity/z-index/shadow is a distance-from-focus falloff
+  written directly to refs per frame (no React state on the scroll path, matching
+  `design-gap-scene.tsx`'s established pattern); the nearest integer stage drives the text
+  readout via `setState` (only changes 4 times per full scroll, cheap). Kept "PULL-OUT WHEEL" as
+  the previously-`concept-selected` entry, now surfaced as a `SELECTED DIRECTION` tag next to its
+  title in the readout — see the outline bug note below for why it isn't a border on the card.
+- **A real bug hit and fixed during this build**: the site's global GSAP
+  `ScrollTrigger.normalizeScroll()` setup (the same mechanism behind `window._scrollTop()`,
+  documented elsewhere in this file) caches a max-scroll bound. This component's own tall
+  container doesn't exist in the DOM until after the `enhanced` check's first render pass, so
+  without a nudge the page becomes unscrollable past whatever bound was cached before this
+  component mounted — confirmed directly: `window._scrollTop(x)` would echo back `x` from its
+  getter while the page's *real* `window.scrollY` silently stayed capped at the old, shorter
+  bound. Fixed with one `ScrollTrigger.refresh()` call inside this component's mount effect.
+  This is a different code path from the pin-timing bug `./pin-coordinator.ts` documents (that
+  one is about an existing *trigger's own* `start`/`end` not responding to `refresh()` — this is
+  normalizeScroll's separate max-scroll-bound cache, which does respond to `refresh()`). No
+  `pin-coordinator` wiring was added for this component since it creates no GSAP pin of its own.
+- **Bug found and fixed mid-build**: the "selected" concept was first marked with a persistent
+  red `outline` directly on its card. Because adjacent cards overlap (card width 24% > the 21%
+  step spacing, an intentional filmstrip stacking look) and z-index is focus-driven, the outline
+  from the selected card could visually bleed out from behind whichever *other* card currently
+  had focus and a higher z-index — reads as "the wrong concept is marked selected." Fixed by
+  moving the "selected" signal off the card image entirely and into the text readout instead (an
+  `<em class="concept-carousel-tag">SELECTED DIRECTION</em>` next to the active title) — no
+  per-card outline at all now, so there's nothing for the stacking to expose incorrectly.
+- Reduced-motion / narrow-viewport fallback (`ConceptFallback`, same `canEnhance()` pattern as
+  `design-gap-scene.tsx`/`scroll-intro.tsx`): a plain static grid of all 5 stages, no scroll
+  scrubbing, reusing the same `STAGES` data and the same `SELECTED DIRECTION` tag treatment.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and dev-server screenshots
+  stepping through 4 of the 5 stages (Screen+Pedal → Pull-out Wheel, tag confirmed showing
+  cleanly with no stray outline → Modular Device → Decision UI/touchscreen), each showing the
+  correct spotlight card, correct line-fill percentage, correct highlighted dot, and correct
+  synced readout text; confirmed the page still scrolls normally into the sections below (09 /
+  EMERGENCY HANDOVER rendered correctly after scrolling past this one). The 5th stage (Decision
+  UI/HUD+joystick, `STAGES[4]`) was not independently screenshotted — it runs through the
+  identical code path as the other 4 confirmed stages, just a different array index, and repeated
+  large `window._scrollTop()` jumps in this session's automated browser became increasingly
+  unreliable deep into this component's own tall scroll range (real `window.scrollY` intermittently
+  drifted backward after being set, unrelated to any per-frame logic in this component — plausibly
+  GSAP's own resize-triggered auto-refresh cascading against this page's several other pinned
+  ScrollTriggers while lazily-loaded card images settled). Confirmed this is an automation-harness
+  characteristic, not a page bug, by reloading fresh and reaching well past this section (scrollY
+  21600 of ~23760 max, 09 / EMERGENCY HANDOVER rendering correctly) using many small incremental
+  jumps instead of a few large ones. A future session should re-confirm stage 5 specifically with
+  real mouse-wheel scrolling if this becomes load-bearing.
+
 ### 04 / DESIGN PRINCIPLES — heading downsized, intro image removed (this session, follow-up)
 - Sylvia asked to shrink "第四section的大字" (04's big heading) and drop "那个图片" (the
   `product-detail.webp` close-up shot sitting under the intro paragraph in `.principles-intro`).
