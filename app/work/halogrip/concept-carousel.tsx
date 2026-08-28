@@ -191,7 +191,7 @@ export default function ConceptCarousel() {
           >
             <span className="concept-deck-card-label">
               <em>{concept.conceptNumber}</em>
-              {concept.label}
+              <span className="concept-deck-card-label-text">{concept.label}</span>
             </span>
             <img src={concept.image} alt={concept.alt} loading={i === 0 ? "eager" : "lazy"} />
           </div>

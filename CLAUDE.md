@@ -115,6 +115,53 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### Section padding-block tightened ~30% after the mason-wong.com resize made the page feel "too zoomed in" (this session, follow-up)
+- Right after the previous entry's literal-pixel resize, Sylvia reported the whole page now feels
+  too large/dense — needing to zoom the browser out to 60-75% to see a full section at once. An
+  Explore agent audit ruled out the font sizes themselves as fixed-container overflow bugs (the
+  handful of fixed-height containers it flagged — `.close-project`, `.interaction-buttons button`,
+  `.final-specs` — all use `min-height`/auto-growing layout, so bigger text just grows the box, it
+  doesn't clip); the real cause is additive density: HALOGRIP has far more small-text elements per
+  page (metadata grids, findings lists, footers, index numbers) than mason-wong.com's sparser
+  layout, so flattening every small tier to mason's 12px floor compounds across dozens of elements
+  even though each individual change was small. Sylvia's explicit direction (confirmed via
+  `AskUserQuestion`): don't touch font sizes again — they should stay pinned to mason's numbers —
+  tighten the surrounding whitespace instead.
+- Cut the 7 largest section-level `padding-block` values in `halogrip.css` by ~30% (min/max/vw all
+  scaled down together, selectors untouched): `.section` `clamp(108px,15vw,205px)`→
+  `clamp(76px,10.5vw,144px)`, `.challenge-scene` `clamp(100px,14vw,170px)`→`clamp(70px,10vw,120px)`,
+  `.principles` `clamp(135px,17vw,220px)`→`clamp(95px,12vw,154px)`, `.concepts` (bottom only)
+  `160px`→`112px`, `.sketch-process` `clamp(90px,12vw,150px)`→`clamp(63px,8.5vw,105px)`, `.journey`
+  `clamp(130px,16vw,205px)`→`clamp(91px,11vw,144px)`, `.site-footer` `130px 40px`→`92px 40px`. The
+  `@media(max-width:760px)` mobile overrides for these same selectors were deliberately **left
+  untouched** — Sylvia's complaint was specifically about desktop browser zoom, and mobile was
+  already noticeably tighter than desktop before this change; `--gutter` (horizontal shell padding)
+  was also left alone since the complaint was about vertical density, not horizontal.
+- While investigating, the Explore agent flagged `.concept-deck-card-label` (section 05's per-card
+  "CONCEPT 01 / Screen + External Device" label) as a possible risk: it sits `flex:none` above a
+  `flex:1` image inside an `aspect-ratio`-locked (not auto-height) card, so if the label text
+  wrapped to 2 lines it would visibly steal height from the image. Live `getBoundingClientRect()`
+  checks initially looked alarming (heights up to 58px against an 18px single-line baseline) —
+  but cross-checking against `offsetHeight` (which ignores CSS transforms) showed every label is
+  actually a clean single line at 18px; the inflated `getBoundingClientRect()` numbers were purely
+  a side effect of the non-active cards' GSAP rotation transform enlarging their axis-aligned
+  bounding box, not real text wrapping. **No live bug existed**, but added a small defensive fix
+  anyway since it's free insurance against a genuinely long future concept title: wrapped the label
+  text in its own `<span className="concept-deck-card-label-text">` in `concept-carousel.tsx` and
+  gave it `flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis` in
+  `halogrip.css` (plus `flex:none` on the sibling `<em>` concept-number badge so it never shrinks)
+  — a too-long label now truncates with an ellipsis instead of ever being able to wrap.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean, run twice) and live
+  `getComputedStyle`/`offsetHeight` checks in the dev server confirming the new padding values
+  are live and that all 5 concept-deck-card labels render at a single-line 18px `offsetHeight`.
+  **Screenshot verification was not possible this round** — this session's automated browser tab
+  returned a flat blank frame at every scroll position tried on `/work/halogrip`, matching the
+  known WebGL-tab-capture issue already documented at length elsewhere in this file (this page's
+  persistent React Three Fiber canvas breaks this particular browser extension's tab-capture, not
+  a page bug) — confirmed by reproducing the same blank result at the very top of the page too,
+  ruling out a scroll-position problem. A future session with working screenshots should do a
+  visual before/after density check if this becomes load-bearing.
+
 ### Font-size tokens re-pinned to mason-wong.com's actual pixel numbers, not just consolidated (this session, follow-up)
 - Immediately after the previous entry's token-consolidation pass (same session), Sylvia asked to go
   further: "我想要mason的字号数字套到我的case里" — don't just organize HALOGRIP's own sizes into named
