@@ -1,27 +1,34 @@
 "use client";
 
 /**
- * 05 / CONCEPT EXPLORATION — ported from the Morph-transition filmstrip on slides 11-15 of
- * `public/media/halogrip ppt.pptx` ("Ideation - Concepts Exploration"). Each of those 5 slides
- * enlarges a different one of 5 sketch cards into a "spotlight" position while the rest sit in
- * a row behind it; PowerPoint's Morph then interpolates every card's position/size between
- * slides, reading as a horizontal conveyor with one card in focus at a time.
+ * 05 / CONCEPT EXPLORATION — a self-contained, full-bleed hero carousel showing the 5 concept
+ * sketches (originally extracted from `halogrip ppt.pptx` slides 11-15's "Ideation - Concepts
+ * Exploration" filmstrip — see git history for that extraction).
  *
- * That exact per-slide EMU geometry wasn't worth porting pixel-for-pixel (the enlarge target's
- * on-slide x position isn't even consistent slide-to-slide — it was hand-placed per slide, not
- * formulaic). What was ported is the animation's actual grammar: a row of cards drifting
- * horizontally, continuous scale/elevation falloff by distance from a fixed focus point, and a
- * title/description readout synced to whichever card is currently in focus.
+ * Motion model is ported from a reference `HeroCarousel` component Sylvia supplied
+ * (framer-motion + Tailwind), re-implemented here with GSAP + hand-written CSS to match the
+ * rest of this page's stack (scroll-intro.tsx / process-scene.tsx / design-gap-scene.tsx are
+ * all GSAP; nothing on this route uses Tailwind). This is NOT tied to page-scroll position —
+ * unlike every other pinned scene on this page, it's a self-driving widget: wheel / drag /
+ * click-a-card / arrow keys all step a discrete `index` (never a continuous scroll-scrubbed
+ * float), and GSAP tweens the track/card-heights/background to match on every change.
  *
- * Deliberately vanilla scroll (rAF + a plain scroll listener), not GSAP ScrollTrigger pin: this
- * component's progress is `-container.getBoundingClientRect().top / (containerHeight -
- * stageHeight)`, which only ever depends on the container's own measured height — never on
- * total document height — so it can't suffer the stale-trigger-measured-before-the-real-page-
- * height-exists bug documented in ./pin-coordinator.ts for the GSAP-pinned sections above this
- * one. No pin-coordinator wiring needed as a result.
+ * Reference's core trick, ported directly: the focused card is always centred in the stage —
+ * `xFor(i) = stageWidth/2 - (i*step + cardW/2)`, and the *track* translates to align whichever
+ * card is focused, rather than the card moving to a fixed spot. The previous (scroll-scrubbed)
+ * version of this component pinned the focused card to the track's own origin (x=0, i.e. the
+ * stage's left edge), which is why it clipped/crowded against the left edge when enlarged —
+ * this rewrite is the fix for that.
+ *
+ * Card aspect ratio is the one deliberate departure from the reference: it's built for
+ * portrait photography (CARD_AR=0.75, a 3:4 crop). HALOGRIP's sketches are landscape technical
+ * drawings — both card sizes in the source ppt (2245800x1569300 and 2831100x1978200 EMU) work
+ * out to the exact same 1.431:1 ratio, so CARD_AR here is that number instead. The "fixed
+ * height, width = height x aspect ratio, focused = full height, others = half height, shared
+ * top edge" framework itself is aspect-ratio-agnostic and needed no other change.
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -73,14 +80,15 @@ const STAGES: Stage[] = [
   },
 ];
 
-const STEP = 21;
-const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+const LAST = STAGES.length - 1;
+const CARD_AR = 1.431;
+const WHEEL_THRESHOLD = 60;
+const WHEEL_COOLDOWN = 420;
+
+const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
 
 function canEnhance() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  if (window.innerWidth < 760) return false;
-  return true;
+  return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 function ConceptFallback() {
@@ -104,152 +112,240 @@ function ConceptFallback() {
 
 export default function ConceptCarousel() {
   const [enhanced, setEnhanced] = useState<boolean | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [index, setIndex] = useState(0);
+  const [box, setBox] = useState({ w: 0, h: 0 });
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const indexRef = useRef(0);
   const stageRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const dotRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const lineFillRef = useRef<HTMLDivElement>(null);
-  const activeIndexRef = useRef(0);
+  const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const bgRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const railFillRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const noteRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     setEnhanced(canEnhance());
   }, []);
 
   useEffect(() => {
-    const container = containerRef.current;
     const stage = stageRef.current;
-    const track = trackRef.current;
-    if (!enhanced || !container || !stage || !track) return;
+    if (!enhanced || !stage) return;
+    const read = () => setBox({ w: stage.clientWidth, h: stage.clientHeight });
+    read();
+    const ro = new ResizeObserver(read);
+    ro.observe(stage);
 
-    // This container's real height (several viewport-heights tall, for the sticky scrub
-    // below) only exists in the DOM once this effect runs (a render pass after the
-    // `enhanced` check above). The site's GSAP ScrollTrigger.normalizeScroll() setup caches
-    // a max-scroll bound that was last computed against the page's *previous*, shorter
-    // height, so without a refresh here the page becomes unscrollable past that stale bound
-    // — confirmed directly: `window._scrollTop()` (normalizeScroll's own scroll setter)
-    // accepted and reported values past this component's start, but the page never
-    // visually scrolled past the old max. `ScrollTrigger.refresh()` recomputes that bound
-    // (unlike an existing pin's own start/end — see ./pin-coordinator.ts's comment for why
-    // that specific case doesn't respond to refresh()); this is a different code path.
+    // This component mounts its real (fixed, non-scroll-driven) height asynchronously —
+    // `null` on first paint, then the actual ~520-760px section once `enhanced` resolves.
+    // The site's GSAP ScrollTrigger.normalizeScroll() setup caches a max-scroll bound at
+    // some point during page load; if that happens before this layout change lands, native
+    // scroll silently caps below the real document height (confirmed directly: `window
+    // ._scrollTop(x)` echoes `x` back from its getter while real `window.scrollY` stays
+    // capped). `ScrollTrigger.refresh()` recomputes that bound — same fix as the previous
+    // (scroll-driven) version of this component needed, still required even though this
+    // rewrite creates no ScrollTrigger of its own.
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.refresh();
 
-    let rafId: number | null = null;
-
-    function applyFrame(focus: number) {
-      track!.style.transform = `translateX(${-focus * STEP}%)`;
-
-      STAGES.forEach((_, i) => {
-        const distance = Math.abs(focus - i);
-        const t = clamp01(1 - distance);
-        const card = cardRefs.current[i];
-        if (card) {
-          const scale = lerp(0.8, 1.16, t);
-          const lift = lerp(10, -8, t);
-          card.style.transform = `translateY(${lift}px) scale(${scale})`;
-          card.style.opacity = String(lerp(0.42, 1, clamp01(1 - distance * 0.85)));
-          card.style.zIndex = String(Math.round(t * 100));
-          card.style.boxShadow = t > 0.35 ? `0 ${lerp(10, 38, t)}px ${lerp(18, 60, t)}px rgba(0,0,0,${lerp(0.08, 0.32, t)})` : "none";
-        }
-        const dot = dotRefs.current[i];
-        if (dot) dot.style.transform = `scale(${lerp(1, 1.8, t)})`;
-      });
-
-      if (lineFillRef.current) {
-        lineFillRef.current.style.width = `${(focus / (STAGES.length - 1)) * 100}%`;
-      }
-
-      const nearest = Math.round(focus);
-      if (nearest !== activeIndexRef.current) {
-        activeIndexRef.current = nearest;
-        setActiveIndex(nearest);
-      }
-    }
-
-    function update() {
-      rafId = null;
-      const containerRect = container!.getBoundingClientRect();
-      const scrollable = container!.offsetHeight - stage!.offsetHeight;
-      const progress = scrollable > 0 ? clamp01(-containerRect.top / scrollable) : 0;
-      applyFrame(progress * (STAGES.length - 1));
-    }
-
-    function onScroll() {
-      if (rafId == null) rafId = requestAnimationFrame(update);
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          update();
-          window.addEventListener("scroll", onScroll, { passive: true });
-          window.addEventListener("resize", onScroll);
-        } else {
-          window.removeEventListener("scroll", onScroll);
-          window.removeEventListener("resize", onScroll);
-        }
-      },
-      { rootMargin: "0px" }
-    );
-    observer.observe(container);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (rafId != null) cancelAnimationFrame(rafId);
-    };
+    return () => ro.disconnect();
   }, [enhanced]);
+
+  const fullH = clamp(box.h * 0.46, 160, 420);
+  const halfH = fullH / 2;
+  const cardW = fullH * CARD_AR;
+  const gap = Math.max(10, cardW * 0.05);
+  const step = cardW + gap;
+
+  const xFor = useCallback((i: number) => box.w / 2 - (i * step + cardW / 2), [box.w, step, cardW]);
+
+  const go = useCallback((next: number) => {
+    const clamped = clamp(next, 0, LAST);
+    indexRef.current = clamped;
+    setIndex(clamped);
+  }, []);
+
+  // Every focus change (from wheel, drag release, click, or keyboard) lands here: tween the
+  // track into alignment, tween each card's height, crossfade the background, restate the copy.
+  useEffect(() => {
+    if (!enhanced || !box.w) return;
+    const track = trackRef.current;
+    if (track) gsap.to(track, { x: xFor(index), duration: 0.6, ease: "power3.out" });
+
+    STAGES.forEach((_, i) => {
+      const card = cardRefs.current[i];
+      if (card) gsap.to(card, { height: i === index ? fullH : halfH, duration: 0.5, ease: "power2.out" });
+      const bg = bgRefs.current[i];
+      if (bg) gsap.to(bg, { opacity: i === index ? 1 : 0, duration: 0.6, ease: "power2.out" });
+    });
+
+    if (railFillRef.current) {
+      gsap.to(railFillRef.current, { left: `${(index / STAGES.length) * 100}%`, duration: 0.5, ease: "power2.out" });
+    }
+    if (titleRef.current && noteRef.current) {
+      gsap.fromTo(
+        [titleRef.current, noteRef.current],
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.05 }
+      );
+    }
+  }, [index, enhanced, box.w, fullH, halfH, xFor]);
+
+  // Wheel: accumulate delta into discrete ±1 steps (reference's threshold/cooldown numbers).
+  // At either end, don't preventDefault — hand the gesture back to the page so this full-bleed
+  // block never becomes a scroll trap.
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!enhanced || !stage) return;
+    let acc = 0;
+    let until = 0;
+    function onWheel(e: WheelEvent) {
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      const stuck = (delta > 0 && indexRef.current === LAST) || (delta < 0 && indexRef.current === 0);
+      if (stuck) {
+        acc = 0;
+        return;
+      }
+      e.preventDefault();
+      const now = e.timeStamp;
+      if (now < until) return;
+      acc += delta;
+      if (Math.abs(acc) < WHEEL_THRESHOLD) return;
+      go(indexRef.current + Math.sign(acc));
+      acc = 0;
+      until = now + WHEEL_COOLDOWN;
+    }
+    stage.addEventListener("wheel", onWheel, { passive: false });
+    return () => stage.removeEventListener("wheel", onWheel);
+  }, [enhanced, go]);
+
+  // Drag: manual pointer tracking (no framer-motion `drag` helper here) — live-set the track
+  // position while dragging, then snap to whichever card is nearest on release, nudged by
+  // release velocity so a flick clears more than one card.
+  useEffect(() => {
+    const stage = stageRef.current;
+    const track = trackRef.current;
+    if (!enhanced || !stage || !track || !box.w) return;
+
+    let dragging = false;
+    let startClientX = 0;
+    let startTrackX = 0;
+    let lastX = 0;
+    let lastT = 0;
+    let velocity = 0;
+
+    function onPointerDown(e: PointerEvent) {
+      dragging = true;
+      startClientX = e.clientX;
+      startTrackX = Number(gsap.getProperty(track, "x"));
+      lastX = e.clientX;
+      lastT = e.timeStamp;
+      velocity = 0;
+      stage!.setPointerCapture(e.pointerId);
+    }
+    function onPointerMove(e: PointerEvent) {
+      if (!dragging) return;
+      const dx = e.clientX - startClientX;
+      gsap.set(track, { x: startTrackX + dx });
+      const dt = e.timeStamp - lastT || 16;
+      velocity = (e.clientX - lastX) / dt;
+      lastX = e.clientX;
+      lastT = e.timeStamp;
+    }
+    function onPointerUp() {
+      if (!dragging) return;
+      dragging = false;
+      const currentX = Number(gsap.getProperty(track, "x"));
+      const thrown = currentX + velocity * 120;
+      const nearest = Math.round((box.w / 2 - thrown - cardW / 2) / step);
+      go(nearest);
+    }
+
+    stage.addEventListener("pointerdown", onPointerDown);
+    stage.addEventListener("pointermove", onPointerMove);
+    stage.addEventListener("pointerup", onPointerUp);
+    stage.addEventListener("pointercancel", onPointerUp);
+    return () => {
+      stage.removeEventListener("pointerdown", onPointerDown);
+      stage.removeEventListener("pointermove", onPointerMove);
+      stage.removeEventListener("pointerup", onPointerUp);
+      stage.removeEventListener("pointercancel", onPointerUp);
+    };
+  }, [enhanced, box.w, cardW, step, go]);
 
   if (enhanced === null) return null;
   if (!enhanced) return <ConceptFallback />;
 
-  const active = STAGES[activeIndex];
+  const active = STAGES[index];
 
   return (
-    <div className="concept-carousel" ref={containerRef} style={{ height: `${(STAGES.length - 1) * 90 + 100}vh` }}>
-      <div className="concept-carousel-stage" ref={stageRef}>
-        <div className="concept-carousel-track" ref={trackRef}>
+    <div
+      className="concept-carousel"
+      ref={stageRef}
+      tabIndex={0}
+      role="group"
+      aria-roledescription="carousel"
+      aria-label="Concept exploration"
+      onKeyDown={(e) => {
+        const keys: Record<string, number> = { ArrowLeft: index - 1, ArrowRight: index + 1, Home: 0, End: LAST };
+        if (!(e.key in keys)) return;
+        e.preventDefault();
+        go(keys[e.key]!);
+      }}
+    >
+      <div className="concept-carousel-bg" aria-hidden="true">
+        {STAGES.map((stage, i) => (
+          <div
+            key={stage.id}
+            className="concept-carousel-bg-layer"
+            style={{ opacity: i === index ? 1 : 0 }}
+            ref={(el) => {
+              bgRefs.current[i] = el;
+            }}
+          >
+            <img src={stage.image} alt="" loading="lazy" />
+          </div>
+        ))}
+        <div className="concept-carousel-bg-tint" />
+        <div className="concept-carousel-bg-wash" />
+      </div>
+
+      <div className="concept-carousel-headline">
+        <h3 ref={titleRef}>
+          {active.title}
+          {active.selected && <em className="concept-carousel-tag">SELECTED DIRECTION</em>}
+        </h3>
+        <p ref={noteRef}>{active.note}</p>
+      </div>
+
+      <div className="concept-carousel-strip">
+        <div className="concept-carousel-track" ref={trackRef} style={{ gap }}>
           {STAGES.map((stage, i) => (
-            <div
+            <button
               key={stage.id}
+              type="button"
               className="concept-carousel-card"
-              style={{ left: `${i * STEP}%` }}
+              style={{ width: cardW, height: i === index ? fullH : halfH }}
+              aria-label={stage.title}
+              aria-current={i === index}
+              onClick={() => go(i)}
               ref={(el) => {
                 cardRefs.current[i] = el;
               }}
             >
               <img src={stage.image} alt={stage.alt} loading="lazy" />
-            </div>
+            </button>
           ))}
         </div>
+      </div>
 
-        <div className="concept-carousel-line">
-          <div className="concept-carousel-line-fill" ref={lineFillRef} />
-          {STAGES.map((stage, i) => (
-            <span
-              key={stage.id}
-              className="concept-carousel-dot"
-              style={{ left: `${(i / (STAGES.length - 1)) * 100}%` }}
-              ref={(el) => {
-                dotRefs.current[i] = el;
-              }}
-            />
-          ))}
+      <div className="concept-carousel-rail">
+        <div className="concept-carousel-rail-count">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <span>{String(STAGES.length).padStart(2, "0")}</span>
         </div>
-
-        <div className="concept-carousel-readout">
-          <span>0{activeIndex + 1}</span>
-          <div>
-            <h3>
-              {active.title}
-              {active.selected && <em className="concept-carousel-tag">SELECTED DIRECTION</em>}
-            </h3>
-            <p>{active.note}</p>
-          </div>
+        <div className="concept-carousel-rail-track">
+          <div className="concept-carousel-rail-fill" ref={railFillRef} style={{ width: `${100 / STAGES.length}%` }} />
         </div>
       </div>
     </div>
