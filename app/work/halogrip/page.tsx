@@ -7,6 +7,7 @@ import ScrollIntro from "./scroll-intro";
 import OverviewBackdrop from "./overview-backdrop";
 import ProcessScene from "./process-scene";
 import DesignGapScene from "./design-gap-scene";
+import ConceptCarousel from "./concept-carousel";
 
 const title = "HALOGRIP — Sylvia Xie";
 const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
@@ -22,18 +23,18 @@ export const metadata: Metadata = {
 // NOTE: the hero's `meta` array moved into ./scroll-intro.tsx, which renders the
 // static hero as its fallback / loading state.
 
+const findings = [
+  ["OVERALL CONCERN", "PUBLIC + FIRST RESPONDERS", "Removing the steering wheel entirely leaves passengers unsure what to do if the vehicle stops — and responders worried it could delay action in a life-threatening situation."],
+  ["CONTROL OVER VEHICLE BEHAVIOR", "ON-GROUND OPERATION", "Responders want assurance the vehicle won't move or drift while they work close to it — placing a ladder, reaching a patient — on an already chaotic scene."],
+  ["INSUFFICIENT STRATEGIES", "COMPANY + FIRST-RESPONDER OPTIONS", "Local assistants can't reach a blocked scene either, and remote-assistant calls break down in loud, low-signal emergencies. What's left is pushing the vehicle aside with a fire truck — impossible to aim precisely."],
+  ["LACK OF STANDARDIZATION", "CONTROLS + SOFTWARE UPDATES", "Every brand places emergency controls differently, and updates can change how they work without warning — one more thing to relearn under pressure."],
+];
+
 const principles = [
   ["IMMEDIATE", "No remote operator in the critical path."],
   ["FAMILIAR", "Understandable with little or no training."],
   ["PREDICTABLE", "Low-speed movement with a clear stop state."],
   ["GLOVE-FRIENDLY", "Large, tactile, visible physical controls."],
-];
-
-const concepts = [
-  ["SCREEN + PEDAL", "Space-intensive", "concept-screen"],
-  ["PULL-OUT WHEEL", "Selected direction", "concept-pullout"],
-  ["MODULAR DEVICE", "Potential misuse", "concept-module"],
-  ["DECISION UI", "Higher mental load", "concept-decision"],
 ];
 
 const iterations = [
@@ -174,13 +175,29 @@ export default function HalogripPage() {
       <DesignGapScene />
 
       <section className="research section shell" id="research">
-        <span className="eyebrow">[ 03 / FIELD RESEARCH ]</span>
+        <span className="eyebrow">[ 03 / PROBLEM STATEMENT ]</span>
         <h2>LISTEN BEFORE DESIGNING.</h2>
-        <div className="research-gallery">
-          <img className="research-fire" src={encodeURI("/media/halogrip图片/other/emergency.webp")} alt="Emergency services responding to a fire" loading="lazy" />
-          <img className="research-prototype" src={encodeURI("/media/halogrip图片/other/prototype.webp")} alt="Physical foam prototypes used to evaluate the emergency controls" loading="lazy" />
-          <img className="research-city" src={encodeURI("/media/halogrip图片/other/night-city.webp")} alt="Night-time traffic and an autonomous vehicle in the city" loading="lazy" />
+        <p className="research-intro">Interviews with first responders and a public survey surfaced four recurring concerns about robotaxis.</p>
+
+        <div className="research-layout">
+          <figure className="research-photo">
+            <img src={encodeURI("/media/halogrip图片/03/firefighter-rescue.png")} alt="A firefighter rappels from an aerial ladder platform during a rescue operation" loading="lazy" />
+          </figure>
+
+          <div className="research-findings">
+            {findings.map(([title, meta, body], index) => (
+              <article key={title}>
+                <span>0{index + 1}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <span className="research-finding-meta">{meta}</span>
+                  <p>{body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
+
         <div className="research-bottom">
           <div className="research-stats">
             <div><strong>04</strong><span>FIREFIGHTER<br />INTERVIEWS</span></div>
@@ -197,7 +214,6 @@ export default function HalogripPage() {
             <span className="eyebrow">[ 04 / DESIGN PRINCIPLES ]</span>
             <h2>CONTROL MUST<br />FEEL OBVIOUS<br />UNDER <span>PRESSURE.</span></h2>
             <p>Research shifted the project away from futuristic controls and toward a recognizable, local, physical interface.</p>
-            <img src={encodeURI("/media/halogrip图片/other/product-detail.webp")} alt="Close-up of the tactile HALOGRIP controls" loading="lazy" />
           </div>
           <div className="principles-list">
             {principles.map(([title, description], index) => (
@@ -216,15 +232,7 @@ export default function HalogripPage() {
           <h2>HOW SHOULD CONTROL APPEAR<br />IN A VEHICLE DESIGNED WITHOUT IT?</h2>
           <p>Four approaches explored how emergency personnel might take control without conventional pedals or a permanent steering wheel.</p>
         </div>
-        <img className="sketch-sheet" src={encodeURI("/media/halogrip图片/other/sketches.webp")} alt="Hand-drawn exploration of emergency control concepts and steering wheel forms" loading="lazy" />
-        <div className="concept-grid">
-          {concepts.map(([title, note, image], index) => (
-            <article className={index === 1 ? "concept-selected" : ""} key={title}>
-              <img src={encodeURI(`/media/halogrip图片/other/${image}.webp`)} alt={`${title} concept sketch`} loading="lazy" />
-              <div><span>0{index + 1}</span><h3>{title}</h3><p>{note}</p></div>
-            </article>
-          ))}
-        </div>
+        <ConceptCarousel />
       </section>
 
       <section className="testing" id="testing">

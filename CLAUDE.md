@@ -110,7 +110,135 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### 04 / DESIGN PRINCIPLES — heading downsized, intro image removed (this session, follow-up)
+- Sylvia asked to shrink "第四section的大字" (04's big heading) and drop "那个图片" (the
+  `product-detail.webp` close-up shot sitting under the intro paragraph in `.principles-intro`).
+  `page.tsx`: removed the `<img>` line entirely (no `TODO(sylvia)` — an explicit removal request,
+  not a missing asset). `halogrip.css`: `.principles-intro h2` was sharing one selector with
+  `.final-content h2`/`.journey-inner h2`/`.site-footer h2`/`.testing-copy h2` at
+  `font-size:clamp(73px,9vw,127px)` — split it into its own rule at `clamp(52px,6vw,92px)` so the
+  other four headings (which weren't mentioned) stay untouched. Removed the now-dead
+  `.principles-intro>img` rule (desktop) and its `max-width:760px` mobile override (was
+  `width:95%;margin-top:36px`), and shrank the mobile `.principles-intro h2` override from `77px`
+  to `54px` to match the new desktop scale down.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and a dev-server screenshot at
+  `#principles`: heading is visibly smaller, the image is gone, and the paragraph now sits with
+  clean whitespace above the principles list instead of a photo.
+
+### 03 / FIELD RESEARCH rebuilt as PROBLEM STATEMENT — content sourced from `public/media/halogrip ppt.pptx` slide 9 (this session)
+- Sylvia asked to replace the top-level chapter 03 section (`id="research"` in `page.tsx` —
+  distinct from the `02.x` THE CHALLENGE subsections; confirmed which one she meant via
+  `AskUserQuestion` before touching anything, since both are plausible readings of "第三章节")
+  with the content from page 9 of `public/media/halogrip ppt.pptx`, titled "PROBLEM STATEMENT -
+  USER STUDIES". That slide's ground truth was read straight out of its OOXML (unzip the pptx;
+  `ppt/slides/slide9.xml`'s `<a:t>` runs) and its speaker notes (`ppt/notesSlides/notesSlide9
+  .xml`), not just the on-slide labels — the notes are what actually explain each of the 4 navy
+  finding-box headers (OVERALL CONCERN ABOUT ROBOTAXI / CONTROL OVER VEHICLE BEHAVIOR /
+  INSUFFICIENT STRATEGIES / STANDARDIZATION).
+- The slide's own real photo (`ppt/media/image13.png`, a firefighter rope-rescue on an aerial
+  ladder platform) was extracted and copied to `public/media/halogrip图片/03/firefighter-rescue
+  .png`, following the same per-section-folder convention as `2.1`-`2.4`.
+- Old section (a 3-image `.research-gallery` grid — fire/prototype/city photos, no connection to
+  the actual field-research findings, just generic scene-setting) fully removed: `page.tsx`'s
+  `research` section JSX rewritten, `.research-gallery`/`.research-fire`/`.research-prototype`/
+  `.research-city` CSS deleted (desktop + the `max-width:760px` mobile block) and replaced with
+  `.research-layout` (photo left, findings list right) + `.research-findings article` (a red
+  index number + red uppercase meta line + body copy, deliberately reusing the same visual
+  grammar as `.principles-list article` just below it in the page, rather than porting the PPT's
+  own navy-box styling verbatim — per Hard Rule 1, the reference's content/structure was ported,
+  its Google-Slides visual identity was not). Eyebrow renamed `[ 03 / PROBLEM STATEMENT ]` (was
+  `[ 03 / FIELD RESEARCH ]`); `h2` copy ("LISTEN BEFORE DESIGNING.") and the closing
+  `research-bottom` stats/quote block (04 firefighter interviews / 02 fire stations / 76 survey
+  responses, the "FIVE TO TEN MINUTES ALREADY FEELS LONG" quote) were kept as-is — real validated
+  research data, not something the PPT slide's own content should displace.
+- The 4 finding bodies are original summaries of the notes' actual explanatory text (not just the
+  slide's short label + sub-label fragments), written in the site's existing short-declarative
+  voice — not flagged `TODO(sylvia)` since it's a faithful compression of her own PPT content, not
+  invented placeholder copy.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and dev-server screenshots at
+  both the default ~1568px-wide automation viewport and a single-column mobile check. Same
+  `resize_window`-doesn't-actually-resize tooling limitation noted elsewhere in this file applied
+  again here — the mobile `.research-layout{grid-template-columns:1fr}` collapse was verified by
+  injecting the new mobile-breakpoint rule as a scratch `!important` override at the current
+  viewport and confirming the photo/findings stack vertically, then removing it, rather than a
+  real narrow-viewport screenshot. Also hit (and worked around) a scroll-position issue while
+  testing: this page's GSAP `ScrollTrigger.normalizeScroll()`-style setup intercepts native
+  `window.scrollTo` during the pinned scroll-intro — it silently no-ops past a certain point — so
+  jumping to a specific section for screenshot purposes requires calling the page's own
+  `window._scrollTop(value)` (a getter/setter GSAP installs on `window`) instead of
+  `window.scrollTo`.
+
+### 02.3 CURRENT RESPONSE rebuilt as a single cinematic scene image, replacing the flat-card timeline; pin-timing bug fixed with a dependency-ordered coordinator (this session)
+- **Content/visual rebuild.** `process-scene.tsx` was fully rewritten. The previous
+  implementation (a flat DOM timeline: small glass-panel cards, an SVG process path, a grid
+  background, a bottom DETECTED/CONNECTED/VERIFIED progress bar, a vehicle-stalled icon — see
+  the "02.3 CURRENT RESPONSE — pinned scroll-driven process diagram" entry further below for how
+  that version was built) was deleted outright, all matching `.process-*` CSS removed from
+  `halogrip.css` (desktop + mobile), and replaced with: one full-viewport scene image
+  (`public/media/halogrip图片/2.3/2.3-scene-clean.png` — moved here from a misplaced `2.4/`
+  location; it already contains the first responder, glass process panels, red response path and
+  robotaxi baked in as a single photo, so none of that is rebuilt in HTML/CSS/SVG anymore), a
+  readability gradient, and real HTML label/headline/paragraph. Section label renamed
+  `[ 02.3 / CURRENT RESPONSE ]` (was `CURRENT SOLUTION`) per Sylvia's explicit instruction — do
+  not rename it back.
+- Motion is now minimal by design: image opacity 0→1 + scale 1.025→1 on scroll-into-view (once,
+  `toggleActions:"play none none none"`, not scrubbed), a small always-on horizontal parallax
+  (Β±6px, scrubbed, disabled below 760px), and a short fade-up stagger on the label/headline/
+  paragraph. No canvas, no per-node reveal choreography, no line-drawing animation — 02.4 is
+  where the major transformation animation lives, 02.3 is deliberately a calm establishing shot.
+- **Known geometric tension, resolved via the gradient, not fully eliminated:** the source
+  image's first glass panel sits close to the left edge (~13% of the image's own width), and the
+  spec'd headline/copy footprint (large condensed type, ~520-540px column) is wide/tall enough
+  that on short viewports the headline can visually reach the panel's position. Confirmed
+  directly (Sylvia flagged it live: "字好像有点挡后面背景的字"). Fixed by biasing
+  `object-position` toward the image's left edge (`.response-scene-image`, more of the panel's
+  clearance is preserved) and switching the readability gradient from a shallow linear fade to a
+  strong `radial-gradient` anchored near the upper-left (`.response-scene-gradient`, 96%→0%
+  opacity, anchor `6% 12%`) so the panel underneath is genuinely subdued rather than competing
+  with the text, plus a tightened line-height (`.9`, still inside the spec's 0.9-0.95 range) and
+  text-shadow on the paragraph. This was verified as a real improvement (panel text goes from
+  clearly legible to a barely-visible ghost) but **not fully verified at the three target widths
+  (1280/1440/1920)** — this session's automated browser has a fixed, non-resizable ~639px-tall
+  viewport (`resize_window` calls report success but don't change `window.innerHeight`), which is
+  a much wider/shorter aspect (2.0-3.0) than any real monitor at those widths (1280x800/1440x900/
+  1920x1080 are all ~1.6-1.78). The `object-fit:cover` math was worked through by hand for those
+  three real aspect ratios and gives meaningfully more clearance than what's visible in this
+  session's own test screenshots; a future session with real viewport-resize should re-check
+  before trusting this fully solved rather than just improved.
+- **Pin-timing bug found and fixed** (this was the actual root cause of a report that read at
+  first like "02.3 shows up twice with a blank gap in between" — right after the opening 3D
+  model, then correctly again after 02.2): `process-scene.tsx` (and `overview-backdrop.tsx`)
+  used to create their GSAP `ScrollTrigger`s synchronously on first mount, before `scroll-intro
+  .tsx`'s own real pin (which is itself deferred to a second, hydration-safe render pass, and
+  under real page load — heavy JS payload, WebGL setup — has been measured taking up to ~1s, not
+  one frame) existed. That bakes in a `start`/`end` measured against a document that's still
+  short. Calling `ScrollTrigger.refresh()` afterward does **not** fix an already-created trigger
+  — verified directly from the browser console: a trigger's start/end survive `refresh()`
+  unchanged no matter when it's called, while creating a brand-new trigger at that same later
+  moment measures correctly on the first try. **New `app/work/halogrip/pin-coordinator.ts`**
+  (replaces `scroll-refresh.tsx` below, which is now deleted — that file's refresh-after-the-fact
+  approach was the first fix attempt and didn't work) is the real fix: `markPinReady(source)` /
+  `onPinsReady(deps, callback)`, a small dependency graph so each section defers its own
+  `ScrollTrigger` creation until everything above it has already landed. Wiring: `scroll-intro`
+  has no deps; `process-scene` and `overview-backdrop` depend on `["scroll-intro"]`;
+  `design-gap-scene` depends on `["scroll-intro","process-scene"]` (comes right after 02.3 in the
+  DOM). `process-scene.tsx` also calls `markPinReady("process-scene")` essentially immediately
+  (it has no pin/spacer of its own anymore, so nothing needs to wait on *it* for layout reasons —
+  reported early purely so `design-gap-scene.tsx`'s own dependency resolves promptly instead of
+  falling back to the coordinator's 4s safety timeout). Verified against a production build
+  (`next build && next start`) with real mouse-wheel scrolling: 02.3 now pins/reveals exactly
+  once, only after 02.2, no early appearance, no blank gap.
+- If a future session touches `scroll-intro.tsx` or `design-gap-scene.tsx`'s own `enhanced`-flip
+  gating, remember both must keep calling `markPinReady` on **every** code path (including the
+  "decided not to enhance" branches) or a sibling waiting via `onPinsReady` will silently stall
+  until the 4s timeout.
+
 ### 02.4 DESIGN GAP rebuilt as a bespoke pinned scroll transition; new ScrollRefresh helper added (outside this session, documented now)
+- **Superseded**: the `ScrollRefresh` component described below (including its un-removed
+  `TEMP-DIAGNOSTIC` flag) has been deleted and replaced by `pin-coordinator.ts` — see the entry
+  above this one. Its refresh-after-creation approach didn't actually fix the stale-trigger bug
+  it was written for. Also, this entry's description of `process-scene.tsx`'s six-step node-card
+  content is now stale — 02.3 was rebuilt as a single scene image (see the entry above).
 - `page.tsx`'s 02.4 section — previously the plain `PlaceholderImage`-based scaffolding from the
   "THE CHALLENGE (02) split..." entry further below — was replaced with `<DesignGapScene />`
   (`app/work/halogrip/design-gap-scene.tsx` + `design-gap-scene.css`, new files, not built in this
