@@ -7,6 +7,7 @@ import ScrollIntro from "./scroll-intro";
 import OverviewBackdrop from "./overview-backdrop";
 import DesignGapSequence from "./design-gap-sequence";
 import ConceptCarousel from "./concept-carousel";
+import SectionReveal from "./section-reveal";
 
 const title = "HALOGRIP — Sylvia Xie";
 const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
@@ -36,18 +37,12 @@ const principles = [
   ["GLOVE-FRIENDLY", "Large, tactile, visible physical controls."],
 ];
 
-const iterations = [
-  ["LOWER PIVOT", "Forward pressure now maps clearly to acceleration and backward pressure to braking."],
-  ["BIGGER CONTROLS", "Physical buttons remain visible and operable while wearing protective gloves."],
-  ["TWO-STEP ACCESS", "Unlocking the vehicle and activating manual control are clearly separated."],
-];
-
 const steps = [
-  ["IDENTIFY", "Scan an authorized responder ID at the vehicle."],
-  ["ACTIVATE", "Verify the steering device to enable manual control."],
-  ["REPOSITION", "Move the vehicle using the tilt-and-turn grip."],
-  ["PARK", "Secure the vehicle once emergency access is clear."],
-  ["RELEASE", "End manual intervention and return system control."],
+  ["AUTHORIZE", "Scan an authorized responder ID at the vehicle.", "01-authorize"],
+  ["ACTIVATE", "Verify the steering device to enable manual control.", "02-activate"],
+  ["REPOSITION", "Move the vehicle using the tilt-and-turn grip.", "03-reposition"],
+  ["PARK", "Secure the vehicle once emergency access is clear.", "04-park"],
+  ["COMPLETE", "End manual intervention and return system control.", "05-complete"],
 ];
 
 export default function HalogripPage() {
@@ -232,25 +227,19 @@ export default function HalogripPage() {
         <ConceptCarousel />
       </section>
 
-      <section className="testing" id="testing">
-        <div className="testing-photo">
-          <img src={encodeURI("/media/halogrip图片/other/prototype.webp")} alt="Full-size foam models used to evaluate the removable emergency steering interface" loading="lazy" />
-          <span>1:1 PHYSICAL PROTOTYPES / EVALUATION ROUNDS 01–03</span>
-        </div>
-        <div className="testing-copy">
-          <span className="eyebrow">[ 06 / PROTOTYPE TESTING ]</span>
-          <h2>TEST.<br />LEARN.<br /><span>REFINE.</span></h2>
-          <p>Evaluation revealed three specific breakdowns that changed the final design.</p>
-          <div className="iteration-list">
-            {iterations.map(([title, body], index) => (
-              <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></article>
-            ))}
-          </div>
-        </div>
+      <section className="sketch-process section shell" id="sketch-process">
+        <span className="eyebrow">[ 06 / SKETCH PROCESS ]</span>
+        {/* TODO(sylvia): draft heading — review/replace */}
+        <h2>FROM WHEEL TO GRIP.</h2>
+        <figure className="sketch-process-figure">
+          <img src={encodeURI("/media/halogrip图片/other/sketches.webp")} alt="Six rounds of hand-sketched iteration converging on the final HALOGRIP grip form" loading="lazy" />
+          {/* TODO(sylvia): draft caption — review/replace */}
+          <figcaption>SIX ITERATION ROUNDS / FINAL FORM SELECTED</figcaption>
+        </figure>
       </section>
 
       <section className="final-hero dark-section" id="solution">
-        <img className="final-background" src={encodeURI("/media/halogrip图片/other/section 7.1.png")} alt="Robotaxi cockpit interior with gloved hands operating the HALOGRIP steering device embedded in the dashboard" loading="lazy" />
+        <img className="final-background" src={encodeURI("/media/halogrip图片/other/cockpit.webp")} alt="Robotaxi cockpit interior with the HALOGRIP steering device embedded in the dashboard" loading="lazy" />
         <div className="final-scrim" />
         <div className="final-content shell">
           <span className="eyebrow">[ 07 / FINAL CONCEPT ]</span>
@@ -282,25 +271,30 @@ export default function HalogripPage() {
         <div className="interaction-footer"><span>ROTATION / DIRECTION</span><span>FORWARD TILT / ACCELERATION</span><span>BACKWARD TILT / BRAKE + REVERSE</span></div>
       </section>
 
-      <section className="journey dark-section" id="handover">
+      <SectionReveal id="handover" className="journey">
         <div className="journey-inner shell">
           <span className="eyebrow">[ 09 / EMERGENCY HANDOVER ]</span>
           <h2>FROM BLOCKED<br />TO CLEARED.</h2>
           <p className="journey-lede">ONE RESPONDER / LOCAL CONTROL / TARGET INTERVENTION UNDER FIVE MINUTES</p>
           <div className="story-grid">
-            {steps.map(([title, description], index) => (
-              <article key={title}><img src={encodeURI(`/media/halogrip图片/other/story-${index + 1}.webp`)} alt={`${title}: ${description}`} loading="lazy" /><span>0{index + 1}</span><h3>{title}</h3><p>{description}</p></article>
+            {steps.map(([title, description, file], index) => (
+              <article key={title}>
+                <img src={encodeURI(`/media/halogrip图片/09-handover/${file}.png`)} alt={`${title}: ${description}`} loading="lazy" />
+                <div className="story-step">
+                  <span>0{index + 1}</span>
+                  <i aria-hidden="true" />
+                </div>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </article>
             ))}
           </div>
           <div className="system-detail">
             <div className="access-detail"><span className="eyebrow">[ SECURE ACCESS ]</span><div className="access-images"><img src={encodeURI("/media/halogrip图片/other/id-one.webp")} alt="Responder identity verification interface" loading="lazy" /><img src={encodeURI("/media/halogrip图片/other/id-two.webp")} alt="Successful authorization screen for vehicle entry" loading="lazy" /></div><p>Two verification steps separate vehicle access from manual control.</p></div>
             <div className="hud-detail"><span className="eyebrow">[ HEAD-UP DISPLAY ]</span><img src={encodeURI("/media/halogrip图片/other/hud.webp")} alt="Head-up display presenting manual control status and emergency driving guidance" loading="lazy" /><p>Only the information needed to maintain situational awareness during intervention.</p></div>
           </div>
-          <div className="outcomes">
-            {[["02", "ID SCANS"], ["01", "RESPONDER"], ["15", "KM/H MAX"], ["<5", "MIN TARGET"]].map(([number, label]) => <div key={label}><strong>{number}</strong><span>{label}</span></div>)}
-          </div>
         </div>
-      </section>
+      </SectionReveal>
 
       <footer className="site-footer shell">
         <div><span className="eyebrow">[ MASTER’S THESIS / 2025 ]</span><h2>DESIGNED FOR THE PEOPLE<br />WHO CANNOT AFFORD TO WAIT.</h2></div>

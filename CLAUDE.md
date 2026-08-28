@@ -110,6 +110,233 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### Section 6 replaced: PROTOTYPE TESTING out, SKETCH PROCESS in — reusing a previously-shelved sketch-sheet asset (this session)
+- Sylvia asked to put `public/media/halogrip图片/other/sketches.webp` (a wide hand-sketch summary
+  sheet: 6 rounds of grip-form iteration converging on a pink-highlighted "Final" form) into the
+  current section 6, replacing it entirely. This file was a previously shelved asset — an earlier
+  session had deliberately dropped it from the page ("for now") while keeping it on disk for
+  later; this session reactivates it. Confirmed three open questions with Sylvia via
+  `AskUserQuestion` before touching code: (1) the old section 6 content is deleted outright, not
+  relocated; (2) the new section uses a full-width layout, not the old section's 50/50 photo/copy
+  split — this project has repeatedly hit "dense sketch sheet unreadable when squeezed into a
+  half-width slot" (see the several 05-concept-carousel sizing rounds elsewhere in this file), so
+  full width was the safe default for legibility; (3) yes, write a small amount of draft copy
+  (eyebrow + one-line heading + a caption), flagged for her review rather than leaving the section
+  bare.
+- **Old section removed wholesale**: `.testing`/`#testing` — a two-column section with
+  `prototype.webp` (physical foam-prototype photo) on the left and "TEST. LEARN. REFINE." +
+  three evaluation findings (LOWER PIVOT / BIGGER CONTROLS / TWO-STEP ACCESS, the `iterations`
+  array in `page.tsx`) on the right. That content described physical-prototype evaluation, a
+  different story from sketch-stage form iteration, so it was deleted rather than kept or moved —
+  per Sylvia's explicit call, not an assumption.
+- **New `<section className="sketch-process section shell" id="sketch-process">`** in `page.tsx`:
+  eyebrow `[ 06 / SKETCH PROCESS ]`, a draft `<h2>FROM WHEEL TO GRIP.</h2>` (own
+  `// TODO(sylvia): draft heading` comment), then a `<figure>` with the sketch sheet at full
+  section width (`width:100%;height:auto`, no `object-fit` crop — the whole point given this
+  project's history of illegible cropped sketch sheets) and a draft `<figcaption>SIX ITERATION
+  ROUNDS / FINAL FORM SELECTED</figcaption>` (own `TODO(sylvia)` comment). Both text strings are
+  my drafts for Sylvia to confirm or replace, not treated as final copy.
+- `halogrip.css`: replaced the old `.testing`/`.testing-photo`/`.testing-copy`/`.iteration-list`
+  rule block (desktop + the `max-width:760px` override) with a much smaller `.sketch-process`/
+  `.sketch-process-figure` block. Also removed `.testing-copy h2` from the shared oversized-title
+  selector on the `.principles` line (that selector's other members — `.final-content h2`,
+  `.journey-inner h2`, `.site-footer h2` — are unrelated hero-scale headings; the new section's
+  `h2` uses its own smaller rule, sized like `.concept-heading h2` rather than a full-bleed hero
+  headline) and dropped a now-dead `.iteration-list h3` from the `.principles-list h3,.story-grid
+  h3` shared selector.
+- No nav link pointed at `#testing`, so renaming the section id to `#sketch-process` was safe
+  (confirmed by grep before renaming).
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean, run twice — once after the
+  initial edit, again after the CSS dead-selector cleanup). **Browser screenshot verification hit
+  the same known issue documented elsewhere in this file** (`document.hidden`/`visibilityState`
+  reporting `"hidden"` for this session's automated tab — an environment characteristic, not a
+  page bug) — screenshots came back blank even though the page was live. Verified instead via
+  direct DOM/network checks: fetched the image URL directly (200, `image/webp`, natural size
+  1920×1080 matching the source file), confirmed the rendered `<img>`'s on-page aspect ratio
+  matches that natural ratio exactly (no distortion from the `height:auto` CSS), confirmed
+  eyebrow/heading/caption text render as authored, and confirmed the new section's top/bottom
+  edges land exactly on the previous section's (`#concepts`) bottom and the next section's
+  (`#solution`, 07 FINAL CONCEPT) top with zero gap or overlap.
+
+### 09 / EMERGENCY HANDOVER five-step scenario rebuilt from a supplied asset pack; new one-time section-fade-in helper added (this session)
+- Sylvia supplied a zip, `public/media/halogrip图片/other/halogrip-scenario-assets-F3F2EE.zip`
+  (5 storyboard frames — Authorize/Activate/Reposition/Park/Complete — plus a `README.txt`
+  stating the canvas/background color is exactly `#F3F2EE` and that the 5 images already have
+  that color composited into their own backgrounds, so the page should use
+  `background-color:#F3F2EE` rather than loading the included reference PNG), with an explicit
+  spec: use the 5 images in that order: set the section's entire background to `#F3F2EE`; no
+  cards/shadows/borders/white containers around the images (their backgrounds already match);
+  all 5 steps equal size/weight in one horizontal row; restrained red only on the step numbers
+  and a thin connecting line; reuse the existing condensed heading/mono body fonts; a single
+  subtle whole-section fade-in (8px upward, 600ms) with no per-step animation, no pinning, no
+  scroll-progress linkage; stay responsive; don't touch any other section.
+- Extracted the 5 PNGs to `public/media/halogrip图片/09-handover/` (own per-section folder, same
+  convention as `03/`, `2.1`-`2.4`, `05-iteration/`). `#F3F2EE` is exactly this file's existing
+  `--paper-light` token, so no new color was introduced — `.journey` (section 09's own class)
+  now sets `background:var(--paper-light)`, matching how `.interaction` (section 08, just above
+  it) already uses the same token.
+- **`dark-section` removed from section 09.** It was previously a `<section className="journey
+  dark-section">`; with `--paper-light` as the new background, keeping `dark-section` (`background
+  :var(--dark);color:var(--white)`) would fight the new bg. Removing it lets every descendant fall
+  back to `body`'s own `color:var(--ink)` for free — the only follow-up needed was recoloring a
+  handful of colors that had been hand-picked light-gray-on-dark literals (`#c8cbc6`, `#c4c7c1`,
+  `#555956`, etc., on `.journey-lede`, `.story-grid article>p`, `.access-detail>p`/`.hud-detail>p`,
+  `.system-detail`'s border) over to the existing `var(--muted)`/`var(--line)` tokens.
+- `steps` in `page.tsx` renamed to match the supplied filenames — `IDENTIFY`→`AUTHORIZE`,
+  `RELEASE`→`COMPLETE` (`ACTIVATE`/`REPOSITION`/`PARK` unchanged) — each entry now also carries
+  its asset's filename stem so the map can build the `/media/halogrip图片/09-handover/<file>.png`
+  src directly. The old `story-N.webp` images (a different, non-matching asset set) are no longer
+  referenced by this section; left on disk untouched, same as every other superseded-but-kept
+  asset in this project's history.
+- **Connecting line**: each step is `<img> → .story-step (number + line) → h3 → p`, where
+  `.story-step` is a flex row of the red index number plus a `flex:1` 1px red line
+  (`opacity:.35`) filling the rest of that step's own column width; the last step's line is
+  `visibility:hidden` (nothing to connect to after it). This reads as one continuous line across
+  the row at normal viewing sizes, with only the 16px grid gap between columns as an unbridged
+  gap — a deliberate simplification over precisely bridging every grid gutter, in keeping with
+  "restrained." `.story-grid article img` switched from `object-fit:cover` (with a `var(--paper)`
+  crop fallback, no longer needed) to `object-fit:contain` at `aspect-ratio:1.618/1` (the 5 new
+  PNGs' own real ratio, read directly from their PNG headers — 1.607–1.627 across the 5 files,
+  close enough to treat as one shared ratio) — since the images' own backgrounds already match
+  the section's, `contain` shows each frame in full with no visible letterboxing seam.
+- **New `app/work/halogrip/section-reveal.tsx`** (`SectionReveal`, "use client"), a small generic
+  wrapper — renders the `<section>` itself (not an extra nested `<div>`) — that fires a plain
+  `IntersectionObserver` once, adds `is-visible`, then disconnects: no continuous scroll linkage,
+  no per-child animation, matching the "don't animate individual steps / don't pin / don't
+  connect to scroll progress" constraint exactly. `page.tsx`'s section 09 now renders
+  `<SectionReveal id="handover" className="journey">` instead of a plain `<section>`. CSS
+  (`halogrip.css`): `.section-reveal` defaults to `opacity:1` (so content already in the DOM
+  without JS, or before the observer fires, is never stuck invisible); only once the component
+  has mounted does it add a second class, `section-reveal-armed`, and only under `@media
+  (prefers-reduced-motion:no-preference)` does `.section-reveal-armed` actually go to `opacity:0;
+  translateY(8px)` with a `.6s` transition, with `.is-visible` bringing it back to
+  `opacity:1;translateY(0)` — so reduced-motion visitors and no-JS visitors both just see the
+  section, no animation, no flash of hidden content.
+- Not wired into any other section — `SectionReveal` exists as a reusable helper now, but per
+  the brief ("do not modify other sections") only section 09 uses it this session.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and direct DOM/computed-style
+  inspection in the dev server: `#handover`'s background resolves to `rgb(243,242,238)`
+  (`#F3F2EE`); `.story-grid` lays out as 5 equal `204.97px` columns with the images loading `200`
+  and rendering at the real `1.618/1` ratio; each step number and its connecting line compute to
+  `rgb(201,55,49)` (`--red`), with the 5th step's line `visibility:hidden`; `.system-detail`'s
+  recolored border/paragraph text resolve to the `--line`/`--muted` token values; and injecting
+  the file's existing `@media(max-width:760px)` rules as a scratch override (this session's
+  automated browser can't actually resize its viewport — same tooling limitation noted elsewhere
+  in this file) confirms the grid collapses to 2 columns with the 5th step spanning full width.
+  **Pixel screenshots of this page could not be used for verification this session** — every
+  screenshot attempt (fresh load, after `_scrollTop()` jumps, after real incremental mouse-wheel
+  scrolling, at section 09 and also at the untouched section 08 above it) came back a flat blank
+  frame despite `getComputedStyle`/`elementFromPoint` on the same live tab confirming fully
+  opaque, correctly colored, correctly positioned content at that exact moment — almost certainly
+  the browser extension's tab-capture mechanism breaking against this page's persistent React
+  Three Fiber/WebGL canvas (a known class of Chromium tab-capture bug), not a real rendering
+  defect. Flagging in case a future session hits the same thing: don't trust a blank screenshot
+  on `/work/halogrip` as evidence of a bug without cross-checking computed styles first.
+
+### 05 / CONCEPT EXPLORATION deck — concept numbers made explicit after Sylvia flagged the "1 3 4 2" card order as confusing (this session, follow-up)
+- Immediately after the previous entry's asset switch, Sylvia noticed the on-card labels' own
+  ppt numbering ("1.", "3.", "4a.", "4b.", "2.") reads as a strange, non-sequential order when
+  browsed in deck position order, and — more importantly — that landing on the final card never
+  actually told a viewer *which* concept number they'd arrived at ("不过现在这个顺序 1 3 4 2 是
+  不是有点奇怪，而且没有显示我最后选择了2" — isn't this 1/3/4/2 order a bit odd, and it doesn't
+  show I ultimately picked [concept] 2). Both are the same root cause: the deck's position order
+  (dictated by "selected direction must be the last card revealed," unchanged from every earlier
+  round's spec) and the ppt's own concept numbering are two different sequences, and showing only
+  the ppt number with no framing made the mismatch read as a mistake instead of two intentionally
+  separate axes.
+- Fix, `concept-carousel.tsx`: added a `conceptNumber` field to each `Concept`
+  ("CONCEPT 01"/"03"/"04A"/"04B"/"02", the ppt's own numbering, unchanged) and stopped folding
+  that number into `label` (label is now just the plain title — "Screen + External Device",
+  "Pull-Out Wheel", etc.). Each on-sheet card now shows `CONCEPT NN` (red, `.concept-deck-card-
+  label em`) next to the title on every card consistently, so the ppt numbering reads as its own
+  labelled axis wherever a viewer is in the deck, distinct from the position counter (`01/05`
+  etc.) already shown below. The final reveal's eyebrow changed from a bare "SELECTED DIRECTION"
+  to "SELECTED DIRECTION — CONCEPT 02", directly answering "which concept did I land on."
+  `halogrip.css`: `.concept-deck-card-label` is now `display:flex;gap:10px` to lay the number and
+  title side by side; new `.concept-deck-card-label em{font-style:normal;color:var(--red)}` rule
+  for the number.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and a live dev-server check:
+  read all 5 card labels (confirmed "CONCEPT 01" through "CONCEPT 04B" render on their respective
+  cards) and clicked through to the last card, confirming the eyebrow reads exactly
+  "SELECTED DIRECTION — CONCEPT 02".
+
+### 05 / CONCEPT EXPLORATION sketch deck switched back to the slides 11-15 asset set — the illegibility was never a sizing problem (this session, follow-up)
+- Mid-session Sylvia pointed straight at the fix: "你是不是不知道原稿的草图在哪里，在这里
+  `public/media/halogrip图片/other`" (do you not know where the original sketches are? they're
+  here). Opening the files in that folder (and the sibling `public/media/halogrip图片/05/`
+  folder, which turned out to hold the same set at full size) showed the real problem: the
+  `05-iteration/` sketches used since the previous "sketch deck" rebuild (extracted directly out
+  of the pptx zip, slides 18-22) are raw, white-on-black scans — dense overlapping pencil
+  strokes, handwritten pink annotations, and a lot of dead black canvas around a comparatively
+  small drawing. No CSS card-size increase was ever going to fix that (three separate rounds of
+  enlarging tried and failed) because the useful content was always a small fraction of each
+  image's own bounds — enlarging the card just enlarged the dead space along with it.
+  `public/media/halogrip图片/05/concept-*.{jpg,png}` — the slides 11-15 "Ideation - Concepts
+  Exploration" set this same section used in its very first round, before later rebuilds drifted
+  onto the 18-22 set per an earlier explicit instruction — turned out to already be clean,
+  well-composed, black-on-white line art at the same 2048x1431 (1.431 ratio) size. Confirmed by
+  opening all 5 files directly: no illegibility issue at all, just normal design-sketch density.
+- **`concept-carousel.tsx`**: `CONCEPTS` now points at the 5 existing `05/concept-*` files
+  instead of `05-iteration/sketch-*`: Screen + External Device, Detachable Steering Device,
+  Touch Screen, HUD + Joystick, and Pull-Out Wheel last as the `selected` (SELECTED DIRECTION)
+  card — same card order and same "final card = selected direction" narrative structure as
+  before, only the underlying image set and per-card labels/alt text changed to match this
+  content. The `05-iteration/` folder and its pptx-extracted images are left on disk, unused,
+  same as every other superseded asset folder in this project's history — not deleted.
+- **`halogrip.css`**: removed the `contrast(1.18) brightness(1.1)` filter on
+  `.concept-deck-card img` — that was compensating for the old dark/muddy scans and has no
+  purpose (and no real effect worth keeping) on the new clean white-background art.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean), plus a live check in the dev
+  server: `fetch()`'d all 5 new image paths (200, correct content-type, byte sizes matching the
+  files read directly), then clicked through to the final card and confirmed
+  `SELECTED DIRECTION` / `PULL-OUT WHEEL` renders with `concept-2-pullout-wheel.jpg` as the
+  active image.
+
+### 05 / CONCEPT EXPLORATION sketch deck sized up twice more after Sylvia reported the cards still illegible (this session, follow-up to the follow-up)
+- Sylvia's report after the previous round's size bump ("48vh→68vh" stage, "44%→56%" card) was
+  blunt: "草图都不对，全部都看不清晰为什么" (the sketches are all wrong, none can be seen
+  clearly, why?), then mid-session, live: "图片还是太少，看不清楚" / "太小" (still too
+  small/sparse, too small). The previous round's fix wasn't enough — this round drops the
+  viewport-height cap entirely and sizes the deck primarily off the container width instead.
+  `.concept-deck-stage` went from `width:min(100%,calc(68vh * 1.7))` to `width:min(100%,1040px)`;
+  `.concept-deck-card` went from `44%` (Round 8's original) → `56%` (previous round) → `66%` of
+  the stage (this round). At a typical ~960px-wide container the active card is now ~634px wide —
+  roughly 2.8x its original size. Contrast/brightness filter on the sketch `<img>` bumped slightly
+  further (`contrast(1.18) brightness(1.1)`, was `1.15/1.08`) and the card label font/padding grew
+  a notch too. Mobile override (`@media(max-width:760px)`) updated to match:
+  `.concept-deck-stage{width:100%}` (was `calc(52vh * 1.7)`), `.concept-deck-card{width:78%}`
+  (was `66%`).
+- The four background sketch sheets' `SLOT_STYLE` offsets in `concept-carousel.tsx` are
+  percentage-based (`xPercent`/`yPercent`, self-relative to each card's own — now much bigger —
+  box), so they scaled up proportionally with the active card automatically; no changes needed
+  there, and a live geometry check (`getBoundingClientRect()` on the arrows and all 5 cards)
+  confirmed no overlap with the arrow buttons at the new size.
+- **Verification note — this session's browser automation was itself unreliable**: screenshots
+  repeatedly came back solid blank even though `document.querySelector` confirmed all content
+  (including the always-visible fixed `CLOSE PROJECT` pill) was correctly laid out and painted
+  colors were set — traced to `document.hidden`/`visibilityState` reporting `"hidden"` for the
+  automated tab (an OS/window-focus issue with the Chrome extension on this machine this session,
+  not a page bug). Visual confirmation of the final size was therefore done via direct DOM
+  geometry checks (`getBoundingClientRect` on the stage/cards/arrows, `img.naturalWidth` to
+  confirm all 5 sketch assets decode correctly) rather than screenshots.
+- **Also found and diagnosed, not a real bug**: mid-session, clicking through multiple concepts in
+  quick succession sometimes left the GSAP-driven card transform/opacity visually frozen at an
+  earlier index while React's own state (`aria-hidden`, the `01/05`-style counter, the `SELECTED
+  DIRECTION` copy) had already correctly advanced further. Console logs showed repeated
+  `[Fast Refresh] rebuilding` events landing in the same windows as the test clicks, and the
+  system's own file-watcher reminders confirmed `halogrip.css` was being edited on disk by a
+  concurrent process throughout this session — i.e. Next.js dev-mode Fast Refresh was remounting
+  the component (resetting its GSAP mount baseline) mid-test because of unrelated concurrent
+  edits, not because of a flaw in `concept-carousel.tsx`'s own logic. Confirmed clean: on a fresh
+  page load with no concurrent edits in flight, a single click (and a verified 4-click sequence
+  through to the final `SELECTED DIRECTION` / `PULL-OUT WHEEL` state, checked via
+  `getComputedStyle().transform`/`.opacity` on all 5 cards) drives the GSAP transform to exactly
+  the slot `slotFor(i, index)` predicts every time. No code change was made for this — flagging it
+  here in case a future session sees the same symptom and wonders whether the carousel logic
+  itself is broken; it isn't, verified by hand-deriving `slotFor()`'s expected output and matching
+  it against the live DOM transform matrices.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean).
+
 ### 05 / CONCEPT EXPLORATION replaced again — the click-gallery is out, a scattered "sketch deck" (five overlapping paper sheets) is in; assets switched to ppt slides 18-22's iteration sketches (this session, follow-up)
 - Sylvia sent a real mockup she'd made herself,
   `public/media/halogrip图片/other/skets reference.png`, and asked for the section to match it:

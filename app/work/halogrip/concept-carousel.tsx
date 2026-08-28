@@ -13,13 +13,18 @@
  * (`public/media/halogrip图片/other/skets reference.png`) and drops the pagination
  * boxes/SELECTED button entirely in favour of just the two arrows.
  *
- * Assets also changed: the previous three rounds used the "Ideation - Concepts Exploration"
- * sketches from ppt slides 11-15. This round uses the *iteration* sketches from slides 18-22
- * instead — four early directions (`Sketch 1-4`, ppt's own numbering, each combining a shape/
- * mechanism/interaction choice: D-shaped+HUD, U-shape+on-screen, oblique ellipse, classic
- * round) converging on slide 22's "Final" sketch, which the ppt's own text there literally
- * describes as "B pillar + Mechanical + HUD + U-shape + attached to dashboard" — the pull-out
- * wheel. That's why the 5th/last card in this deck is the selected-direction reveal.
+ * Assets: back to the "Ideation - Concepts Exploration" sketches from ppt slides 11-15
+ * (`public/media/halogrip图片/05/concept-*`) — Screen+External Device, Detachable/Modular
+ * Steering Device, Touch Screen, HUD+Joystick, converging on the Pull-out Wheel as the
+ * selected direction. An earlier round of this same rebuild switched to the *iteration*
+ * sketches from slides 18-22 instead, extracted directly out of the pptx zip; Sylvia flagged
+ * those as illegible ("草图都不对，全部都看不清晰为什么") even after repeated size increases —
+ * the real problem wasn't card size, it was the source images themselves: white-on-black raw
+ * scans with dense overlapping strokes and huge dead black margins around a small drawing, so
+ * no amount of CSS scaling ever made them read better. The slides 11-15 set was already
+ * sitting in the repo as clean, well-composed, black-on-white line art (this project's very
+ * first "Concepts Exploration" round used it before later rounds drifted away from it) —
+ * switching back to it is a strict legibility fix, not a new content direction.
  *
  * Slot layout: each non-active concept is assigned one of four fixed background positions
  * (upper-left / lower-left / upper-right / lower-right) by its position in CONCEPTS relative
@@ -36,6 +41,7 @@ import gsap from "gsap";
 type Concept = {
   id: string;
   label: string;
+  conceptNumber: string;
   image: string;
   alt: string;
   selected?: boolean;
@@ -43,34 +49,39 @@ type Concept = {
 
 const CONCEPTS: Concept[] = [
   {
-    id: "sketch-1",
-    label: "1. D-Shaped + HUD",
-    image: encodeURI("/media/halogrip图片/05-iteration/sketch-1-d-shaped-hud.png"),
-    alt: "Iteration sketch 1: a D-shaped steering wheel with single-pedal operation, a mechanical pull-out mechanism, on-screen interaction, and a head-up display",
+    id: "screen-pedal",
+    label: "Screen + External Device",
+    conceptNumber: "CONCEPT 01",
+    image: encodeURI("/media/halogrip图片/05/concept-1-screen-pedal.jpg"),
+    alt: "Concept sketch 1: a start button integrated into the dashboard with on-screen speed control and a floor pedal for movement",
   },
   {
-    id: "sketch-2",
-    label: "2. U-Shape + On-Screen",
-    image: encodeURI("/media/halogrip图片/05-iteration/sketch-2-u-shape-onscreen.png"),
-    alt: "Iteration sketch 2: a U-shaped yoke steering wheel with a single pedal, an integrated on-screen display, and an electrically actuated insert mechanism",
+    id: "modular-device",
+    label: "Detachable Steering Device",
+    conceptNumber: "CONCEPT 03",
+    image: encodeURI("/media/halogrip图片/05/concept-3-modular-device.png"),
+    alt: "Concept sketch 3: a detachable steering device that inserts into a dashboard-mounted dock, authorized by NFC before use",
   },
   {
-    id: "sketch-3",
-    label: "3. Oblique Ellipse",
-    image: encodeURI("/media/halogrip图片/05-iteration/sketch-3-oblique-ellipse.png"),
-    alt: "Iteration sketch 3: an oblique elliptical steering device mounted on the dashboard with a mechanical pull-out mechanism, NFC authorization, and an aircraft-style throttle speed control",
+    id: "touchscreen",
+    label: "Touch Screen",
+    conceptNumber: "CONCEPT 04A",
+    image: encodeURI("/media/halogrip图片/05/concept-4a-touchscreen.png"),
+    alt: "Concept sketch 4a: a fold-out touchscreen mounted on the steering column offering automatic or manual activate-and-freeze control",
   },
   {
-    id: "sketch-4",
-    label: "4. Classic Round",
-    image: encodeURI("/media/halogrip图片/05-iteration/sketch-4-classic-round.png"),
-    alt: "Iteration sketch 4: a classic round steering wheel mounted on electrical slide rails, with voice control and NFC-enabled authorization",
+    id: "hud-joystick",
+    label: "HUD + Joystick",
+    conceptNumber: "CONCEPT 04B",
+    image: encodeURI("/media/halogrip图片/05/concept-4b-hud-joystick.jpg"),
+    alt: "Concept sketch 4b: a head-up display prompting a left-or-right choice, controlled by a dashboard-mounted joystick with a stop button",
   },
   {
-    id: "sketch-5",
-    label: "5. Pull-Out Wheel",
-    image: encodeURI("/media/halogrip图片/05-iteration/sketch-5-final-pullout-wheel.jpg"),
-    alt: "Final concept sketch: a U-shaped wheel mounted at the B-pillar with a mechanical pull-out mechanism and head-up display — the selected direction",
+    id: "pullout-wheel",
+    label: "Pull-Out Wheel",
+    conceptNumber: "CONCEPT 02",
+    image: encodeURI("/media/halogrip图片/05/concept-2-pullout-wheel.jpg"),
+    alt: "Concept sketch 2: a steering wheel that pulls out from the dashboard, revealing integrated function controls — the selected direction",
     selected: true,
   },
 ];
@@ -178,7 +189,10 @@ export default function ConceptCarousel() {
               cardRefs.current[i] = el;
             }}
           >
-            <span className="concept-deck-card-label">{concept.label}</span>
+            <span className="concept-deck-card-label">
+              <em>{concept.conceptNumber}</em>
+              {concept.label}
+            </span>
             <img src={concept.image} alt={concept.alt} loading={i === 0 ? "eager" : "lazy"} />
           </div>
         ))}
@@ -191,7 +205,9 @@ export default function ConceptCarousel() {
       <div className="concept-deck-copy">
         {active.selected ? (
           <>
-            <span className="concept-deck-eyebrow concept-deck-eyebrow-selected">SELECTED DIRECTION</span>
+            <span className="concept-deck-eyebrow concept-deck-eyebrow-selected">
+              SELECTED DIRECTION — {active.conceptNumber}
+            </span>
             <h3>PULL-OUT WHEEL</h3>
           </>
         ) : null}
