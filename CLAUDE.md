@@ -190,6 +190,100 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
   jumps instead of a few large ones. A future session should re-confirm stage 5 specifically with
   real mouse-wheel scrolling if this becomes load-bearing.
 
+### 05 / CONCEPT EXPLORATION carousel rewritten a second time — self-contained wheel/drag/click hero, ported from a reference `HeroCarousel` component (this session, follow-up)
+- The scroll-scrubbed version documented in the entry below this one shipped with three real
+  problems Sylvia found by actually looking at it: the cards read as too narrow to make out the
+  sketch detail, the background didn't match the ppt's dark navy slide, and the motion itself
+  ("动线") was wrong. Diagnosed by re-reading the ppt's own OOXML coordinates directly against
+  the shipped CSS/JS rather than guessing:
+  - **Narrow cards**: `.concept-carousel-card{width:24%;height:100%}` combined two unrelated
+    percentages into whatever aspect ratio fell out, which didn't match the sketches' real
+    1.431:1 ratio (verified: both card sizes in the ppt, 2245800x1569300 and 2831100x1978200
+    EMU, reduce to the exact same 1.431 — not a coincidence, it's the sketches' own aspect).
+    Mismatched ratio meant `object-fit:cover` was cropping the sides off, including the
+    handwritten labels near the edges of several sketches.
+  - **transform-origin bug, confirmed from the ppt's own numbers**: computing each spotlight
+    card's vertical centre (`y-offset + height/2`) across all 5 slides gives exactly 1811825
+    EMU every time — identical to the same slide's un-enlarged row's own vertical centre. The
+    ppt scales its spotlight card from the *centre*, not the bottom; the shipped code used
+    `transform-origin:50% 100%` (bottom-anchored), which read as the card bulging upward when
+    it grew instead of growing evenly.
+  - **The real "动线" bug**: `track` translated by `-focus*STEP%` while each card sat at its own
+    static `left:i*STEP%`, which nets out to the focused card always rendering at track x=0 —
+    i.e. pinned to the stage's left edge on every single stage, not just some of them. Enlarging
+    a card anchored at the left edge pushed its left half past the stage boundary into the
+    `overflow:hidden` clip.
+- Sylvia then supplied the actual fix in the form of a reference `HeroCarousel` component
+  (framer-motion, full source pasted in-conversation, not just a usage demo) and said to base
+  the carousel's motion on it directly. Confirmed with her before touching code: rebuild using
+  GSAP instead of adding framer-motion as a new dependency (this route uses GSAP exclusively —
+  `scroll-intro.tsx`/`process-scene.tsx`/`design-gap-scene.tsx` — and hand-written CSS, no
+  Tailwind, unlike the reference's Tailwind+`cn()` markup), porting the reference's actual
+  interaction model rather than literally its code.
+- **`app/work/halogrip/concept-carousel.tsx` rewritten from scratch**, dropping the entire
+  scroll-scrubbed architecture (the tall `position:sticky` spacer container, the
+  `IntersectionObserver`+`window.scroll` progress listener, the continuous-float `applyFrame`).
+  It's no longer tied to page-scroll position at all — matching the reference, it's a
+  self-contained widget:
+  - `index` is a discrete integer (`useState`), stepped by wheel, drag, a clicked card, or
+    arrow/Home/End keys — never a continuous scroll-driven float
+  - **The actual fix for the "动线" bug**: `xFor(i) = stageWidth/2 - (i*step + cardW/2)` — the
+    *track* translates on every index change (via `gsap.to()`) so the focused card is always
+    centred in the stage, with room on both sides. This is the reference's core trick and
+    directly replaces the old "focus pinned at track origin" bug above.
+  - Card sizing keeps the reference's "fixed height, width = height x aspect ratio, focused =
+    full height, others = half height, shared top edge" framework unchanged — the ratio-agnostic
+    part of it — with only `CARD_AR` swapped from the reference's 0.75 (portrait photography) to
+    `1.431` (the sketches' real, ppt-verified ratio, confirmed above)
+  - Wheel handling (accumulate delta into ±1 steps past a threshold, with a cooldown) is ported
+    with the reference's own numbers (`WHEEL_THRESHOLD=60`, `WHEEL_COOLDOWN=420`), including its
+    scroll-chaining behavior: at either end, wheel events aren't `preventDefault`'d, so hovering
+    this full-bleed block and continuing to scroll hands the gesture back to the page instead of
+    trapping it
+  - Drag: no framer-motion `drag` prop available, so this is manual `pointerdown`/`pointermove`/
+    `pointerup` tracking, live-writing the track's `x` via `gsap.set` during the drag and
+    snapping to the nearest card on release (`Math.round((stageW/2 - thrown - cardW/2)/step)`,
+    thrown = release position + a velocity nudge — same formula as the reference)
+  - Background: all 5 sketches stacked as permanently-mounted absolutely-positioned layers,
+    crossfaded via `gsap.to(el,{opacity})` on index change (simpler than the reference's
+    `AnimatePresence` mount/unmount — GSAP has no equivalent primitive, so this trades a little
+    always-loaded memory for not needing one). A single `#121B32` (the ppt's own navy) tint
+    layer sits on top via `mix-blend-mode:multiply` — deliberately *not* per-card accent hues
+    like the reference (Sylvia asked for one consistent dark navy background, not a different
+    colour per concept)
+  - Bottom-left rail (`01/05` counter + a sliding fill line) replaces the previous 5-dot
+    indicator — closer to the reference's own rail treatment
+  - `ResizeObserver`-driven measurement (not `window.innerWidth` breakpoints) means the whole
+    thing scales continuously with real measured stage size, the same technique the reference
+    uses — no separate `<760px` layout path needed
+- **`.concept-carousel` is now a genuine full-bleed panel** (`left:50%;margin-left:-50vw` etc.,
+  breaking out of the parent `.concepts.shell`'s max-width/padding), a deliberate default: the
+  `[ 05 / CONCEPT EXPLORATION ]` eyebrow + big headline + intro paragraph *above* it stay on the
+  page's normal light background, unchanged — only the carousel itself becomes the dark,
+  ppt-navy, edge-to-edge "hero" panel, matching how `.need-scene`/`.response-scene`/
+  `.design-gap-scene` already nest full-bleed dark scenes inside an otherwise-light page rather
+  than converting a whole numbered section to dark. Flagged to Sylvia as the default interpretation
+  in case she actually wants the outer heading dark too.
+- **`canEnhance()` simplified** to only check `prefers-reduced-motion` — the old `<760px` check
+  was there because a `position:sticky`+`ScrollTrigger`-scrubbed layout genuinely got fragile on
+  narrow viewports; wheel/drag/click/keyboard input has no such constraint, so the interactive
+  carousel now runs at any width and only the static `ConceptFallback` grid is reserved for
+  actual reduced-motion preference (also re-themed dark, to match).
+- **Hit the same normalizeScroll stale-max-scroll-bound issue as the previous version**, even
+  though this rewrite creates no `ScrollTrigger` of its own: the component still mounts `null`
+  on first paint then a real ~520-760px section once `enhanced` resolves, and that async height
+  change is enough to desync the site's cached scroll bound again. Same fix, `ScrollTrigger
+  .refresh()` in the mount effect — kept the `gsap`/`ScrollTrigger` import for exactly this one
+  call, nothing else in the rewrite touches ScrollTrigger.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and real interactive testing
+  in the dev server (mouse wheel over the carousel to step through, click-any-card, `Home`/
+  `ArrowRight` keyboard nav) — confirmed: focused card always centred with visible margin on
+  both sides (no more left-edge clipping), sketches render at full legible size uncropped when
+  focused, background is the dark navy from the ppt with a crossfade on every index change, the
+  "SELECTED DIRECTION" tag reads clearly on the dark background next to PULL-OUT WHEEL, and
+  wheel-scrolling past the last card correctly hands off to real page scroll (confirmed: scrolling
+  past index 5 lands cleanly on `[ 06 / PROTOTYPE TESTING ]`, not stuck).
+
 ### 04 / DESIGN PRINCIPLES — heading downsized, intro image removed (this session, follow-up)
 - Sylvia asked to shrink "第四section的大字" (04's big heading) and drop "那个图片" (the
   `product-detail.webp` close-up shot sitting under the intro paragraph in `.principles-intro`).
