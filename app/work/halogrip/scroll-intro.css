@@ -30,15 +30,15 @@
 
 /* Not from the deck: the case-study framing the static hero would otherwise carry.
    Set in the page's own mono so it reads as page furniture, not as slide content. */
-.si-subtitle{position:absolute;z-index:3;left:0;right:0;top:58%;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+.si-subtitle{position:absolute;z-index:3;left:0;right:0;top:58%;text-align:center;font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);pointer-events:none}
 
 /* Grouping wrapper so a whole set of labels cross-fades on one tween. */
 .si-layer{position:absolute;inset:0;z-index:3;pointer-events:none}
 
 /* The deck's two label weights: 20pt Poppins Bold with a 6pt shadow, and 14pt Poppins
    Light with none. Every label is accent-coloured. */
-.si-note{position:absolute;z-index:3;margin:0;white-space:nowrap;color:var(--accent);font-weight:300;font-size:min(1.46vw,3.46vh);line-height:1.3;pointer-events:none;will-change:opacity}
-.si-note.is-lead{font-weight:700;font-size:min(2.08vw,4.94vh);text-shadow:.52vh .52vh 1.48vh rgba(128,128,128,.4)}
+.si-note{position:absolute;z-index:3;margin:0;white-space:nowrap;color:var(--accent);font-weight:300;font-size:max(12px,min(1.46vw,3.46vh));line-height:1.3;pointer-events:none;will-change:opacity}
+.si-note.is-lead{font-weight:700;font-size:max(12px,min(2.08vw,4.94vh));text-shadow:.52vh .52vh 1.48vh rgba(128,128,128,.4)}
 .si-note-wide{left:68.7%;top:68.1%;width:25%;white-space:normal}
 .si-stage-label{left:68.7%;top:68.1%}
 

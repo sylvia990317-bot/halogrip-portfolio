@@ -75,8 +75,8 @@ function IconCar() {
  *  skew so the row reads as following the road's own perspective, not sitting flat-on. */
 const PANELS: Panel[] = [
   { id: "incident", index: "01", title: "INCIDENT", sub: "EVENT DETECTED", x: 25, y: 68, rotateY: -3, icon: IconWarn },
-  { id: "support", index: "02", title: "EXTERNAL SUPPORT", sub: "CALL · VERIFY · AUTHORIZE", x: 38.5, y: 60, rotateY: -6, icon: IconSupport },
-  { id: "move", index: "03", title: "MOVE OR TOW", sub: "HELP REACHES THE VEHICLE", x: 52, y: 53, rotateY: -9, icon: IconCar },
+  { id: "support", index: "02", title: "EXTERNAL SUPPORT", sub: "CALL · VERIFY · AUTHORIZE", x: 40.5, y: 60, rotateY: -6, icon: IconSupport },
+  { id: "move", index: "03", title: "MOVE OR TOW", sub: "HELP REACHES THE VEHICLE", x: 56, y: 53, rotateY: -9, icon: IconCar },
 ];
 const PANEL_W = 12.5;
 const PANEL_H = 21;
@@ -202,12 +202,13 @@ export default function DesignGapSequence() {
     gsap.registerPlugin(ScrollTrigger);
     const ease = gsap.parseEase("power1.inOut");
 
-    function setLine(el: SVGLineElement | null, x1: number, x2: number) {
+    function setLine(el: SVGLineElement | null, x1: number, x2: number, opacity: number) {
       if (!el) return;
       el.setAttribute("x1", String(x1));
       el.setAttribute("x2", String(x2));
       el.setAttribute("y1", String(NODE_Y));
       el.setAttribute("y2", String(NODE_Y));
+      el.style.opacity = String(opacity * 0.75);
     }
 
     function applyFrame(t: number) {
@@ -275,8 +276,8 @@ export default function DesignGapSequence() {
           el.style.opacity = String(nodesOpacity);
         }
       });
-      setLine(lineARef.current, positions[0], positions[1]);
-      setLine(lineBRef.current, positions[1], positions[2]);
+      setLine(lineARef.current, positions[0], positions[1], nodesOpacity);
+      setLine(lineBRef.current, positions[1], positions[2], nodesOpacity);
       if (glowRef.current) {
         const settlePulse = Math.max(0, spreadT - 0.85) * 2;
         glowRef.current.style.opacity = String(clamp01(nodesOpacity * 0.65 + settlePulse * 0.25));
@@ -326,9 +327,8 @@ export default function DesignGapSequence() {
         <div className="dgs-s1-copy" ref={s1CopyRef}>
           <span className="eyebrow dgs-s1-label">[ 02.3 / CURRENT RESPONSE ]</span>
           <h2 id="response-title" className="dgs-s1-headline">
-            HELP EXISTS.
-            <br />
-            BUT IT IS NOT IMMEDIATE.
+            <span className="dgs-s1-headline-line">HELP EXISTS.</span>
+            <span className="dgs-s1-headline-line">BUT IT IS NOT IMMEDIATE.</span>
           </h2>
           <p className="dgs-s1-para">Moving a stalled robotaxi still depends on external support, authorization and time on site.</p>
         </div>

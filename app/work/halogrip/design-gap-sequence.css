@@ -15,16 +15,17 @@
 
 /* State 1 — 02.3 CURRENT RESPONSE. Upper-left copy block, matching this page's other
    photographic establishing shots (compare .need-heading / the removed .response-scene). */
-.dgs-s1-copy{position:absolute;z-index:5;left:var(--gutter);top:9%;width:min(520px,calc(100% - 2*var(--gutter)));will-change:opacity,transform}
+.dgs-s1-copy{position:absolute;z-index:5;left:var(--gutter);top:9%;width:calc(100% - 2*var(--gutter));will-change:opacity,transform}
 .dgs-s1-label{color:var(--white);opacity:.85}
 .dgs-s1-headline{margin:14px 0 0;font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.92;letter-spacing:-.02em;color:#f2e9d6;font-size:clamp(38px,4.6vw,74px);text-shadow:0 4px 26px rgba(0,0,0,.65)}
-.dgs-s1-para{margin:16px 0 0;max-width:420px;font-size:11px;line-height:1.6;color:#d8d4c8;letter-spacing:.01em;text-shadow:0 2px 10px rgba(0,0,0,.75)}
+.dgs-s1-headline-line{display:block;white-space:nowrap}
+.dgs-s1-para{margin:16px 0 0;max-width:420px;font-size:var(--fs-body);line-height:1.6;color:#d8d4c8;letter-spacing:.01em;text-shadow:0 2px 10px rgba(0,0,0,.75)}
 
 /* Three glass workflow panels, lower-middle, a glance not a diagram. */
 .dgs-graphic{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:2;pointer-events:none}
 .dgs-connector-line{fill:none;stroke:#ff5b46;stroke-width:.12;stroke-linecap:round;opacity:.5}
 .dgs-connector-dot{fill:var(--red);opacity:.75}
-.dgs-node-line{fill:none;stroke:var(--red);stroke-width:.14;stroke-linecap:round;opacity:.75}
+.dgs-node-line{fill:none;stroke:var(--red);stroke-width:.14;stroke-linecap:round;opacity:0;will-change:opacity}
 
 .dgs-dust{position:absolute;inset:0;z-index:3;pointer-events:none}
 .dgs-dust-mote{position:absolute;border-radius:50%;background:radial-gradient(circle,#ff9a82,var(--red) 65%,transparent 100%);opacity:0;transform:translate(-50%,-50%)}
@@ -34,14 +35,14 @@
 .dgs-panel-index{font-family:var(--display);font-weight:700;color:var(--red);font-size:clamp(12px,.9vw,15px)}
 .dgs-panel-icon{width:17px;height:17px;color:rgba(245,245,241,.7)}
 .dgs-panel-icon svg{width:100%;height:100%}
-.dgs-panel h3{margin:12px 0 0;font-family:var(--display);font-weight:700;font-size:clamp(10.5px,.85vw,13px);line-height:1.15;letter-spacing:-.01em;text-transform:uppercase;color:var(--white)}
-.dgs-panel p{margin:auto 0 0;padding-top:8px;font-size:7.5px;letter-spacing:.03em;text-transform:uppercase;color:rgba(245,245,241,.55)}
+.dgs-panel h3{margin:12px 0 0;font-family:var(--display);font-weight:700;font-size:clamp(14px,1.15vw,20px);line-height:1.15;letter-spacing:-.01em;text-transform:uppercase;color:var(--white)}
+.dgs-panel p{margin:auto 0 0;padding-top:8px;font-size:var(--fs-caption);letter-spacing:.03em;text-transform:uppercase;color:rgba(245,245,241,.55)}
 
 /* State 3 — 02.4 DESIGN GAP. Centred, upper portion, over the "in car" interior. */
-.dgs-s3-copy{position:absolute;left:0;right:0;top:13%;z-index:6;padding-inline:8%;text-align:center;opacity:0;will-change:opacity,transform}
+.dgs-s3-copy{position:absolute;left:0;right:0;top:13%;z-index:6;padding-inline:20%;text-align:center;opacity:0;will-change:opacity,transform}
 .dgs-s3-label{color:var(--white);opacity:.85}
-.dgs-s3-headline{margin:14px 0 0;font-family:var(--display);font-weight:700;line-height:.98;letter-spacing:-.02em;text-transform:uppercase;color:#ece7d8;font-size:clamp(28px,3.6vw,54px);text-shadow:0 3px 26px rgba(0,0,0,.55)}
-.dgs-s3-sub{margin:14px 0 0;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+.dgs-s3-headline{margin:20px 0 0;font-family:var(--display);font-weight:700;line-height:.98;letter-spacing:-.02em;text-transform:uppercase;color:#ece7d8;font-size:clamp(28px,3.6vw,54px);text-shadow:0 3px 26px rgba(0,0,0,.55)}
+.dgs-s3-sub{margin:20px 0 0;font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.08em;text-transform:uppercase;color:var(--red);text-shadow:0 2px 12px rgba(0,0,0,.9),0 0 22px rgba(0,0,0,.7)}
 
 /* Dashboard nodes — simple circles, not cards. Only the accent (centre) node carries a
    restrained glow; the outer two stay quiet. */
@@ -49,7 +50,7 @@
 .dgs-node-dot{position:relative;z-index:1;width:11px;height:11px;border-radius:50%;background:rgba(20,20,20,.7);border:1px solid rgba(245,245,241,.55)}
 .dgs-node-accent .dgs-node-dot{border-color:var(--red);background:var(--red)}
 .dgs-node-glow{position:absolute;left:50%;top:50%;width:34px;height:34px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(233,42,42,.55),transparent 70%);filter:blur(4px);opacity:0;pointer-events:none}
-.dgs-node-label{font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,245,241,.85);white-space:nowrap;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.dgs-node-label{font-size:var(--fs-caption);letter-spacing:.08em;text-transform:uppercase;color:rgba(245,245,241,.85);white-space:nowrap;text-shadow:0 2px 8px rgba(0,0,0,.6)}
 .dgs-node-accent .dgs-node-label{color:#ffece7}
 
 /* Reduced-motion fallback: no pin, no scrub — two ordinary stacked static sections. */
@@ -61,8 +62,8 @@
 .dgs-fb-copy-center{text-align:center}
 .dgs-fb-label{color:var(--white);opacity:.85}
 .dgs-fb-headline{margin:14px 0 0;font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.95;letter-spacing:-.02em;color:#f2e9d6;font-size:clamp(34px,5.2vw,68px);text-shadow:0 4px 26px rgba(0,0,0,.65)}
-.dgs-fb-para{margin:16px 0 0;max-width:460px;font-size:11px;line-height:1.6;color:#d8d4c8}
-.dgs-fb-sub{margin:14px auto 0;max-width:460px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+.dgs-fb-para{margin:16px 0 0;max-width:460px;font-size:var(--fs-body);line-height:1.6;color:#d8d4c8}
+.dgs-fb-sub{margin:14px auto 0;max-width:460px;font-size:var(--fs-caption);letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
 
 /* .dgs-s1-copy / .dgs-panel / .dgs-node etc. never render below 760px — canEnhance()
    sends narrow viewports to .dgs-fb-* (above) instead, same convention scroll-intro.tsx

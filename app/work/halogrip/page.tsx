@@ -5,6 +5,7 @@ import "./scroll-intro.css";
 import "./design-gap-sequence.css";
 import InteractionDeck from "./interaction-deck";
 import ScrollIntro from "./scroll-intro";
+import { meta } from "./content";
 import OverviewBackdrop from "./overview-backdrop";
 import DesignGapSequence from "./design-gap-sequence";
 import ConceptCarousel from "./concept-carousel";
@@ -70,6 +71,23 @@ export default function HalogripPage() {
       </a>
 
       <ScrollIntro />
+
+      <section className="product-intro section shell">
+        <div className="product-intro-heading">
+          <h2>NEXT GENERATION STEERING DEVICE</h2>
+        </div>
+        <div className="metadata">
+          {meta.map(([label, value]) => (
+            <div className="meta-item" key={label}>
+              <span className="eyebrow">[ {label} ]</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </div>
+        <figure className="product-intro-image">
+          <img src={encodeURI("/media/halogrip图片/other/untitled.226.png")} alt="Close-up of the HALOGRIP grip's authorization control and mounting detail" loading="lazy" />
+        </figure>
+      </section>
 
       <section className="overview section" id="overview">
         <OverviewBackdrop />

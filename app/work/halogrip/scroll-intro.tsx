@@ -30,6 +30,7 @@ import { Poppins } from "next/font/google";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { markPinReady } from "./pin-coordinator";
+import { meta } from "./content";
 
 const ScrollIntroScene = dynamic(() => import("./scroll-intro-scene"), { ssr: false });
 
@@ -142,13 +143,6 @@ const ARC_REVERSE: ArcFrame = { left: "31.82%", top: "18.34%", width: "36.35%", 
 const TILT_FORWARD = 15.12;
 const TILT_BRAKE = 0;
 const TILT_REVERSE = -22.79;
-
-const meta = [
-  ["Deliverable", "Fallback steering"],
-  ["Partner", "Autoliv × Chalmers"],
-  ["Role", "User research + concept"],
-  ["Context", "Level 4 robotaxi"],
-];
 
 /** Slide 2's four labels. `lead` ones are 20pt bold, the others 14pt light. */
 const facts = [
