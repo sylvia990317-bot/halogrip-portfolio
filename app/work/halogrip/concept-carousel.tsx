@@ -93,10 +93,17 @@ type SlotName = "center" | "ul" | "ll" | "ur" | "lr";
 const SLOT_ORDER: SlotName[] = ["ul", "ll", "ur", "lr"];
 const SLOT_STYLE: Record<SlotName, { xPercent: number; yPercent: number; rotation: number; scale: number; opacity: number; z: number }> = {
   center: { xPercent: 0, yPercent: 0, rotation: 0, scale: 1, opacity: 1, z: 10 },
-  ul: { xPercent: -112, yPercent: -52, rotation: -7, scale: 0.6, opacity: 0.55, z: 3 },
-  ll: { xPercent: -104, yPercent: 58, rotation: -5, scale: 0.56, opacity: 0.48, z: 2 },
-  ur: { xPercent: 98, yPercent: -56, rotation: 6, scale: 0.6, opacity: 0.55, z: 3 },
-  lr: { xPercent: 92, yPercent: 60, rotation: 5, scale: 0.56, opacity: 0.48, z: 2 },
+  // xPercent/yPercent trimmed to ~60% of their original magnitude (was -112/-104/98/92 and
+  // -52/58/-56/60): at the original spread the corner cards' unscaled translate distance (a
+  // GSAP xPercent/yPercent resolves against the card's own untransformed box, not its scaled
+  // render size) pushed them ~110-130px above/below the stage box — enough to visibly overlap
+  // the section heading/intro paragraph above and the SELECTED/counter copy below. Verified via
+  // live getBoundingClientRect() against the reference-matched -112/-52 etc. values before this
+  // change. Kept the same four-corner "fanned sheets" composition, just a tighter fan.
+  ul: { xPercent: -68, yPercent: -31, rotation: -7, scale: 0.6, opacity: 0.55, z: 3 },
+  ll: { xPercent: -63, yPercent: 35, rotation: -5, scale: 0.56, opacity: 0.48, z: 2 },
+  ur: { xPercent: 60, yPercent: -33, rotation: 6, scale: 0.6, opacity: 0.55, z: 3 },
+  lr: { xPercent: 56, yPercent: 36, rotation: 5, scale: 0.56, opacity: 0.48, z: 2 },
 };
 
 function slotFor(index: number, active: number): SlotName {

@@ -75,6 +75,8 @@ app/
       interaction-deck.tsx  Client component, steering-state demo ("use client")
       scroll-intro*.tsx/css Pinned scroll-driven 3D opening (R3F + GSAP ScrollTrigger), ported
                              1:1 from Sylvia's PowerPoint reference — see Recent changes
+      need-scene.tsx         02.2 / REAL-WORLD NEED — one-shot route-line draw-in synced to
+                             the annotations/frame/stat, see Recent changes
 public/
   media/                   HALOGRIP's images (kept flat at /media/*.webp; not yet reorganized
                             per-project since there's only one project with real assets)
@@ -114,6 +116,65 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
   from this directory with `vercel --prod --yes`.
 
 ## Recent changes
+
+### 02.2 REAL-WORLD NEED — route line now draws itself in, synced to the annotations/frame/stat (this session)
+- Sylvia asked for animation on the previously fully-static 02.2 poster: the route line should
+  draw itself in, with the text/annotations appearing one by one as the line reaches each point
+  ("字也有跟着线的显示一个个出现"), and confirmed (via `AskUserQuestion`) this should extend to
+  every element on the poster — the vehicle frame + "74" stat and the `RESPONSE ORIGIN` block too
+  — synced to the line's own draw progress, not a fixed independent stagger. Per the section's
+  existing design (a static, percentage/`vw`-positioned "poster" — see the entry below on why),
+  this is a one-shot reveal-on-scroll-into-view, not a scroll-scrubbed or pinned scene — no
+  `pin-coordinator.ts` wiring needed since this creates no pin.
+- Extracted the section out of `page.tsx` into a new client component, **`app/work/halogrip/
+  need-scene.tsx`** (`NeedScene`, `"use client"`), following the same per-scene-file convention as
+  `overview-backdrop.tsx`/`design-gap-sequence.tsx`/`concept-carousel.tsx`. `page.tsx` now just
+  renders `<NeedScene />`.
+- **The draw-in mechanism**: `.need-route`/`.need-route-glow` already carry their own
+  `stroke-dasharray` for visual styling (a dashed line + a blurred glow), so animating their own
+  `stroke-dashoffset` for a reveal would fight that pattern. Instead added an invisible solid copy
+  of the same path inside a new `<mask id="need-route-reveal">`; on mount, JS measures
+  `getTotalLength()`, sets that copy's own `stroke-dasharray`/`stroke-dashoffset` to its full
+  length (hidden), and a GSAP tween counts `dashoffset` down to 0 — revealing the real two paths
+  underneath via the mask without ever touching their own dash styling.
+- **Timing is derived from the path's real geometry, not hand-picked percentages**: a
+  `fractionAt(x, y)` helper samples the path (400 steps via `getPointAtLength`) to find what
+  fraction of the total length the draw-in reaches by the time it passes closest to a given
+  target point. This is used to time every other reveal off the same GSAP timeline: annotation
+  `01 BLOCKED ROADS` fades in (opacity+`y`) right as the line passes its dot, the vehicle frame +
+  "74" stat fade in as the line passes the frame's left edge, then `02`/`03` as the line reaches
+  their own dots, then `RESPONSE ORIGIN` + the source line once the line finishes drawing (at
+  fraction 1). SVG elements (leader lines/dots, the frame's rect/corner paths) animate opacity
+  only; HTML elements (the annotation `<div>`s, stat, origin, source) also get a small
+  translateY. Triggered via a plain one-shot `ScrollTrigger.create({ start:"top 70%", once:true,
+  onEnter })`, deferred behind `onPinsReady(["scroll-intro"], ...)` (consuming only — this
+  component doesn't register itself in `pin-coordinator.ts`'s `Source` union since nothing
+  downstream depends on it) so its trigger measures against the final, post-pin document layout
+  rather than baking in a too-short pre-pin position.
+- `prefers-reduced-motion` skips building the timeline entirely: the mask's dashoffset is set
+  straight to 0 and the poster just renders in its finished state, no motion — matching every
+  other reduced-motion fallback on this page. No new CSS was needed for the pre-reveal hidden
+  state (GSAP sets `opacity:0` directly only when it's actually going to animate something in, so
+  a no-JS/reduced-motion visitor never sees anything stuck invisible).
+- **Fixed a real static-layout issue found while building this**: the route's own coordinates ran
+  straight through the red frame box in the middle (flat at `y=500` across `x745-960`, inside the
+  frame's own `y435-670` span) — the dashed line visibly cut across the boxed stalled vehicle.
+  Sylvia's first ask was to reroute the path around the box; she then clarified she actually wanted
+  the line to simply stop before the box and resume after it, reading as passing *behind* the box
+  rather than bending around it ("框原本的那段不显示，过了框以后再续上"). Implemented with a second,
+  static mask (`#need-frame-cutout`): a full-canvas white rect with a black rect cut out over the
+  frame's own bounds (plus a small pad for the glow's blur), nested as an outer `<g>` wrapping the
+  reveal-mask `<g>` from above — so the line's rendered stroke is unconditionally absent inside the
+  frame's footprint regardless of draw progress, while the path's real (unbent) geometry is still
+  what every `fractionAt()` timing calculation runs against.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and real mouse-wheel scrolling
+  in the dev server: confirmed the pre-reveal state (dashoffset at full length, every synced
+  element at opacity 0) before the section enters view; confirmed the line draws left-to-right and
+  visibly disappears under the frame box and reappears cleanly on the other side with no line
+  crossing the box; confirmed `01`/`02`/`03`, the frame+"74" stat, and `RESPONSE ORIGIN`+source
+  each appear in the correct order tied to the line's own progress (checked both via screenshots
+  and by reading `getComputedStyle().opacity`/`strokeDashoffset` mid-scroll); confirmed no console
+  errors across two fresh page loads.
 
 ### Section padding-block tightened ~30% after the mason-wong.com resize made the page feel "too zoomed in" (this session, follow-up)
 - Right after the previous entry's literal-pixel resize, Sylvia reported the whole page now feels

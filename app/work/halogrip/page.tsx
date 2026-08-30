@@ -10,6 +10,7 @@ import OverviewBackdrop from "./overview-backdrop";
 import DesignGapSequence from "./design-gap-sequence";
 import ConceptCarousel from "./concept-carousel";
 import SectionReveal from "./section-reveal";
+import NeedScene from "./need-scene";
 
 // Route-scoped, same pattern as scroll-intro.tsx's Poppins load: keeps these fonts
 // off `/` and off every other route. Replaces the self-hosted Nimbus Sans Narrow /
@@ -119,76 +120,7 @@ export default function HalogripPage() {
         </div>
       </section>
 
-      <section className="need-scene dark-section" aria-labelledby="challenge-need-title">
-        <div
-          className="need-bg"
-          style={{ backgroundImage: `url(${encodeURI("/media/halogrip图片/2.2/2.2 background.png")})` }}
-        />
-        <div className="need-scrim" />
-
-        <span className="eyebrow need-marker">[ 02.2 / REAL-WORLD NEED ]</span>
-
-        {/* TODO(sylvia): verify/cite the "74" AV-related-disruptions stat source */}
-        <h2 id="challenge-need-title" className="need-heading">THE NEED TO MOVE<br />THE VEHICLE REMAINS.</h2>
-
-        <svg className="need-graphic" viewBox="0 0 1672 941" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <pattern id="need-hatch" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-              <line x1="0" y1="0" x2="0" y2="8" stroke="var(--red)" strokeWidth="1" opacity=".35" />
-            </pattern>
-          </defs>
-
-          <path
-            className="need-route-glow"
-            d="M255,500 L300,500 L420,500 L468,528 L545,528 L592,528 L630,500 L745,500 L960,500 L1042,500 L1075,478 L1175,478 L1215,478 L1255,505 L1330,545 L1420,545 L1470,530 L1560,502"
-          />
-          <path
-            className="need-route"
-            d="M255,500 L300,500 L420,500 L468,528 L545,528 L592,528 L630,500 L745,500 L960,500 L1042,500 L1075,478 L1175,478 L1215,478 L1255,505 L1330,545 L1420,545 L1470,530 L1560,502"
-          />
-
-          <line className="need-leader" x1="700" y1="358" x2="627" y2="500" />
-          <circle className="need-leader-dot" cx="627" cy="500" r="3" />
-          <line className="need-leader" x1="1115" y1="432" x2="1063" y2="500" />
-          <circle className="need-leader-dot" cx="1063" cy="500" r="3" />
-          <line className="need-leader" x1="1210" y1="600" x2="1320" y2="545" />
-          <circle className="need-leader-dot" cx="1320" cy="545" r="3" />
-
-          <rect className="need-frame-fill" x="745" y="435" width="215" height="235" />
-          <rect className="need-frame-outline" x="745" y="435" width="215" height="235" />
-          <path className="need-frame-corner" d="M739,451 L739,429 L757,429" />
-          <path className="need-frame-corner" d="M948,429 L966,429 L966,447" />
-          <path className="need-frame-corner" d="M739,658 L739,676 L757,676" />
-          <path className="need-frame-corner" d="M948,676 L966,676 L966,658" />
-        </svg>
-
-        <div className="need-annotation" style={{ left: "41.87%", top: "34.54%" }}>
-          <span className="need-annotation-index">01</span>
-          <span className="need-annotation-label">BLOCKED ROADS</span>
-        </div>
-        <div className="need-annotation" style={{ left: "66.69%", top: "41.23%" }}>
-          <span className="need-annotation-index">02</span>
-          <span className="need-annotation-label">BLOCKED FIRE<br />STATION EXITS</span>
-        </div>
-        <div className="need-annotation" style={{ left: "71.65%", top: "63.76%" }}>
-          <span className="need-annotation-index">03</span>
-          <span className="need-annotation-label">DISRUPTED<br />FIREFIGHTING</span>
-        </div>
-
-        <span className="need-stat-number" style={{ left: "46.2%", top: "59.7%" }}>74</span>
-        <p className="need-stat-caption" style={{ left: "44.56%", top: "73.32%" }}>
-          AV-related disruptions to<br />emergency response in<br />San Francisco, Nov 2022–Aug 2023.
-        </p>
-
-        <div className="need-origin" style={{ left: "2.39%", top: "71.8%" }}>
-          <span>RESPONSE ORIGIN</span>
-          <strong>FIRE STATION 12</strong>
-        </div>
-
-        <span className="need-source-mark" style={{ left: "2.39%", top: "93.6%" }} />
-        {/* TODO(sylvia): replace once the "74" stat source is verified/cited */}
-        <p className="need-source" style={{ left: "2.39%", top: "95.0%" }}>01 — SOURCE PENDING VERIFICATION.</p>
-      </section>
+      <NeedScene />
 
       <DesignGapSequence />
 
