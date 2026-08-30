@@ -11,7 +11,7 @@
    from halogrip.css.
    No mobile/reduced-motion blocks: those paths never render this markup at all. */
 
-.scroll-intro{position:relative;height:100vh;overflow:hidden;background:#fff;font-family:var(--si-poppins),Poppins,system-ui,sans-serif}
+.scroll-intro{position:relative;height:100vh;overflow:hidden;background:var(--paper);font-family:var(--si-poppins),Poppins,system-ui,sans-serif}
 
 .scroll-intro-canvas{position:absolute;inset:0;z-index:2;background:transparent;opacity:0;transition:opacity .5s ease}
 .scroll-intro-canvas.is-visible{opacity:1}
@@ -49,6 +49,6 @@
 
 /* Static hero held over the pinned stage while the model streams in, then cross-faded out.
    Top-aligned and clipped by .scroll-intro's overflow, so it reads as the real hero. */
-.scroll-intro-preload{position:absolute;inset:0;z-index:6;overflow:hidden;background:var(--paper-light);opacity:1;transition:opacity .45s ease}
+.scroll-intro-preload{position:absolute;inset:0;z-index:6;overflow:hidden;background:var(--paper);opacity:1;transition:opacity .45s ease}
 .scroll-intro-preload.is-hidden{opacity:0}
 .scroll-intro-preload .hero{padding-top:26px}

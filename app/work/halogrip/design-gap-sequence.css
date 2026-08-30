@@ -55,7 +55,7 @@
 
 /* Reduced-motion fallback: no pin, no scrub — two ordinary stacked static sections. */
 .dgs-fallback{display:flex;flex-direction:column}
-.dgs-fb-panel{position:relative;isolation:isolate;overflow:hidden;min-height:100svh;display:flex;align-items:center;background:#050505;color:var(--white);font-family:var(--mono)}
+.dgs-fb-panel{position:relative;isolation:isolate;overflow:hidden;min-height:100svh;display:flex;align-items:center;background:var(--dark);color:var(--white);font-family:var(--mono)}
 .dgs-fb-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;z-index:-2}
 .dgs-fb-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(4,4,4,.55) 0%,rgba(4,4,4,.2) 30%,rgba(4,4,4,.6) 100%)}
 .dgs-fb-copy{position:relative;z-index:1;width:100%;padding-inline:var(--gutter)}

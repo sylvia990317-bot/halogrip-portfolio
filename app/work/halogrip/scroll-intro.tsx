@@ -110,8 +110,9 @@ export type SceneState = Pose & {
   backdrop: number;
 };
 
-/** Settled background at the very end of the pin — matches #overview's paper. */
-const PAPER = "#eaeae6";
+/** Settled background at the very end of the pin — matches --paper in halogrip.css; keep
+ * these two in sync if the token's value ever changes. */
+const PAPER = "#f9f9fa";
 
 /**
  * The arc graphic's four placements, straight from the `prst="arc"` shapes. Its curve

@@ -182,42 +182,43 @@ export default function ConceptCarousel() {
         }
       }}
     >
-      <button type="button" className="concept-deck-arrow concept-deck-arrow-left" onClick={() => go(index - 1)} disabled={index === 0} aria-label="Previous sketch">
-        &larr;
-      </button>
+      <div className="concept-deck-row">
+        <button type="button" className="concept-deck-arrow concept-deck-arrow-left" onClick={() => go(index - 1)} disabled={index === 0} aria-label="Previous sketch">
+          &larr;
+        </button>
 
-      <div className="concept-deck-stage">
-        {CONCEPTS.map((concept, i) => (
-          <div
-            key={concept.id}
-            className="concept-deck-card"
-            aria-hidden={i !== index}
-            ref={(el) => {
-              cardRefs.current[i] = el;
-            }}
-          >
-            <span className="concept-deck-card-label">
-              <em>{concept.conceptNumber}</em>
-              <span className="concept-deck-card-label-text">{concept.label}</span>
-            </span>
-            <img src={concept.image} alt={concept.alt} loading={i === 0 ? "eager" : "lazy"} />
-          </div>
-        ))}
+        <div className="concept-deck-stage">
+          {CONCEPTS.map((concept, i) => (
+            <div
+              key={concept.id}
+              className="concept-deck-card"
+              aria-hidden={i !== index}
+              ref={(el) => {
+                cardRefs.current[i] = el;
+              }}
+            >
+              <span className="concept-deck-card-label">
+                <em>{concept.conceptNumber}</em>
+                <span className="concept-deck-card-label-text">{concept.label}</span>
+              </span>
+              <img src={concept.image} alt={concept.alt} loading={i === 0 ? "eager" : "lazy"} />
+            </div>
+          ))}
+        </div>
+
+        <button type="button" className="concept-deck-arrow concept-deck-arrow-right" onClick={() => go(index + 1)} disabled={index === LAST} aria-label="Next sketch">
+          &rarr;
+        </button>
       </div>
 
-      <button type="button" className="concept-deck-arrow concept-deck-arrow-right" onClick={() => go(index + 1)} disabled={index === LAST} aria-label="Next sketch">
-        &rarr;
-      </button>
-
       <div className="concept-deck-copy">
-        {active.selected ? (
-          <>
-            <span className="concept-deck-eyebrow concept-deck-eyebrow-selected">
-              SELECTED DIRECTION — {active.conceptNumber}
-            </span>
-            <h3>PULL-OUT WHEEL</h3>
-          </>
-        ) : null}
+        {/* Concept name always shown here (uppercased via CSS, same as the on-card label) so
+            every concept — not just the selected one — gets a name beneath the sketch; the
+            selected card additionally swaps the eyebrow to the red "SELECTED DIRECTION" call-out. */}
+        <span className={active.selected ? "concept-deck-eyebrow concept-deck-eyebrow-selected" : "concept-deck-eyebrow"}>
+          {active.selected ? `SELECTED DIRECTION — ${active.conceptNumber}` : active.conceptNumber}
+        </span>
+        <h3>{active.label}</h3>
         <span className="concept-deck-counter">
           {String(index + 1).padStart(2, "0")} / {String(CONCEPTS.length).padStart(2, "0")}
         </span>

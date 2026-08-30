@@ -126,13 +126,15 @@ export default function HalogripPage() {
 
       <section className="research section shell" id="research">
         <span className="eyebrow">[ 03 / PROBLEM STATEMENT ]</span>
-        <h2>LISTEN BEFORE DESIGNING.</h2>
-        <p className="research-intro">Interviews with first responders and a public survey surfaced four recurring concerns about robotaxis.</p>
 
         <div className="research-layout">
-          <figure className="research-photo">
-            <img src={encodeURI("/media/halogrip图片/03/firefighter-rescue.png")} alt="A firefighter rappels from an aerial ladder platform during a rescue operation" loading="lazy" />
-          </figure>
+          <div className="research-left">
+            <h2>LISTEN BEFORE DESIGNING.</h2>
+            <p className="research-intro">Interviews with first responders and a public survey surfaced four recurring concerns about robotaxis.</p>
+            <figure className="research-photo">
+              <img src={encodeURI("/media/halogrip图片/03/firefighter-rescue.png")} alt="A firefighter rappels from an aerial ladder platform during a rescue operation" loading="lazy" />
+            </figure>
+          </div>
 
           <div className="research-findings">
             {findings.map(([title, meta, body], index) => (
@@ -158,7 +160,7 @@ export default function HalogripPage() {
         </div>
       </section>
 
-      <section className="principles dark-section" id="principles">
+      <section className="principles" id="principles">
         <div className="principles-inner shell">
           <div className="principles-intro">
             <span className="eyebrow">[ 04 / DESIGN PRINCIPLES ]</span>

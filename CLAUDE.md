@@ -117,6 +117,100 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### Background system unified: three tokens (main / local-diagram-backdrop / dark) replace a drifted mix of near-beige hexes (this session)
+- Sylvia asked to fix visible color banding between sections caused by several near-duplicate
+  off-white/warm-gray backgrounds (`#eaeae6`, `#f3f2ee`, plus one-off dark hexes) that had drifted
+  apart over many earlier sessions, and to consolidate them into a real system: one main
+  background, one "local diagram backdrop" tone for panels that host a graphic/demo rather than
+  running text, and the existing kept-dark display background — as CSS variables, not scattered
+  literals.
+- `halogrip.css` `:root`: `--paper` (main background) changed `#eaeae6`→**`#f9f9fa`**;
+  `--paper-light` (repurposed as the local diagram-backdrop tone — the interaction-model demo,
+  the concept-deck's arrow buttons) changed `#f3f2ee`→**`#eceef0`**; `--dark` (`#1b1f1e`) was
+  already the target value, unchanged. A `:root` comment documents each token's role. Every
+  selector that referenced these two tokens by name (body, `.scroll-intro`,
+  `.scroll-intro-preload`, `.concept-deck-arrow`, `.interaction`) picked up the new values
+  automatically; hardcoded literals equal to the old tokens were repointed at the variables
+  instead: `.overview-bg-fade`'s gradient (was raw `rgba(234,234,230,…)`, hardcoded rather than
+  `var()` since gradients needed a literal alpha at the time it was written), `.cabin-figure`'s
+  placeholder background (`#101211`→`var(--dark)`), `.dgs-fb-panel`'s reduced-motion fallback
+  background (`#050505`→`var(--dark)`), `scroll-intro.tsx`'s `PAPER` JS constant (the GSAP-tweened
+  color the pinned intro settles to right before `#product-intro`, `#eaeae6`→`#f9f9fa`, with a
+  comment to keep it in sync with the CSS token since GSAP can't read a CSS custom property here).
+- **`.research` moved off `--paper-light` onto `--paper`** — per Sylvia's explicit list, Research,
+  Design Principles, Concepts, and Sketch Process (03-06) should read as one continuous
+  main-background run, not have Research sit on the "panel" tone.
+- **`.principles` converted from a dark section to the same continuous main background** — this
+  was the actual fix for the "run of four," since Principles (`dark-section`, `var(--dark)`) sat
+  in the middle of that run and broke it. Removed `dark-section` from its `<section>` in
+  `page.tsx`; `halogrip.css` gives it its own explicit `background:var(--paper)`. Per Sylvia's
+  explicit follow-up instruction, every color that had been tuned for white-on-dark got adjusted
+  for the new light background: `.principles-intro>p` and `.principles-list article p` (both were
+  light grays like `#d2d4cf`/`#c9ccc7`) now use `var(--muted)`; `.principles-list article`'s
+  divider (`#515553`) now uses `var(--line)`. Headings/index numbers needed no change — they had
+  no explicit color, so removing `dark-section`'s `color:var(--white)` override lets them fall
+  back to `body`'s own `var(--ink)` automatically, and the red index numbers/accent span already
+  matched the exact pattern `.research-findings` uses on a light background.
+- **One deliberate exception, found by sampling the actual asset pixels, not assumed**: `.journey`
+  (section 09 / EMERGENCY HANDOVER) still hardcodes `background:#f3f2ee` — the *old*
+  `--paper-light` value — rather than following the token's new `#eceef0`. The 5 story-grid PNGs
+  under `09-handover/` have `#f3f2ee` baked into their own canvas per Sylvia's original spec for
+  that section (see the entry further below), confirmed by sampling a flat pixel region of
+  `01-authorize.png` directly (`~rgb(241,240,236)`, matching `#f3f2ee`, not `#eceef0` or the new
+  `#f9f9fa`) — moving this section onto the new panel tone would have introduced exactly the kind
+  of seam this whole pass was meant to remove. Left with an explanatory comment in the CSS so a
+  future session doesn't "fix" it back onto the token.
+- **Chapter-pause dividers added, whitespace trimmed slightly at the seams that got them**: now
+  that Research/Principles/Concepts/Sketch Process share one flat background with no color
+  contrast between them, a hairline `border-top:1px solid var(--line)` was added to `.principles`,
+  `.concepts`, and `.sketch-process` (not `.research`, which still follows the dark 02.4 scene —
+  contrast alone still signals that break) so each chapter start still reads as a deliberate pause
+  rather than a random line break. With the divider now doing some of that signaling work, the
+  padding immediately on either side of each new seam was trimmed ~15-25%: `.principles`'s
+  `padding-block` split into `padding-top:clamp(46px,6vw,84px)` (was 64/8vw/110, bottom kept
+  unchanged) + `padding-bottom:clamp(64px,8vw,110px)`; `.concepts.section`'s `padding-top`
+  (761px+ media query) `clamp(48px,6vw,84px)`→`clamp(40px,5vw,72px)`; `.sketch-process`'s
+  `padding-block` `clamp(63px,8.5vw,105px)`→`clamp(52px,7vw,90px)`. Mobile breakpoint values were
+  not touched (same reasoning as every earlier density pass in this file: the complaint/fix here
+  is about desktop's now-redundant color+whitespace double-signal, not mobile).
+- **Considered and rejected**: recoloring `.concept-deck-card` (the sketch-carousel's white card
+  panel, section 05) from `#fff` to the new `--paper-light` as a "local diagram backdrop" — sampling
+  all 5 `05/concept-*` sketch images directly showed they're flat `#ffffff`, an exact match to the
+  card's existing background; recoloring the card to `#eceef0` would have *created* a seam around
+  every sketch that doesn't exist today, the opposite of this session's goal. Left untouched.
+- **3D intro scene checked, not touched**: `scroll-intro-scene.tsx` sets no `scene.background` or
+  renderer clear color of its own — the `<canvas>` is `background:transparent` and shows whatever
+  sits behind it in the DOM, so once `.scroll-intro`/`.scroll-intro-preload`/the `PAPER` tween
+  above were repointed at the new token, the opening scene's resting-state background matches the
+  rest of the page automatically. No material or lighting code in that file was touched.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean, run twice), computed-style
+  checks in the dev server confirming every listed selector resolves to the intended hex, and —
+  unusually for this project (most earlier sessions in this file hit a WebGL-tab-capture bug that
+  produced blank screenshots, documented at length elsewhere here) — real, successful screenshots
+  this time: confirmed the `.principles`→`.concepts` hairline divider renders as a clean, subtle
+  seam on a continuous background, confirmed Design Principles itself now reads correctly as dark
+  ink-on-light-paper with legible muted body copy and dividers, confirmed the `sketches.webp`
+  sheet (section 06) blends into the new `#f9f9fa` background with no visible edge in practice
+  despite the two tones not being bit-identical, and confirmed the 09-handover storyboard panels
+  still sit on their originally-matched `#f3f2ee` with no seam.
+- **Asset boundaries checked directly (pixel-sampled via `sharp`, not guessed) — none need fixing
+  yet, none were modified**: `sketches.webp`'s own background samples at `#fffffe`-ish, technically
+  not bit-identical to the new `#f9f9fa` main background it now sits directly against with no
+  frame, but the gap is small enough (~6/255 per channel) that it read as invisible in an actual
+  screenshot — flagging in case a future, more color-critical pass wants it closer. No other
+  asset showed a mismatch worth flagging: the `05/concept-*` sketches and `09-handover/*` PNGs are
+  exact-matched to the panels holding them (see above); `product-front.webp`/`product-detail.webp`/
+  `product-side.webp` all decode with real alpha transparency (not a flat color), so they have no
+  background of their own to clash with anything; `id-one.webp`/`id-two.webp`/`hud.webp` are
+  intentionally dark opaque UI-screen mockups sitting on a light section by design, not an
+  accidental beige/white mismatch. Per Sylvia's instruction, no filter or blend-mode was added or
+  removed on any of these to mask a boundary — the two pre-existing `mix-blend-mode:multiply` uses
+  (`.product-detail>img`, `.interaction-demo>img`) were left exactly as found.
+- Not touched, out of scope for this pass: copy, content order, model animation, and the page's
+  overall layout — confirmed by keeping every edit to `background`/`color`/`border-color`/
+  `padding` declarations (plus the two class-list changes needed to move Principles off
+  `dark-section`), never touching a selector's structural properties.
+
 ### 02.2 REAL-WORLD NEED — route line now draws itself in, synced to the annotations/frame/stat (this session)
 - Sylvia asked for animation on the previously fully-static 02.2 poster: the route line should
   draw itself in, with the text/annotations appearing one by one as the line reaches each point
