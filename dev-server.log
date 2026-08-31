@@ -61,3 +61,6 @@
  GET /work/halogrip 200 in 72ms (next.js: 31ms, application-code: 41ms)
  GET /work/halogrip 200 in 74ms (next.js: 4ms, application-code: 71ms)
 ✓ Compiled in 49ms
+✓ Compiled in 43ms
+ GET /work/halogrip 200 in 207ms (next.js: 7ms, application-code: 200ms)
+✓ Compiled in 48ms
