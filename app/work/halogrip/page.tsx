@@ -181,7 +181,7 @@ export default function HalogripPage() {
       <section className="concepts section shell" id="concepts">
         <span className="eyebrow">[ 05 / CONCEPT EXPLORATION ]</span>
         <div className="concept-heading">
-          <h2>HOW SHOULD CONTROL APPEAR<br />IN A VEHICLE DESIGNED WITHOUT IT?</h2>
+          <h2>FIVE DIRECTIONS FOR CONTROL.</h2>
           <p>Four approaches explored how emergency personnel might take control without conventional pedals or a permanent steering wheel.</p>
         </div>
         <ConceptCarousel />
@@ -199,9 +199,8 @@ export default function HalogripPage() {
             ["refinement-2-pedal-insert", "Pedal + insert authorization"],
             ["refinement-3-pullout-handle-nfc", "Pull-out handle + NFC"],
             ["refinement-4-bpillar-slide-rails", "B-pillar slide rails"],
-          ].map(([file, alt], index) => (
+          ].map(([file, alt]) => (
             <figure key={file}>
-              <span>0{index + 1}</span>
               <img src={encodeURI(`/media/halogrip图片/06-sketch-process/${file}.png`)} alt={`Refinement sketch: ${alt}`} loading="lazy" />
             </figure>
           ))}

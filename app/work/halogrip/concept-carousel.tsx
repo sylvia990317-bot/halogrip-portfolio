@@ -100,10 +100,19 @@ const SLOT_STYLE: Record<SlotName, { xPercent: number; yPercent: number; rotatio
   // the section heading/intro paragraph above and the SELECTED/counter copy below. Verified via
   // live getBoundingClientRect() against the reference-matched -112/-52 etc. values before this
   // change. Kept the same four-corner "fanned sheets" composition, just a tighter fan.
-  ul: { xPercent: -68, yPercent: -31, rotation: -7, scale: 0.6, opacity: 0.55, z: 3 },
-  ll: { xPercent: -63, yPercent: 35, rotation: -5, scale: 0.56, opacity: 0.48, z: 2 },
-  ur: { xPercent: 60, yPercent: -33, rotation: 6, scale: 0.6, opacity: 0.55, z: 3 },
-  lr: { xPercent: 56, yPercent: 36, rotation: 5, scale: 0.56, opacity: 0.48, z: 2 },
+  //
+  // yPercent trimmed further (was -31/35/-33/36) after enlarging .concept-deck-card from 66%
+  // to 80% of the stage (Sylvia: "section 5 图片太小了看不清") — since xPercent/yPercent resolve
+  // against the card's own (now much bigger) untransformed box, the same percentage produced a
+  // larger absolute pixel offset than before and pushed the ul/ur corner cards back up into the
+  // heading/intro-paragraph area (confirmed live: ul's top edge landed ~33px above the heading's
+  // bottom edge, obscuring the intro line — "Four approaches explored... 这行小字现在被挡住了").
+  // xPercent left alone — the horizontal spread wasn't implicated. Re-verified via live
+  // getBoundingClientRect() after this change: clear gap on both sides again.
+  ul: { xPercent: -68, yPercent: -18, rotation: -7, scale: 0.6, opacity: 0.55, z: 3 },
+  ll: { xPercent: -63, yPercent: 21, rotation: -5, scale: 0.56, opacity: 0.48, z: 2 },
+  ur: { xPercent: 60, yPercent: -20, rotation: 6, scale: 0.6, opacity: 0.55, z: 3 },
+  lr: { xPercent: 56, yPercent: 22, rotation: 5, scale: 0.56, opacity: 0.48, z: 2 },
 };
 
 function slotFor(index: number, active: number): SlotName {
@@ -250,10 +259,6 @@ export default function ConceptCarousel() {
                 cardRefs.current[i] = el;
               }}
             >
-              <span className="concept-deck-card-label">
-                <em>{concept.conceptNumber}</em>
-                <span className="concept-deck-card-label-text">{concept.label}</span>
-              </span>
               <img src={concept.image} alt={concept.alt} loading={i === 0 ? "eager" : "lazy"} />
             </div>
           ))}

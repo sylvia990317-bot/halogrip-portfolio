@@ -2,11 +2,26 @@
 
 import { useState } from "react";
 
+/**
+ * `product-side.webp` is not shot upright — measured directly (pixel centroid of the wand's
+ * long axis, sampled via `sharp`, rows clear of the base cylinder), the photo itself already
+ * leans ~22deg clockwise, i.e. it's effectively a pre-tilted "pulled back" pose, not a neutral
+ * one. `rotate(0deg)` on it was therefore never upright — angles below are counter-rotated from
+ * that measured baseline so NEUTRAL is genuinely upright.
+ *
+ * The four states are not four distinct tilts: per Sylvia's correction, FORWARD tilts forward
+ * off neutral; BRAKE is the grip releasing back to that same neutral/upright position
+ * (deceleration, not a new pose); REVERSE continues past neutral in the opposite direction from
+ * FORWARD. So BRAKE intentionally shares NEUTRAL's angle — this also matches the real PPT
+ * reference in scroll-intro.tsx (`TILT_FORWARD`/`TILT_BRAKE`/`TILT_REVERSE`), where brake's tilt
+ * is 0, identical to the resting pose.
+ */
+const NEUTRAL_ANGLE = -22;
 const states = [
-  { title: "FORWARD", action: "PUSH / ACCELERATE", angle: -16, description: "Tilt forward to move the vehicle ahead." },
-  { title: "NEUTRAL", action: "UPRIGHT / STILL", angle: 0, description: "Release the grip to remain stationary." },
-  { title: "BRAKE", action: "PULL / DECELERATE", angle: 13, description: "Pull back to slow the vehicle down." },
-  { title: "REVERSE", action: "PULL FURTHER", angle: 24, description: "Continue pulling to reverse at low speed." },
+  { title: "FORWARD", action: "PUSH / ACCELERATE", angle: -40, description: "Tilt forward to move the vehicle ahead." },
+  { title: "NEUTRAL", action: "UPRIGHT / STILL", angle: NEUTRAL_ANGLE, description: "Release the grip to remain stationary." },
+  { title: "BRAKE", action: "RELEASE / DECELERATE", angle: NEUTRAL_ANGLE, description: "Release the forward tilt to return to neutral and slow down." },
+  { title: "REVERSE", action: "PULL BACK", angle: 0, description: "Tilt back past neutral to reverse at low speed." },
 ];
 
 export default function InteractionDeck() {
