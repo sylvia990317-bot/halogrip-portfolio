@@ -119,7 +119,7 @@ export default function HalogripPage() {
 
       <section className="challenge-scene challenge-scene-cabin dark-section" aria-labelledby="challenge-cabin-title">
         <div className="challenge-scene-inner shell">
-          <span className="chapter-label">02 / CHALLENGE</span>
+          <span className="chapter-label">[ 02 / CHALLENGE ]</span>
           <span className="eyebrow">[ CABIN SHIFT ]</span>
           <div className="cabin-shift-layout">
             <div className="challenge-scene-copy">
