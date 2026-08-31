@@ -35,7 +35,7 @@
  * ResizeObserver needed here, unlike earlier rounds of this component).
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 type Concept = {
@@ -112,13 +112,66 @@ function slotFor(index: number, active: number): SlotName {
   return SLOT_ORDER[others.indexOf(index)];
 }
 
+const STAGE_RATIO = 1.7;
+const ARROW = 44;
+const ARROW_GAP = 28;
+
 export default function ConceptCarousel() {
   const [index, setIndex] = useState(0);
   const [reduced, setReduced] = useState(false);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const rowRef = useRef<HTMLDivElement | null>(null);
+  // Desktop-only, JS-measured stage size (null = fall back to the CSS class's own sizing,
+  // which is what mobile always uses). Needed because pure CSS couldn't do this reliably:
+  // .concept-deck-stage holds only absolutely-positioned cards, so it has zero in-flow
+  // content — `width:auto` + `aspect-ratio` on a flex-row item with zero intrinsic content
+  // resolved to a 0 width in testing (confirmed via getBoundingClientRect) instead of
+  // deriving width from the stretched height as the aspect-ratio spec intends for ordinary
+  // boxes. A ResizeObserver on the row sidesteps that edge case entirely: measure the row's
+  // real available height/width every time either changes, derive the stage box from
+  // whichever is tighter (height*ratio vs. available width), same "contain, never crop"
+  // math the CSS attempt was going for, just computed in JS instead of relying on a CSS
+  // aspect-ratio resolution path that isn't landing correctly in this nested-flex context.
+  const [stageSize, setStageSize] = useState<{ w: number; h: number } | null>(null);
 
   useEffect(() => {
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  // useLayoutEffect (not useEffect): runs synchronously before the browser paints, so the
+  // stage never visibly flashes at its 0x0 pre-measurement state on desktop.
+  useLayoutEffect(() => {
+    const row = rowRef.current;
+    if (!row) return;
+    const desktopQuery = window.matchMedia("(min-width: 761px)");
+
+    function measure() {
+      if (!row || !desktopQuery.matches) {
+        setStageSize(null);
+        return;
+      }
+      const rect = row.getBoundingClientRect();
+      const maxW = Math.max(0, rect.width - 2 * ARROW - 2 * ARROW_GAP);
+      const maxH = rect.height;
+      let w = maxH * STAGE_RATIO;
+      let h = maxH;
+      if (w > maxW) {
+        w = maxW;
+        h = w / STAGE_RATIO;
+      }
+      if (w > 0 && h > 0) setStageSize({ w, h });
+    }
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(row);
+    desktopQuery.addEventListener("change", measure);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      desktopQuery.removeEventListener("change", measure);
+      window.removeEventListener("resize", measure);
+    };
   }, []);
 
   // GSAP must own each card's transform from the very first frame — mixing its xPercent/
@@ -182,12 +235,12 @@ export default function ConceptCarousel() {
         }
       }}
     >
-      <div className="concept-deck-row">
+      <div className="concept-deck-row" ref={rowRef}>
         <button type="button" className="concept-deck-arrow concept-deck-arrow-left" onClick={() => go(index - 1)} disabled={index === 0} aria-label="Previous sketch">
           &larr;
         </button>
 
-        <div className="concept-deck-stage">
+        <div className="concept-deck-stage" style={stageSize ? { width: stageSize.w, height: stageSize.h } : undefined}>
           {CONCEPTS.map((concept, i) => (
             <div
               key={concept.id}

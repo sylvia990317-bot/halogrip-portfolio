@@ -7,7 +7,7 @@
    halogrip.css. `.dgs-bg-stack`'s blur/scale and each `<img>`'s opacity are the only things
    ./design-gap-sequence.tsx's scroll handler ever touches on the background layer. */
 
-.design-gap-sequence{position:relative;isolation:isolate;overflow:hidden;min-height:100svh;border-top:1px solid rgba(255,255,255,.14);font-family:var(--mono)}
+.design-gap-sequence{position:relative;isolation:isolate;overflow:hidden;min-height:100svh;font-family:var(--mono)}
 
 .dgs-bg-stack{position:absolute;inset:0;z-index:-2;will-change:filter,transform}
 .dgs-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;will-change:opacity}

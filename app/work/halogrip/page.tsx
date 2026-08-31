@@ -190,12 +190,22 @@ export default function HalogripPage() {
       <section className="sketch-process section shell" id="sketch-process">
         <span className="eyebrow">[ 06 / SKETCH PROCESS ]</span>
         {/* TODO(sylvia): draft heading — review/replace */}
-        <h2>FROM WHEEL TO GRIP.</h2>
-        <figure className="sketch-process-figure">
-          <img src={encodeURI("/media/halogrip图片/other/sketches.webp")} alt="Six rounds of hand-sketched iteration converging on the final HALOGRIP grip form" loading="lazy" />
-          {/* TODO(sylvia): draft caption — review/replace */}
-          <figcaption>SIX ITERATION ROUNDS / FINAL FORM SELECTED</figcaption>
-        </figure>
+        <h2>REFINING THE SELECTED DIRECTION.</h2>
+        {/* TODO(sylvia): draft intro — review/replace */}
+        <p className="sketch-process-intro">Once the pull-out wheel was chosen, sketching moved from form to detail — working through the interaction points that make it function: authorization, the pull-out mechanism, and on-wheel controls.</p>
+        <div className="sketch-process-grid">
+          {[
+            ["refinement-1-hud-authorization", "Contact / authorization"],
+            ["refinement-2-pedal-insert", "Pedal + insert authorization"],
+            ["refinement-3-pullout-handle-nfc", "Pull-out handle + NFC"],
+            ["refinement-4-bpillar-slide-rails", "B-pillar slide rails"],
+          ].map(([file, alt], index) => (
+            <figure key={file}>
+              <span>0{index + 1}</span>
+              <img src={encodeURI(`/media/halogrip图片/06-sketch-process/${file}.png`)} alt={`Refinement sketch: ${alt}`} loading="lazy" />
+            </figure>
+          ))}
+        </div>
       </section>
 
       <section className="final-hero dark-section" id="solution">
@@ -233,7 +243,7 @@ export default function HalogripPage() {
       <SectionReveal id="handover" className="journey">
         <div className="journey-inner shell">
           <span className="eyebrow">[ 09 / EMERGENCY HANDOVER ]</span>
-          <h2>FROM BLOCKED<br />TO CLEARED.</h2>
+          <h2>FROM BLOCKED TO CLEARED.</h2>
           <p className="journey-lede">ONE RESPONDER / LOCAL CONTROL / TARGET INTERVENTION UNDER FIVE MINUTES</p>
           <div className="story-grid">
             {steps.map(([title, description, file], index) => (

@@ -117,6 +117,55 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### 09 EMERGENCY HANDOVER's 5 story-grid PNGs recolored in place to close the seam the previous entry flagged (this session, follow-up)
+- The previous entry's `.journey` change left a real, flagged seam: the 5
+  `09-handover/{01-authorize,02-activate,03-reposition,04-park,05-complete}.png` storyboard
+  sketches have their canvas background baked in at `#f3f2ee`, and the section around them had
+  just moved to `#f9f9fa`. Sylvia asked directly whether the images' own backgrounds could be
+  changed, so — unlike the "flag, don't touch assets" stance earlier in this same session, which
+  was about *silently* patching a mismatch with a filter/blend-mode hack — this is an explicit,
+  scoped request to edit these 5 files for real.
+- Edited the pixels directly with `sharp` (already a transitive dependency via Next's image
+  pipeline, no new package installed): measured each file's dominant fill color first
+  (histogram of raw RGB — `#f3f2ee`/`(243,242,238)` was 51-76% of every image's pixels, confirming
+  a flat baked canvas, not a photo), then shifted every pixel *toward* `(249,249,250)` by an
+  amount proportional to how close that pixel already was to the old background color: pixels
+  within a tight radius of pure `#f3f2ee` get the full `+6/+7/+12` shift, pixels farther than a
+  slightly wider radius (i.e. actual pencil/ink strokes, the black border, the red annotation
+  marks) get none, and pixels in between — the anti-aliased blend between ink and canvas — get a
+  proportional partial shift, which is the physically-correct way to recolor a canvas under
+  antialiased line art without banding at stroke edges. Verified after the fact, not just assumed:
+  every pixel darker than a mid-gray threshold (luminance <180 — i.e. all real artwork, borders,
+  and annotations) diffed at exactly 0 against a backup of the originals; only near-background
+  pixels moved. Post-edit, each file's new dominant color samples at exactly `(249,249,250)`.
+- Originals backed up to the session scratchpad before editing (not committed anywhere) in case a
+  future session needs to re-derive a different target color; the working files in
+  `public/media/halogrip图片/09-handover/` are the edited versions.
+- Verified with a live screenshot + zoom crop across a panel edge in the dev server: no visible
+  seam anywhere around any of the 5 images, on the now-flat `--paper` `.journey` background.
+
+### Background system simplified further: the "local diagram backdrop" tone dropped, every light surface is now flat --paper (this session, follow-up)
+- Right after the two-tone pass below shipped, Sylvia said to collapse it further: "浅色除去开头
+  动画还是都改成#F9F9FA吧" (make every light color #F9F9FA too, except the opening animation) —
+  she didn't want a second light-gray "panel" tone at all, just one flat main background
+  everywhere light, with the pinned 3D intro's own scene left alone (it already resolves to
+  `--paper` at rest, so nothing further was needed there).
+- `halogrip.css`: removed the `--paper-light` custom property entirely and rewrote the `:root`
+  comment to describe one `--paper` token. Its 3 remaining consumers were repointed straight at
+  `--paper`: `.concept-deck-arrow`, `.interaction`, and `.journey`.
+- **`.journey` (09 EMERGENCY HANDOVER) is the one place this has a real, flagged cost**: the
+  entry below explains that this section was deliberately kept at a hardcoded `#f3f2ee` because
+  the 5 `09-handover/*.png` story-grid images have that exact color baked into their own canvas
+  background — moving it to `#f9f9fa` (a ~6/255-per-channel shift) now puts a faint but real seam
+  around each of those 5 panels that didn't exist before this follow-up. Left a comment on the
+  rule explaining this is a known, accepted tradeoff per Sylvia's explicit instruction, not an
+  oversight — fixing it for real would mean re-exporting those 5 PNGs with the new background
+  baked in, which is an asset change, not a CSS one.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and a live computed-style
+  check confirming `body`, `.research`, `.principles`, `.concepts`, `.sketch-process`,
+  `.concept-deck-arrow`, `.interaction`, `.journey`, and `.scroll-intro` all resolve to
+  `rgb(249, 249, 250)`.
+
 ### Background system unified: three tokens (main / local-diagram-backdrop / dark) replace a drifted mix of near-beige hexes (this session)
 - Sylvia asked to fix visible color banding between sections caused by several near-duplicate
   off-white/warm-gray backgrounds (`#eaeae6`, `#f3f2ee`, plus one-off dark hexes) that had drifted
