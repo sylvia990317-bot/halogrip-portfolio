@@ -318,3 +318,4 @@
 ✓ Compiled in 43ms
 ✓ Compiled in 38ms
  GET /work/halogrip 200 in 405ms (next.js: 3ms, application-code: 402ms)
+✓ Compiled in 402ms
