@@ -9,6 +9,7 @@ import { meta } from "./content";
 import OverviewBackdrop from "./overview-backdrop";
 import DesignGapSequence from "./design-gap-sequence";
 import ConceptCarousel from "./concept-carousel";
+import ConceptSketchLightbox from "./sketch-lightbox";
 import SectionReveal from "./section-reveal";
 import NeedScene from "./need-scene";
 
@@ -217,23 +218,7 @@ export default function HalogripPage() {
               why-this-direction) — review/replace. Layout ported from the reference mock at
               public/media/halogrip图片/06-sketch-process/reference.png. */}
           <div className="sketch-process-converge">
-            <div className="sketch-process-converge-concepts">
-              {[
-                ["sketch-1-d-shaped-hud", "png", "01", "D-shaped wheel", "Single pedal, mechanical pull-out, and HUD."],
-                ["sketch-2-u-shape-onscreen", "png", "02", "U-shape yoke", "On-screen interface, electrically actuated."],
-                ["sketch-3-oblique-ellipse", "png", "03", "Oblique ellipse", "NFC authorization and aircraft-throttle-style speed control."],
-                ["sketch-4-classic-round", "png", "04", "Classic round", "Electrical slide rails with voice control."],
-              ].map(([file, ext, number, title, desc]) => (
-                <figure key={file} className="sketch-process-concept-card">
-                  <img src={encodeURI(`/media/halogrip图片/05-iteration/${file}.${ext}`)} alt={`Iteration sketch: ${title} — ${desc}`} loading="lazy" />
-                  <figcaption>
-                    <span className="sketch-process-concept-number">{number}</span>
-                    <h3>{title}</h3>
-                    <p>{desc}</p>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
+            <ConceptSketchLightbox />
 
             <div className="sketch-process-converge-synth">
               <span className="sketch-process-converge-arrow" aria-hidden="true">&rarr;</span>

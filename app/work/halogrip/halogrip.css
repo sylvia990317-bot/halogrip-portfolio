@@ -122,6 +122,8 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);f
 .need-origin::after{bottom:0}
 .need-origin span{display:block;font-size:var(--fs-caption);letter-spacing:.06em;color:#c7c8c3;text-transform:uppercase}
 .need-origin strong{display:block;margin-top:6px;font-size:clamp(12px,.85vw,15px);letter-spacing:.02em;color:var(--white);font-weight:700}
+.need-source-mark{position:absolute;width:1.67%;height:1px;background:var(--red)}
+.need-source{position:absolute;margin:0;max-width:min(90%,460px);font-size:var(--fs-caption);line-height:1.5;color:#9b9c97;letter-spacing:.02em}
 .research{background:var(--paper)}
 .research-layout{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(30px,5vw,70px);align-items:start}
 .research-left h2{font-size:clamp(63px,9.5vw,82px);margin-top:28px;margin-bottom:0}
@@ -164,17 +166,37 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);f
    mock (public/media/halogrip图片/06-sketch-process/reference.png). */
 .sketch-process-converge{display:grid;grid-template-columns:1.15fr auto 1fr;gap:clamp(20px,3vw,40px);align-items:start}
 .sketch-process-converge-concepts{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.sketch-process-concept-card{position:relative;margin:0;display:flex;flex-direction:column;border:1px solid var(--line);background:var(--paper)}
-.sketch-process-concept-card img{display:block;width:100%;aspect-ratio:1.431;object-fit:contain;background:#3c403d}
+.sketch-process-concept-card{position:relative;margin:0;display:flex;flex-direction:column;border:1px solid var(--line);background:var(--paper);cursor:zoom-in;overflow:hidden;transition:transform .22s ease}
+.sketch-process-concept-card:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+.sketch-process-concept-card img{display:block;width:100%;aspect-ratio:1.431;object-fit:contain;background:#3c403d;transition:transform .22s ease;transform-origin:center}
 .sketch-process-concept-card figcaption{padding:14px 16px 16px;border-top:1px solid var(--line)}
+/* Each source sketch is a legible 2048x1431 scan squeezed into a ~300px grid card (a 6-7x
+   downscale) — the fine linework and handwritten annotations read fine at full size but not
+   at thumbnail size. Desktop pointer users get a restrained editorial hover (small lift, a
+   touch of image scale, title contrast up — no dimming, card size/grid layout never change).
+   This `<figure role="button" tabIndex={0}>` isn't a native button/link, so Chromium's
+   :focus-visible heuristic shows an outline on a plain mouse click too, not just keyboard focus
+   — the same restrained treatment covers :focus-visible so a click never reads as a persistent
+   "selected" card, while a neutral (non-red) outline still gives keyboard users a visible focus
+   cue; `overflow:hidden` keeps the scaled image clipped to its own card so it never covers
+   neighboring cards, text, or the result panel. Touch devices have no hover state so this rule
+   never applies there — they use ConceptSketchLightbox's click-to-open modal instead
+   (sketch-lightbox.tsx), which also covers keyboard users on desktop and gives a true full-size
+   view. Gating on (hover:hover) rather than just min-width also avoids the iOS "first tap
+   triggers :hover" ghost-hover issue on touch. */
+@media(hover:hover) and (pointer:fine){
+  .sketch-process-concept-card:hover,.sketch-process-concept-card:focus-visible{transform:translateY(-3px)}
+  .sketch-process-concept-card:hover img,.sketch-process-concept-card:focus-visible img{transform:scale(1.025)}
+  .sketch-process-concept-card:hover h3,.sketch-process-concept-card:focus-visible h3{color:#000}
+}
 .sketch-process-concept-number{display:block;font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.05em;color:var(--red)}
-.sketch-process-concept-card h3{margin:6px 0 0;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:var(--fs-card-title-sm);line-height:1;letter-spacing:normal}
+.sketch-process-concept-card h3{margin:6px 0 0;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:var(--fs-card-title-sm);line-height:1;letter-spacing:normal;transition:color .22s ease}
 .sketch-process-concept-card figcaption p{margin:8px 0 0;font-size:var(--fs-body);line-height:1.5;color:var(--muted)}
 .sketch-process-converge-synth{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;align-self:center;width:120px}
 .sketch-process-converge-arrow{font-family:var(--display);font-size:32px;line-height:1;color:var(--red)}
 .sketch-process-converge-synth-label{font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
 .sketch-process-converge-synth p{margin:0;font-size:var(--fs-body);line-height:1.6;color:var(--muted)}
-.sketch-process-converge-result{display:flex;flex-direction:column;margin:0;padding:24px;border:1px solid var(--line);background:var(--paper)}
+.sketch-process-converge-result{display:flex;flex-direction:column;margin:0;padding:24px;border:1px solid var(--line);background:#fff}
 .sketch-process-result-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
 .sketch-process-result-tag::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--red)}
 .sketch-process-result-summary{margin:10px 0 0;font-family:var(--mono);font-size:var(--fs-body);line-height:1.6;color:var(--ink)}
@@ -188,6 +210,32 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);f
 .sketch-process-why{margin-top:4px;padding-top:20px;border-top:1px solid var(--line)}
 .sketch-process-why-label{display:block;font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
 .sketch-process-why p{margin:10px 0 0;font-size:var(--fs-body);line-height:1.7;color:var(--muted)}
+/* Click/tap-to-open detail view for the concept sketches (sketch-lightbox.tsx), portal-rendered
+   onto document.body — the deliberate-open counterpart to the hover-zoom above, and the only
+   way to see these full-size on touch devices (no hover state) or via keyboard. Styled as a
+   light editorial detail panel (sketch left, concept info right) over a soft translucent
+   backdrop, not a dark full-screen image preview — the page stays faintly visible behind it. */
+.sketch-lightbox{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;gap:16px;grid-template-columns:auto 1fr auto;padding:clamp(20px,4vw,56px);background:rgba(249,249,250,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:sketch-lightbox-backdrop-in .28s ease both}
+.sketch-lightbox-dialog{position:relative;grid-column:2;display:grid;grid-template-columns:68% 32%;width:min(80vw,1080px);max-height:76vh;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:2px;box-shadow:0 10px 30px rgba(0,0,0,.10);overflow:hidden;animation:sketch-lightbox-image-in .28s ease both}
+.sketch-lightbox-media{display:flex;align-items:center;justify-content:center;min-width:0;padding:clamp(20px,3vw,36px);background:#3c403d}
+.sketch-lightbox-media img{display:block;width:auto;height:auto;max-width:100%;max-height:calc(76vh - 72px);object-fit:contain}
+.sketch-lightbox-info{display:flex;flex-direction:column;min-width:0;padding:clamp(24px,3vw,36px) clamp(20px,2.6vw,28px);border-left:1px solid var(--line);overflow-y:auto}
+.sketch-lightbox-info .sketch-process-concept-number{color:var(--red)}
+.sketch-lightbox-info h3{margin:10px 0 0;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:var(--fs-card-title-lg);line-height:1.05;letter-spacing:normal;color:var(--ink)}
+.sketch-lightbox-info p{margin:12px 0 0;font-size:var(--fs-body);line-height:1.6;color:var(--muted)}
+.sketch-lightbox-traits{list-style:none;margin:20px 0 0;padding:16px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.sketch-lightbox-traits li{position:relative;padding-left:14px;font-size:var(--fs-caption);letter-spacing:.02em;color:var(--ink)}
+.sketch-lightbox-traits li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:1px;background:var(--red)}
+.sketch-lightbox-close{position:absolute;top:12px;right:12px;z-index:2;border:none;background:none;color:var(--muted);display:grid;place-items:center;font-size:22px;line-height:1;cursor:pointer;transition:color .2s}
+.sketch-lightbox-close:hover{color:var(--ink)}
+.sketch-lightbox-nav{flex:none;border:none;background:none;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;padding:10px;transition:color .2s}
+.sketch-lightbox-nav:hover{color:var(--ink)}
+@keyframes sketch-lightbox-backdrop-in{from{opacity:0}to{opacity:1}}
+@keyframes sketch-lightbox-image-in{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+@media(max-width:640px){
+  .sketch-lightbox-dialog{grid-template-columns:1fr;width:min(92vw,520px);max-height:88vh}
+  .sketch-lightbox-info{border-left:none;border-top:1px solid var(--line)}
+}
 .final-hero{position:relative;min-height:820px;overflow:hidden}.final-background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.final-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,7,.6) 0%,rgba(8,8,7,.15) 32%,rgba(8,8,7,0) 55%)}.final-content{position:relative;padding-top:88px}.final-content h2{font-size:var(--fs-title);margin-top:35px}.final-content>p{max-width:420px;font-size:var(--fs-label);line-height:1.8;margin-top:18px;color:#d2d4cf}
 .product-detail{position:relative;display:grid;grid-template-columns:min(430px,34%) 1fr;column-gap:32px;align-items:start;padding-block:clamp(64px,7vw,104px) clamp(72px,8vw,120px)}.product-copy{position:relative;z-index:1}.product-copy h2{font-size:var(--fs-heading-sm);margin-top:18px}.product-copy>p{max-width:360px;font-size:var(--fs-body);line-height:1.9;margin-top:25px}
 .product-visual{position:relative;width:88%;margin-top:4%;aspect-ratio:2100/1032;overflow:visible}.product-visual>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
@@ -336,7 +384,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);f
 
 @media(max-width:760px){
   :root{--gutter:20px}.topbar{height:66px}.topbar-note{display:none}.hero-heading{grid-template-columns:1fr;gap:14px;padding-top:65px;padding-bottom:32px}.hero-heading h1{font-size:clamp(92px,25vw,180px);grid-row:2}.hero-year{text-align:left}.metadata{grid-template-columns:1fr 1fr;row-gap:24px;margin-bottom:24px}.meta-item strong{font-size:21px}.hero-image{aspect-ratio:1.12/1}.hero-caption{inset:auto 14px 15px;gap:18px;font-size:8px}.hero-caption span:last-child{text-align:right}.product-intro{gap:18px}.product-intro-heading h2{font-size:34px}.product-intro-image{height:auto;aspect-ratio:4/3}.section{padding-block:105px}.overview{min-height:auto;padding-block:90px}.overview-copy h2{font-size:57px}.overview-copy>p{line-height:1.8}.challenge-scene{padding-block:64px}.challenge-scene-inner{gap:26px}.challenge-scene-copy h2{font-size:44px}.challenge-scene-image{aspect-ratio:1.4/1}.cabin-shift-layout{grid-template-columns:1fr;gap:26px}.cabin-figure img{aspect-ratio:1.4/1}.cabin-figure figcaption{position:static;width:100%}.response-scene{min-height:auto;display:flex;flex-direction:column}.response-scene-copy{position:static;left:auto;top:auto;width:auto;padding:70px 20px 30px}.response-scene-headline{font-size:clamp(38px,10vw,52px)}.response-scene-paragraph{max-width:none}.response-scene-frame{position:relative;inset:auto;aspect-ratio:16/9}.response-scene-image{position:relative;inset:auto;object-fit:contain;object-position:center}.response-scene-gradient{display:none}.research-left h2{font-size:68px;margin-bottom:0}.research-intro{margin-bottom:30px;max-width:none}.research-layout{grid-template-columns:1fr;gap:30px}.research-photo{height:280px;min-height:0}.research-findings{margin-top:0}.research-findings article{padding-block:20px}.research-findings h3{font-size:19px}.research-bottom{display:block;margin-top:34px}.research-stats{justify-content:space-between;gap:8px}.research-stats>div{gap:7px}.research-stats strong{font-size:48px}.research-stats span{font-size:7px}.research blockquote{margin-top:38px;padding-left:17px;font-size:27px}
-  .principles{padding-block:105px}.principles-inner{grid-template-columns:1fr;gap:20px}.principles-intro h2{font-size:54px}.principles-list{padding-top:25px}.principles-list article{padding-block:22px 30px}.concepts{padding-bottom:90px}.concept-heading{display:block}.concept-heading h2{font-size:32px}.concept-heading p{margin-top:20px}.concept-deck{padding:0 40px}.concept-deck-stage{width:100%}.concept-deck-card{width:78%}.concept-deck-copy h3{font-size:26px}.concept-deck-arrow{width:36px;height:36px}.sketch-process{padding-block:64px}.sketch-process h2{font-size:32px}.sketch-process-intro{margin-top:16px}.sketch-process-stage{margin-top:24px}.sketch-process-stage+.sketch-process-stage{margin-top:40px}.sketch-process-grid{grid-template-columns:1fr;gap:16px}.sketch-process-converge{grid-template-columns:1fr;gap:24px}.sketch-process-converge-concepts{grid-template-columns:1fr}.sketch-process-converge-synth{width:auto}.sketch-process-converge-arrow{transform:rotate(90deg)}.sketch-process-qualities{grid-template-columns:1fr}.final-hero{min-height:560px}.final-content{padding-top:56px}.final-content h2{font-size:44px}.final-content>p{max-width:none}.product-detail{grid-template-columns:1fr;padding-block:70px 90px}.product-copy{max-width:none}.product-copy h2{font-size:27px}.product-visual{position:static;width:100%;margin-top:32px}.product-annotations{display:none}.product-annotation{position:static;transform:none;display:grid;grid-template-columns:22px 1fr;border-top:1px solid var(--line);padding-top:14px;margin-top:18px;text-align:left;align-items:start}.product-annotation span{grid-row:1/3}.product-annotation strong{font-size:19px}.interaction-heading{display:block}.interaction-heading h2{font-size:78px}.interaction-control{grid-template-columns:1fr;margin-top:25px;gap:16px}.interaction-demo{min-height:340px}.interaction-stage>img{height:250px}.interaction-buttons{grid-template-columns:1fr;gap:18px}.interaction-buttons button strong{font-size:25px}.journey{padding-block:100px}.journey-inner h2{font-size:106px}.journey-lede{font-size:8px}.story-grid{grid-template-columns:1fr 1fr;gap:35px 13px;margin-top:75px}.story-grid article:last-child{grid-column:1/-1;max-width:48%}.story-step{margin-top:14px}.story-grid h3{font-size:21px}.system-detail{grid-template-columns:1fr;gap:42px;margin-top:65px}.access-images img{height:220px}.hud-detail>img{height:125px}.site-footer{padding-block:105px 32px}.site-footer h2{font-size:77px}.footer-bottom{gap:20px;margin-top:80px;font-size:7px}.footer-bottom a{white-space:nowrap}
+  .principles{padding-block:105px}.principles-inner{grid-template-columns:1fr;gap:20px}.principles-intro h2{font-size:54px}.principles-list{padding-top:25px}.principles-list article{padding-block:22px 30px}.concepts{padding-bottom:90px}.concept-heading{display:block}.concept-heading h2{font-size:32px}.concept-heading p{margin-top:20px}.concept-deck{padding:0 40px}.concept-deck-stage{width:100%}.concept-deck-card{width:78%}.concept-deck-copy h3{font-size:26px}.concept-deck-arrow{width:36px;height:36px}.sketch-process{padding-block:64px}.sketch-process h2{font-size:32px}.sketch-process-intro{margin-top:16px}.sketch-process-stage{margin-top:24px}.sketch-process-stage+.sketch-process-stage{margin-top:40px}.sketch-process-grid{grid-template-columns:1fr;gap:16px}.sketch-process-converge{grid-template-columns:1fr;gap:24px}.sketch-process-converge-concepts{grid-template-columns:1fr}.sketch-process-converge-synth{width:auto}.sketch-process-converge-arrow{transform:rotate(90deg)}.sketch-process-qualities{grid-template-columns:1fr}.sketch-lightbox{grid-template-columns:1fr;padding:20px;gap:0}.sketch-lightbox-dialog{grid-column:1;max-width:92vw}.sketch-lightbox-figure img{max-width:92vw;max-height:66vh}.sketch-lightbox-close{top:-30px;right:0}.sketch-lightbox-nav{position:fixed;top:50%;transform:translateY(-50%)}.sketch-lightbox-prev{left:4px}.sketch-lightbox-next{right:4px}.final-hero{min-height:560px}.final-content{padding-top:56px}.final-content h2{font-size:44px}.final-content>p{max-width:none}.product-detail{grid-template-columns:1fr;padding-block:70px 90px}.product-copy{max-width:none}.product-copy h2{font-size:27px}.product-visual{position:static;width:100%;margin-top:32px}.product-annotations{display:none}.product-annotation{position:static;transform:none;display:grid;grid-template-columns:22px 1fr;border-top:1px solid var(--line);padding-top:14px;margin-top:18px;text-align:left;align-items:start}.product-annotation span{grid-row:1/3}.product-annotation strong{font-size:19px}.interaction-heading{display:block}.interaction-heading h2{font-size:78px}.interaction-control{grid-template-columns:1fr;margin-top:25px;gap:16px}.interaction-demo{min-height:340px}.interaction-stage>img{height:250px}.interaction-buttons{grid-template-columns:1fr;gap:18px}.interaction-buttons button strong{font-size:25px}.journey{padding-block:100px}.journey-inner h2{font-size:106px}.journey-lede{font-size:8px}.story-grid{grid-template-columns:1fr 1fr;gap:35px 13px;margin-top:75px}.story-grid article:last-child{grid-column:1/-1;max-width:48%}.story-step{margin-top:14px}.story-grid h3{font-size:21px}.system-detail{grid-template-columns:1fr;gap:42px;margin-top:65px}.access-images img{height:220px}.hud-detail>img{height:125px}.site-footer{padding-block:105px 32px}.site-footer h2{font-size:77px}.footer-bottom{gap:20px;margin-top:80px;font-size:7px}.footer-bottom a{white-space:nowrap}
   /* Desktop-only spacing trims above (interaction buttons/footer, system-detail, concept-deck)
      have no other mobile override, so pin the pre-existing mobile values here to keep mobile
      pixel-identical to before this session's desktop density pass. */

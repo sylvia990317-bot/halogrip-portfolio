@@ -31,10 +31,10 @@
 
 .dgs-panel{position:absolute;z-index:3;display:flex;flex-direction:column;padding:12px 13px 14px;background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(6,6,6,.6));border:1px solid rgba(199,190,174,.18);border-radius:2px;backdrop-filter:blur(10px);box-shadow:0 14px 28px rgba(0,0,0,.32);will-change:opacity,transform}
 .dgs-panel-head{display:flex;align-items:center;justify-content:space-between}
-.dgs-panel-index{font-family:var(--display);font-weight:700;color:var(--red);font-size:clamp(12px,.9vw,15px)}
+.dgs-panel-index{font-family:var(--display);font-weight:400;color:var(--red);font-size:clamp(12px,.9vw,15px)}
 .dgs-panel-icon{width:17px;height:17px;color:rgba(245,245,241,.7)}
 .dgs-panel-icon svg{width:100%;height:100%}
-.dgs-panel h3{margin:12px 0 0;font-family:var(--display);font-weight:700;font-size:clamp(14px,1.15vw,20px);line-height:1.15;letter-spacing:-.01em;text-transform:uppercase;color:var(--white)}
+.dgs-panel h3{margin:12px 0 0;font-family:var(--display);font-weight:400;font-size:clamp(14px,1.15vw,20px);line-height:1.15;letter-spacing:-.01em;text-transform:uppercase;color:var(--white)}
 .dgs-panel p{margin:auto 0 0;padding-top:8px;font-size:var(--fs-caption);letter-spacing:.03em;text-transform:uppercase;color:rgba(245,245,241,.55)}
 
 /* State 3 — 02.4 DESIGN GAP. Centred, upper portion, over the "in car" interior. */

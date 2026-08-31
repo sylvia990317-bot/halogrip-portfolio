@@ -210,6 +210,11 @@ export default function NeedScene() {
         <span>RESPONSE ORIGIN</span>
         <strong>FIRE STATION</strong>
       </div>
+
+      <span className="need-source-mark" style={{ left: "2.39%", top: "93.6%" }} />
+      <p className="need-source" style={{ left: "2.39%", top: "95.0%" }}>
+        SOURCE: SAN FRANCISCO FIRE DEPARTMENT, 2023. 74 DISRUPTIVE EPISODES (52 CRUISE / 21 WAYMO / 1 UNSPECIFIED).
+      </p>
     </section>
   );
 }
