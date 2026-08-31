@@ -236,7 +236,6 @@ export default function HalogripPage() {
           <span className="speed-note">MANUAL SPEED / 15 KM/H MAX</span>
         </div>
         <InteractionDeck />
-        <div className="interaction-footer"><span>ROTATION / DIRECTION</span><span>FORWARD TILT / ACCELERATION</span><span>BACKWARD TILT / BRAKE + REVERSE</span></div>
       </section>
 
       <SectionReveal id="handover" className="journey">

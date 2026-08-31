@@ -37,6 +37,12 @@ const FAR = encodeURI("/media/halogrip图片/2.4/far car.png");
 const CLOSE = encodeURI("/media/halogrip图片/2.4/close car.png");
 const IN_CAR = encodeURI("/media/halogrip图片/2.4/in car.png");
 
+const NODE_ICON = {
+  responder: encodeURI("/media/halogrip图片/2.4/first-responder-icon.png"),
+  control: encodeURI("/media/halogrip图片/2.4/local-control.png"),
+  reposition: encodeURI("/media/halogrip图片/2.4/safe-move.png"),
+} as const;
+
 type Panel = { id: string; index: string; title: string; sub: string; x: number; y: number; rotateY: number; icon: () => ReactNode };
 
 function IconWarn() {
@@ -70,6 +76,16 @@ function IconCar() {
   );
 }
 
+/** A solid filled triangle, not an outlined chevron — per Sylvia's brief this arrowhead must
+ *  read as an obvious, unmissable "this way" cue at a glance, not a subtle stroke. */
+function IconFlowHead() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M3 4 L21 12 L3 20 Z" />
+    </svg>
+  );
+}
+
 /** Three workflow panels only (not process-scene.tsx's old six) — a glance, not a diagram.
  *  `x`/`y` are the panel's own centre in 0-100 viewport %; `rotateY` is a static per-panel
  *  skew so the row reads as following the road's own perspective, not sitting flat-on. */
@@ -99,10 +115,15 @@ const DUST = Array.from({ length: DUST_COUNT }, (_, i) => ({
 /** Dashboard nodes, state 3. Start compressed near centre, spread out as the cabin settles. */
 const NODES = [
   { id: "responder", label: "FIRST RESPONDER", startX: 47, endX: 25, accent: false },
-  { id: "control", label: "LIMITED LOCAL CONTROL", startX: 50, endX: 50, accent: true },
+  { id: "control", label: "LOCAL CONTROL", startX: 50, endX: 50, accent: true },
   { id: "reposition", label: "SAFE REPOSITIONING", startX: 53, endX: 75, accent: false },
 ] as const;
 const NODE_Y = 82;
+/** Percentage-of-section-width gap left clear on each side of a connector so its arrowhead
+ *  lands in the open space between two icons instead of being drawn underneath the next one
+ *  (icon-centre to icon-centre was the original span — at a 46-58px icon width that swallowed
+ *  the whole arrowhead, which is why the connectors used to read as a plain unbroken line). */
+const CONNECTOR_GAP_PCT = 4.5;
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -176,8 +197,8 @@ export default function DesignGapSequence() {
   const s3CopyRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const glowRef = useRef<HTMLDivElement>(null);
-  const lineARef = useRef<SVGLineElement>(null);
-  const lineBRef = useRef<SVGLineElement>(null);
+  const arrowARef = useRef<HTMLDivElement>(null);
+  const arrowBRef = useRef<HTMLDivElement>(null);
 
   // First pass: decide, once, whether this browser gets the pinned/scrubbed sequence or the
   // static fallback. Mirrors every other pinned section on this page (scroll-intro.tsx,
@@ -202,13 +223,16 @@ export default function DesignGapSequence() {
     gsap.registerPlugin(ScrollTrigger);
     const ease = gsap.parseEase("power1.inOut");
 
-    function setLine(el: SVGLineElement | null, x1: number, x2: number, opacity: number) {
+    // Each connector spans the full distance between one icon's own centre and the next
+    // icon's centre — `left`/`width` are both plain horizontal percentages (no diagonal, both
+    // endpoints share NODE_Y), so this never touches `.dgs-graphic`'s non-uniformly-stretched
+    // viewBox (preserveAspectRatio="none") and the arrowhead cap at the end stays undistorted.
+    function setConnector(el: HTMLDivElement | null, x1: number, x2: number, opacity: number) {
       if (!el) return;
-      el.setAttribute("x1", String(x1));
-      el.setAttribute("x2", String(x2));
-      el.setAttribute("y1", String(NODE_Y));
-      el.setAttribute("y2", String(NODE_Y));
-      el.style.opacity = String(opacity * 0.75);
+      el.style.left = `${x1}%`;
+      el.style.width = `${x2 - x1}%`;
+      el.style.top = `${NODE_Y}%`;
+      el.style.opacity = String(opacity);
     }
 
     function applyFrame(t: number) {
@@ -276,8 +300,8 @@ export default function DesignGapSequence() {
           el.style.opacity = String(nodesOpacity);
         }
       });
-      setLine(lineARef.current, positions[0], positions[1], nodesOpacity);
-      setLine(lineBRef.current, positions[1], positions[2], nodesOpacity);
+      setConnector(arrowARef.current, positions[0] + CONNECTOR_GAP_PCT, positions[1] - CONNECTOR_GAP_PCT, nodesOpacity);
+      setConnector(arrowBRef.current, positions[1] + CONNECTOR_GAP_PCT, positions[2] - CONNECTOR_GAP_PCT, nodesOpacity);
       if (glowRef.current) {
         const settlePulse = Math.max(0, spreadT - 0.85) * 2;
         glowRef.current.style.opacity = String(clamp01(nodesOpacity * 0.65 + settlePulse * 0.25));
@@ -343,8 +367,6 @@ export default function DesignGapSequence() {
               <circle key={p.id} className="dgs-connector-dot" cx={p.x} cy={p.y} r="0.55" />
             ))}
           </g>
-          <line className="dgs-node-line" ref={lineARef} />
-          <line className="dgs-node-line" ref={lineBRef} />
         </svg>
 
         <div className="dgs-dust" aria-hidden="true">
@@ -401,10 +423,21 @@ export default function DesignGapSequence() {
             }}
           >
             {node.accent && <div className="dgs-node-glow" ref={glowRef} aria-hidden="true" />}
-            <div className="dgs-node-dot" />
+            <img className="dgs-node-icon" src={NODE_ICON[node.id]} alt="" aria-hidden="true" loading="lazy" />
             <span className="dgs-node-label">{node.label}</span>
           </div>
         ))}
+        {/* Each connector spans the gap between two icons (see setConnector/CONNECTOR_GAP_PCT)
+            — stopping short of both icon edges so the arrowhead lands in open space and stays
+            fully visible instead of being drawn underneath the next node. */}
+        <div className="dgs-flow-connector" ref={arrowARef} aria-hidden="true">
+          <span className="dgs-flow-shaft" />
+          <span className="dgs-flow-head"><IconFlowHead /></span>
+        </div>
+        <div className="dgs-flow-connector" ref={arrowBRef} aria-hidden="true">
+          <span className="dgs-flow-shaft" />
+          <span className="dgs-flow-head"><IconFlowHead /></span>
+        </div>
       </section>
   );
 }

@@ -25,7 +25,6 @@
 .dgs-graphic{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:2;pointer-events:none}
 .dgs-connector-line{fill:none;stroke:#ff5b46;stroke-width:.12;stroke-linecap:round;opacity:.5}
 .dgs-connector-dot{fill:var(--red);opacity:.75}
-.dgs-node-line{fill:none;stroke:var(--red);stroke-width:.14;stroke-linecap:round;opacity:0;will-change:opacity}
 
 .dgs-dust{position:absolute;inset:0;z-index:3;pointer-events:none}
 .dgs-dust-mote{position:absolute;border-radius:50%;background:radial-gradient(circle,#ff9a82,var(--red) 65%,transparent 100%);opacity:0;transform:translate(-50%,-50%)}
@@ -42,14 +41,31 @@
 .dgs-s3-copy{position:absolute;left:0;right:0;top:13%;z-index:6;padding-inline:20%;text-align:center;opacity:0;will-change:opacity,transform}
 .dgs-s3-label{color:var(--white);opacity:.85}
 .dgs-s3-headline{margin:20px 0 0;font-family:var(--display);font-weight:700;line-height:.98;letter-spacing:-.02em;text-transform:uppercase;color:#ece7d8;font-size:clamp(28px,3.6vw,54px);text-shadow:0 3px 26px rgba(0,0,0,.55)}
-.dgs-s3-sub{margin:20px 0 0;font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.08em;text-transform:uppercase;color:var(--red);text-shadow:0 2px 12px rgba(0,0,0,.9),0 0 22px rgba(0,0,0,.7)}
+.dgs-s3-sub{display:inline-block;margin:20px 0 0;padding:8px 16px;border-radius:2px;background:rgba(8,8,7,.6);backdrop-filter:blur(6px);font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
 
-/* Dashboard nodes — simple circles, not cards. Only the accent (centre) node carries a
-   restrained glow; the outer two stay quiet. */
+/* Dashboard nodes — a small badge icon per node (see NODE_ICON), not a plain dot. Only the
+   accent (centre) node carries a restrained glow; the outer two stay quiet. */
 .dgs-node{position:absolute;z-index:6;display:flex;flex-direction:column;align-items:center;gap:10px;transform:translate(-50%,-50%);opacity:0;will-change:left,opacity}
-.dgs-node-dot{position:relative;z-index:1;width:11px;height:11px;border-radius:50%;background:rgba(20,20,20,.7);border:1px solid rgba(245,245,241,.55)}
-.dgs-node-accent .dgs-node-dot{border-color:var(--red);background:var(--red)}
-.dgs-node-glow{position:absolute;left:50%;top:50%;width:34px;height:34px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(233,42,42,.55),transparent 70%);filter:blur(4px);opacity:0;pointer-events:none}
+.dgs-node-icon{position:relative;z-index:1;width:46px;height:46px;filter:drop-shadow(0 2px 10px rgba(0,0,0,.65))}
+.dgs-node-glow{position:absolute;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(233,42,42,.55),transparent 70%);filter:blur(4px);opacity:0;pointer-events:none}
+/* LOCAL CONTROL is the section's key conceptual shift — its icon is deliberately bigger and
+   warmer/brighter than the two outer nodes (FIRST RESPONDER / SAFE REPOSITIONING) stay at the
+   plain size above, and its glow is scaled up to match. */
+.dgs-node-accent .dgs-node-icon{width:60px;height:60px;filter:drop-shadow(0 2px 16px rgba(233,42,42,.6)) brightness(1.3) saturate(1.15)}
+.dgs-node-accent .dgs-node-glow{width:58px;height:58px}
+
+/* Connectors span the open gap between two icons (see CONNECTOR_GAP_PCT / setConnector in
+   design-gap-sequence.tsx) — `left`/`width` set per frame, always plain horizontal percentages
+   (both endpoints share NODE_Y), so nothing here touches `.dgs-graphic`'s non-uniformly
+   stretched viewBox (preserveAspectRatio="none"). Stopping short of the icons on both ends
+   (rather than icon-centre to icon-centre) is what keeps the arrowhead in open space instead
+   of being drawn underneath the next node — a real bug the previous version had, not a style
+   choice: a full-opacity arrowhead sitting exactly at the next icon's centre was entirely
+   hidden behind it, which is why this used to read as a plain line with no visible direction. */
+.dgs-flow-connector{position:absolute;z-index:5;top:0;height:30px;margin-top:-15px;display:flex;align-items:center;gap:2px;opacity:0;will-change:left,width,opacity;pointer-events:none}
+.dgs-flow-shaft{flex:1;height:3px;background:var(--red);border-radius:1.5px}
+.dgs-flow-head{flex:none;width:30px;height:30px;color:var(--red);filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
+.dgs-flow-head svg{width:100%;height:100%}
 .dgs-node-label{font-size:var(--fs-caption);letter-spacing:.08em;text-transform:uppercase;color:rgba(245,245,241,.85);white-space:nowrap;text-shadow:0 2px 8px rgba(0,0,0,.6)}
 .dgs-node-accent .dgs-node-label{color:#ffece7}
 
@@ -63,7 +79,7 @@
 .dgs-fb-label{color:var(--white);opacity:.85}
 .dgs-fb-headline{margin:14px 0 0;font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.95;letter-spacing:-.02em;color:#f2e9d6;font-size:clamp(34px,5.2vw,68px);text-shadow:0 4px 26px rgba(0,0,0,.65)}
 .dgs-fb-para{margin:16px 0 0;max-width:460px;font-size:var(--fs-body);line-height:1.6;color:#d8d4c8}
-.dgs-fb-sub{margin:14px auto 0;max-width:460px;font-size:var(--fs-caption);letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+.dgs-fb-sub{display:inline-block;margin:14px auto 0;max-width:460px;padding:8px 16px;border-radius:2px;background:rgba(8,8,7,.6);font-size:var(--fs-caption);letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
 
 /* .dgs-s1-copy / .dgs-panel / .dgs-node etc. never render below 760px — canEnhance()
    sends narrow viewports to .dgs-fb-* (above) instead, same convention scroll-intro.tsx

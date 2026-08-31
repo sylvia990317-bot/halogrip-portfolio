@@ -5,23 +5,47 @@ import { useState } from "react";
 /**
  * `product-side.webp` is not shot upright — measured directly (pixel centroid of the wand's
  * long axis, sampled via `sharp`, rows clear of the base cylinder), the photo itself already
- * leans ~22deg clockwise, i.e. it's effectively a pre-tilted "pulled back" pose, not a neutral
- * one. `rotate(0deg)` on it was therefore never upright — angles below are counter-rotated from
- * that measured baseline so NEUTRAL is genuinely upright.
+ * leans ~22deg clockwise. `rotate(0deg)` on it was therefore never upright — NEUTRAL_ANGLE
+ * counter-rotates that measured baseline so the resting pose is genuinely upright.
  *
- * The four states are not four distinct tilts: per Sylvia's correction, FORWARD tilts forward
- * off neutral; BRAKE is the grip releasing back to that same neutral/upright position
- * (deceleration, not a new pose); REVERSE continues past neutral in the opposite direction from
- * FORWARD. So BRAKE intentionally shares NEUTRAL's angle — this also matches the real PPT
- * reference in scroll-intro.tsx (`TILT_FORWARD`/`TILT_BRAKE`/`TILT_REVERSE`), where brake's tilt
- * is 0, identical to the resting pose.
+ * There is no standalone NEUTRAL card — Sylvia flagged it as confusing once BRAKE and NEUTRAL
+ * rendered as the exact same upright pose (a 4th button whose click produced no visible change).
+ * BRAKE's own copy already carries the "returns to neutral" idea, so it does that job: FORWARD
+ * tilts forward off the upright rest position; BRAKE releases back to it (deceleration, not a
+ * new pose — this is what used to be labelled NEUTRAL_ANGLE with no offset); REVERSE continues
+ * past that same rest position in the opposite direction from FORWARD.
+ *
+ * FORWARD/REVERSE's *direction* (which way is clockwise vs counter-clockwise) previously wasn't
+ * derived from anything — it was set by eyeballing this cropped, no-context studio photo, which
+ * has no windshield/dashboard in frame to tell you which rotation is physically "forward." That
+ * guess was wrong (confirmed live: forward read as tilting backward), and every earlier fix here
+ * was the same kind of guess, so it kept landing wrong. This is now pinned to the one place in
+ * this project that actually has an authoritative answer: `scroll-intro.tsx`'s
+ * `TILT_FORWARD`/`TILT_BRAKE`/`TILT_REVERSE`, read directly from the real PowerPoint deck's own
+ * frame-rotation values (not guessed — extracted from the `.pptx` XML) for this exact gesture.
+ * Forward is clockwise off rest, reverse is counter-clockwise (-22.79deg) off rest, brake is
+ * rest itself (0deg offset) — applied on top of NEUTRAL_ANGLE below.
+ *
+ * FORWARD's *magnitude* does deliberately depart from the PPT's own 15.12deg, though: Sylvia
+ * flagged live that at that value forward read as too subtle — closer to what she pictured for
+ * brake than for a clear forward push. First bumped to match REVERSE's own magnitude (22.79deg),
+ * then bumped again per a further round of live feedback ("forward's angle, add a bit more") —
+ * forward is now visibly the most tilted of the three, past REVERSE's magnitude.
+ *
+ * BRAKE, in the same round of feedback, was asked to move too ("brake also add a bit") — it had
+ * been sitting exactly on the upright rest pose (0deg offset), which read as too flat/static next
+ * to the two tilted states. Given a small offset in FORWARD's own direction: BRAKE is deceleration
+ * *out of* a forward tilt, not a new gesture, so a partial lean back toward (but well short of)
+ * FORWARD reads as "still easing off" rather than "already stopped."
  */
 const NEUTRAL_ANGLE = -22;
+const TILT_FORWARD = 30;
+const TILT_BRAKE = 10;
+const TILT_REVERSE = -22.79;
 const states = [
-  { title: "FORWARD", action: "PUSH / ACCELERATE", angle: -40, description: "Tilt forward to move the vehicle ahead." },
-  { title: "NEUTRAL", action: "UPRIGHT / STILL", angle: NEUTRAL_ANGLE, description: "Release the grip to remain stationary." },
-  { title: "BRAKE", action: "RELEASE / DECELERATE", angle: NEUTRAL_ANGLE, description: "Release the forward tilt to return to neutral and slow down." },
-  { title: "REVERSE", action: "PULL BACK", angle: 0, description: "Tilt back past neutral to reverse at low speed." },
+  { title: "FORWARD", action: "PUSH / ACCELERATE", angle: NEUTRAL_ANGLE + TILT_FORWARD, description: "Tilt forward to move the vehicle ahead." },
+  { title: "BRAKE", action: "RELEASE / DECELERATE", angle: NEUTRAL_ANGLE + TILT_BRAKE, description: "Release the forward tilt to return to neutral and slow down." },
+  { title: "REVERSE", action: "PULL BACK", angle: NEUTRAL_ANGLE + TILT_REVERSE, description: "Tilt back past neutral to reverse at low speed." },
 ];
 
 export default function InteractionDeck() {

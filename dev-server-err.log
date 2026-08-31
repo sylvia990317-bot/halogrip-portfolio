@@ -8,3 +8,69 @@
 [browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
 [browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
 [browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at section (<anonymous>)
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] Uncaught ReferenceError: IconFlowArrow is not defined
+    at DesignGapSequence (app/work/halogrip/design-gap-sequence.tsx:437:12)
+    at HalogripPage (app\work\halogrip\page.tsx:125:7)
+  435 |         ))}
+  436 |         <div className="dgs-flow-arrow" ref={arrowARef} aria-hidden="true">
+> 437 |           <IconFlowArrow />
+      |            ^
+  438 |         </div>
+  439 |         <div className="dgs-flow-arrow" ref={arrowBRef} aria-hidden="true">
+  440 |           <IconFlowArrow />
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[browser] Uncaught ReferenceError: IconFlowArrow is not defined
+    at DesignGapSequence (app/work/halogrip/design-gap-sequence.tsx:428:12)
+    at HalogripPage (app\work\halogrip\page.tsx:125:7)
+  426 |         ))}
+  427 |         <div className="dgs-flow-arrow" ref={arrowARef} aria-hidden="true">
+> 428 |           <IconFlowArrow />
+      |            ^
+  429 |         </div>
+  430 |         <div className="dgs-flow-arrow" ref={arrowBRef} aria-hidden="true">
+  431 |           <IconFlowArrow />
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[browser] Uncaught ReferenceError: lineARef is not defined
+    at DesignGapSequence (app/work/halogrip/design-gap-sequence.tsx:363:48)
+    at HalogripPage (app\work\halogrip\page.tsx:125:7)
+  361 |             ))}
+  362 |           </g>
+> 363 |           <line className="dgs-node-line" ref={lineARef} />
+      |                                                ^
+  364 |           <line className="dgs-node-line" ref={lineBRef} />
+  365 |         </svg>
+  366 |
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[browser] Uncaught ReferenceError: IconFlowArrow is not defined
+    at DesignGapSequence (app/work/halogrip/design-gap-sequence.tsx:424:12)
+    at HalogripPage (app\work\halogrip\page.tsx:125:7)
+  422 |         ))}
+  423 |         <div className="dgs-flow-arrow" ref={arrowARef} aria-hidden="true">
+> 424 |           <IconFlowArrow />
+      |            ^
+  425 |         </div>
+  426 |         <div className="dgs-flow-arrow" ref={arrowBRef} aria-hidden="true">
+  427 |           <IconFlowArrow />
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
