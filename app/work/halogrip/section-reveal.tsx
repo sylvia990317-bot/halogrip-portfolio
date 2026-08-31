@@ -1,17 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 /**
- * Plain one-time fade-up when the section first scrolls into view.
+ * Plain one-time fade-up when the element first scrolls into view.
  * Not scroll-scrubbed and not pinned — the observer fires once, then disconnects.
+ * `tag` lets this wrap something other than a `<section>` (e.g. a single `h2`/`p`
+ * heading in place, with no extra wrapper element) so the same reveal can be dropped
+ * onto a chapter heading without touching its surrounding layout.
  */
 export default function SectionReveal({
   id,
+  tag = "section",
   className = "",
   children,
 }: {
   id?: string;
+  tag?: keyof React.JSX.IntrinsicElements;
   className?: string;
   children: React.ReactNode;
 }) {
@@ -40,9 +45,11 @@ export default function SectionReveal({
     .filter(Boolean)
     .join(" ");
 
+  const Tag = tag as any;
+
   return (
-    <section ref={ref} id={id} className={classes}>
+    <Tag ref={ref} id={id} className={classes}>
       {children}
-    </section>
+    </Tag>
   );
 }

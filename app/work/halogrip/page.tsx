@@ -65,8 +65,8 @@ const steps = [
 const PRODUCT_ANNOTATIONS = [
   { id: "01", title: "OPEN GRIP", note: "RECOGNIZABLE", point: [0.85, 0.18], label: [0.85, -0.07] },
   { id: "02", title: "ID ACCESS", note: "AUTHORIZED", point: [0.5, 0.47], label: [0.5, 0.3] },
-  { id: "03", title: "TILT INPUT", note: "HANDS-ONLY", point: [0.08, 0.8], label: [0.08, 1.06] },
-  { id: "04", title: "15 KM/H", note: "LIMITED", point: [0.9, 0.8], label: [0.9, 1.06] },
+  { id: "03", title: "TILT INPUT", note: "HANDS-ONLY", point: [0.08, 0.8], label: [0.08, 1.16] },
+  { id: "04", title: "15 KM/H", note: "LIMITED", point: [0.9, 0.8], label: [0.9, 1.16] },
 ] as const;
 const PRODUCT_IMG_W = 2100;
 const PRODUCT_IMG_H = 1032;
@@ -91,7 +91,7 @@ export default function HalogripPage() {
 
       <section className="product-intro section shell">
         <div className="product-intro-heading">
-          <h2>NEXT GENERATION STEERING DEVICE</h2>
+          <SectionReveal tag="h2">NEXT GENERATION STEERING DEVICE</SectionReveal>
         </div>
         <div className="metadata">
           {meta.map(([label, value]) => (
@@ -111,19 +111,20 @@ export default function HalogripPage() {
         <div className="overview-content shell">
           <span className="eyebrow overview-marker">[ 01 / OVERVIEW ]</span>
           <div className="overview-copy">
-            <h2>WHEN THE VEHICLE STOPS,<br />THE RESPONSE SHOULD NOT.</h2>
-            <p>HALOGRIP is a compact, low-speed fallback interface that lets authorized first responders reposition a stalled robotaxi on site.</p>
+            <SectionReveal tag="h2">WHEN THE VEHICLE STOPS,<br />THE RESPONSE SHOULD NOT.</SectionReveal>
+            <SectionReveal tag="p">HALOGRIP is a compact, low-speed fallback interface that lets authorized first responders reposition a stalled robotaxi on site.</SectionReveal>
           </div>
         </div>
       </section>
 
       <section className="challenge-scene challenge-scene-cabin dark-section" aria-labelledby="challenge-cabin-title">
         <div className="challenge-scene-inner shell">
-          <span className="eyebrow">[ 02.1 / CABIN SHIFT ]</span>
+          <span className="chapter-label">02 / CHALLENGE</span>
+          <span className="eyebrow">[ CABIN SHIFT ]</span>
           <div className="cabin-shift-layout">
             <div className="challenge-scene-copy">
-              <h2 id="challenge-cabin-title">THE DRIVER IS DISAPPEARING<br />FROM THE CABIN.</h2>
-              <p>Purpose-built robotaxis are beginning to move beyond the conventional driver&rsquo;s cockpit. Deployment, however, remains in transition as regulations and emergency systems adapt.</p>
+              <SectionReveal tag="h2" id="challenge-cabin-title">THE DRIVER IS DISAPPEARING<br />FROM THE CABIN.</SectionReveal>
+              <SectionReveal tag="p">Purpose-built robotaxis are beginning to move beyond the conventional driver&rsquo;s cockpit. Deployment, however, remains in transition as regulations and emergency systems adapt.</SectionReveal>
             </div>
             <figure className="cabin-figure">
               <img src={encodeURI("/media/halogrip图片/2.1/robotaxi-cabin.png")} alt="Purpose-built robotaxi cabin without conventional driving controls" loading="lazy" />
@@ -145,8 +146,8 @@ export default function HalogripPage() {
 
         <div className="research-layout">
           <div className="research-left">
-            <h2>LISTEN BEFORE DESIGNING.</h2>
-            <p className="research-intro">Interviews with first responders and a public survey surfaced four recurring concerns about robotaxis.</p>
+            <SectionReveal tag="h2">LISTEN BEFORE DESIGNING.</SectionReveal>
+            <SectionReveal tag="p" className="research-intro">Interviews with first responders and a public survey surfaced four recurring concerns about robotaxis.</SectionReveal>
             <figure className="research-photo">
               <img src={encodeURI("/media/halogrip图片/03/firefighter-rescue.png")} alt="A firefighter rappels from an aerial ladder platform during a rescue operation" loading="lazy" />
             </figure>
@@ -180,8 +181,8 @@ export default function HalogripPage() {
         <div className="principles-inner shell">
           <div className="principles-intro">
             <span className="eyebrow">[ 04 / DESIGN PRINCIPLES ]</span>
-            <h2>CONTROL MUST<br />FEEL OBVIOUS<br />UNDER <span>PRESSURE.</span></h2>
-            <p>Research shifted the project away from futuristic controls and toward a recognizable, local, physical interface.</p>
+            <SectionReveal tag="h2">CONTROL MUST<br />FEEL OBVIOUS<br />UNDER <span>PRESSURE.</span></SectionReveal>
+            <SectionReveal tag="p">Research shifted the project away from futuristic controls and toward a recognizable, local, physical interface.</SectionReveal>
           </div>
           <div className="principles-list">
             {principles.map(([title, description], index) => (
@@ -197,8 +198,8 @@ export default function HalogripPage() {
       <section className="concepts section shell" id="concepts">
         <span className="eyebrow">[ 05 / CONCEPT EXPLORATION ]</span>
         <div className="concept-heading">
-          <h2>FIVE DIRECTIONS FOR CONTROL.</h2>
-          <p>Four approaches explored how emergency personnel might take control without conventional pedals or a permanent steering wheel.</p>
+          <SectionReveal tag="h2">FIVE DIRECTIONS FOR CONTROL.</SectionReveal>
+          <SectionReveal tag="p">Four approaches explored how emergency personnel might take control without conventional pedals or a permanent steering wheel.</SectionReveal>
         </div>
         <ConceptCarousel />
       </section>
@@ -206,26 +207,69 @@ export default function HalogripPage() {
       <section className="sketch-process section shell" id="sketch-process">
         <span className="eyebrow">[ 06 / SKETCH PROCESS ]</span>
         {/* TODO(sylvia): draft heading — review/replace */}
-        <h2>REFINING THE SELECTED DIRECTION.</h2>
-        {/* TODO(sylvia): draft intro — review/replace; now spans all 3 stages below */}
-        <p className="sketch-process-intro">Sketching moved through three stages: exploring different overall forms, refining the grip itself, then working through the interaction points that make the pull-out wheel function.</p>
+        <SectionReveal tag="h2">REFINING THE SELECTED DIRECTION.</SectionReveal>
+        {/* TODO(sylvia): draft intro — review/replace; spans both stages below */}
+        <SectionReveal tag="p" className="sketch-process-intro">Sketching moved through two stages: exploring different overall forms before converging on the pull-out wheel, then refining the grip itself.</SectionReveal>
 
         <div className="sketch-process-stage">
           <span className="sketch-process-stage-label">Concept convergence</span>
-          <div className="sketch-process-grid sketch-process-grid-converge">
-            {[
-              ["sketch-1-d-shaped-hud", "png", "D-shaped wheel with a single pedal, mechanical pull-out, and HUD"],
-              ["sketch-2-u-shape-onscreen", "png", "U-shape yoke with on-screen control and electrical insert"],
-              ["sketch-3-oblique-ellipse", "png", "Oblique ellipse with NFC and aircraft-throttle-style speed control"],
-              ["sketch-4-classic-round", "png", "Classic round wheel with electrical slide rails and voice control"],
-            ].map(([file, ext, alt]) => (
-              <figure key={file}>
-                <img src={encodeURI(`/media/halogrip图片/05-iteration/${file}.${ext}`)} alt={`Iteration sketch: ${alt}`} loading="lazy" />
+          {/* TODO(sylvia): draft copy below (concept titles/descriptions, converged qualities,
+              why-this-direction) — review/replace. Layout ported from the reference mock at
+              public/media/halogrip图片/06-sketch-process/reference.png. */}
+          <div className="sketch-process-converge">
+            <div className="sketch-process-converge-concepts">
+              {[
+                ["sketch-1-d-shaped-hud", "png", "01", "D-shaped wheel", "Single pedal, mechanical pull-out, and HUD."],
+                ["sketch-2-u-shape-onscreen", "png", "02", "U-shape yoke", "On-screen interface, electrically actuated."],
+                ["sketch-3-oblique-ellipse", "png", "03", "Oblique ellipse", "NFC authorization and aircraft-throttle-style speed control."],
+                ["sketch-4-classic-round", "png", "04", "Classic round", "Electrical slide rails with voice control."],
+              ].map(([file, ext, number, title, desc]) => (
+                <figure key={file} className="sketch-process-concept-card">
+                  <img src={encodeURI(`/media/halogrip图片/05-iteration/${file}.${ext}`)} alt={`Iteration sketch: ${title} — ${desc}`} loading="lazy" />
+                  <figcaption>
+                    <span className="sketch-process-concept-number">{number}</span>
+                    <h3>{title}</h3>
+                    <p>{desc}</p>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+
+            <div className="sketch-process-converge-synth">
+              <span className="sketch-process-converge-arrow" aria-hidden="true">&rarr;</span>
+              <span className="sketch-process-converge-synth-label">Synthesized into</span>
+              <p>Extracted the strongest qualities from each direction.</p>
+            </div>
+
+            <div className="sketch-process-converge-result">
+              <span className="sketch-process-result-tag">Final &mdash; Selected direction</span>
+              <p className="sketch-process-result-summary">B-pillar + Mechanical + HUD + U-shape + attached to dashboard</p>
+              <figure>
+                <img src={encodeURI("/media/halogrip图片/05-iteration/sketch-5-final-pullout-wheel.jpg")} alt="Final sketch: B-pillar mounted, mechanical, HUD, U-shape pull-out wheel attached to the dashboard — the selected direction" loading="lazy" />
               </figure>
-            ))}
-            <figure className="sketch-process-card-light">
-              <img src={encodeURI("/media/halogrip图片/05-iteration/sketch-5-final-pullout-wheel.jpg")} alt="Final sketch: B-pillar mounted, mechanical, HUD, U-shape pull-out wheel attached to the dashboard — the selected direction" loading="lazy" />
-            </figure>
+              <div className="sketch-process-qualities">
+                {[
+                  ["B-pillar placement", "Clear visibility and ergonomic reach from the driver's seat."],
+                  ["Mechanical pull-out", "Tangible, intuitive deployment from the dashboard."],
+                  ["U-shape grip", "A recognizable, accessible form for both hands."],
+                  ["Tilt-based control", "Hands-only speed modulation, no separate pedal."],
+                  ["HUD feedback", "Dynamic driving information at eye level."],
+                  ["NFC authorization", "Secure, seamless activation before use."],
+                ].map(([title, desc], i) => (
+                  <article key={title}>
+                    <span>0{i + 1}</span>
+                    <div>
+                      <h4>{title}</h4>
+                      <p>{desc}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              <div className="sketch-process-why">
+                <span className="sketch-process-why-label">Why this direction</span>
+                <p>Combines the clearest physical interaction with the fewest necessary controls — while keeping the device visible, accessible, and deliberately limited.</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -235,22 +279,6 @@ export default function HalogripPage() {
             <img src={encodeURI("/media/halogrip图片/05-iteration/sketches.webp")} alt="Six rounds of grip-form iteration converging on the final selected shape" loading="lazy" />
           </figure>
         </div>
-
-        <div className="sketch-process-stage">
-          <span className="sketch-process-stage-label">Interaction detail</span>
-          <div className="sketch-process-grid">
-            {[
-              ["refinement-1-hud-authorization", "Contact / authorization"],
-              ["refinement-2-pedal-insert", "Pedal + insert authorization"],
-              ["refinement-3-pullout-handle-nfc", "Pull-out handle + NFC"],
-              ["refinement-4-bpillar-slide-rails", "B-pillar slide rails"],
-            ].map(([file, alt]) => (
-              <figure key={file}>
-                <img src={encodeURI(`/media/halogrip图片/06-sketch-process/${file}.png`)} alt={`Refinement sketch: ${alt}`} loading="lazy" />
-              </figure>
-            ))}
-          </div>
-        </div>
       </section>
 
       <section className="final-hero dark-section" id="solution">
@@ -258,15 +286,15 @@ export default function HalogripPage() {
         <div className="final-scrim" />
         <div className="final-content shell">
           <span className="eyebrow">[ 07 / FINAL CONCEPT ]</span>
-          <h2>HALOGRIP</h2>
-          <p>A compact, on-board fallback control for safely repositioning a stalled robotaxi.</p>
+          <SectionReveal tag="h2">HALOGRIP</SectionReveal>
+          <SectionReveal tag="p">A compact, on-board fallback control for safely repositioning a stalled robotaxi.</SectionReveal>
         </div>
       </section>
 
       <section className="product-detail section shell" id="product-overview">
         <div className="product-copy">
-          <span className="eyebrow">[ PRODUCT OVERVIEW ]</span>
-          <h2>DESIGNED TO BE VISIBLE,<br />ACCESSIBLE AND<br />DELIBERATELY LIMITED.</h2>
+          <span className="eyebrow">[ 07.1 / PRODUCT OVERVIEW ]</span>
+          <SectionReveal tag="h2">DESIGNED TO BE VISIBLE,<br />ACCESSIBLE AND<br />DELIBERATELY LIMITED.</SectionReveal>
         </div>
         <div className="product-visual">
           <img src={encodeURI("/media/halogrip图片/other/product-front.webp")} alt="Front view of the HALOGRIP steering device showing its open, angular hand grips and illuminated controls" loading="lazy" />
@@ -290,7 +318,7 @@ export default function HalogripPage() {
 
       <section className="interaction section shell" id="interaction">
         <div className="interaction-heading">
-          <div><span className="eyebrow">[ 08 / INTERACTION MODEL ]</span><h2>TURN TO STEER. <span>TILT TO MOVE.</span></h2><p>Direction and speed live in one familiar, hands-only physical interaction.</p></div>
+          <div><span className="eyebrow">[ 08 / INTERACTION MODEL ]</span><SectionReveal tag="h2">TURN TO STEER. <span>TILT TO MOVE.</span></SectionReveal><SectionReveal tag="p">Direction and speed live in one familiar, hands-only physical interaction.</SectionReveal></div>
         </div>
         <InteractionDeck />
       </section>
@@ -314,14 +342,14 @@ export default function HalogripPage() {
             ))}
           </div>
           <div className="system-detail">
-            <div className="access-detail"><span className="eyebrow">[ SECURE ACCESS ]</span><div className="access-images"><img src={encodeURI("/media/halogrip图片/other/id-one.webp")} alt="Responder identity verification interface" loading="lazy" /><img src={encodeURI("/media/halogrip图片/other/id-two.webp")} alt="Successful authorization screen for vehicle entry" loading="lazy" /></div><p>Two verification steps separate vehicle access from manual control.</p></div>
-            <div className="hud-detail"><span className="eyebrow">[ HEAD-UP DISPLAY ]</span><img src={encodeURI("/media/halogrip图片/other/hud.webp")} alt="Head-up display presenting manual control status and emergency driving guidance" loading="lazy" /><p>Only the information needed to maintain situational awareness during intervention.</p></div>
+            <div className="access-detail"><span className="eyebrow">[ 09.1 / SECURE ACCESS ]</span><div className="access-images"><img src={encodeURI("/media/halogrip图片/other/id-one.webp")} alt="Responder identity verification interface" loading="lazy" /><img src={encodeURI("/media/halogrip图片/other/id-two.webp")} alt="Successful authorization screen for vehicle entry" loading="lazy" /></div><p>Two verification steps separate vehicle access from manual control.</p></div>
+            <div className="hud-detail"><span className="eyebrow">[ 09.2 / HEAD-UP DISPLAY ]</span><img src={encodeURI("/media/halogrip图片/other/hud.webp")} alt="Head-up display presenting manual control status and emergency driving guidance" loading="lazy" /><p>Only the information needed to maintain situational awareness during intervention.</p></div>
           </div>
         </div>
       </SectionReveal>
 
       <footer className="site-footer shell">
-        <div><span className="eyebrow">[ MASTER’S THESIS / 2025 ]</span><h2>DESIGNED FOR THE PEOPLE<br />WHO CANNOT AFFORD TO WAIT.</h2></div>
+        <div><span className="eyebrow">[ MASTER’S THESIS / 2025 ]</span><SectionReveal tag="h2">DESIGNED FOR THE PEOPLE<br />WHO CANNOT AFFORD TO WAIT.</SectionReveal></div>
         <div className="footer-bottom"><span>SYLVIA XIE — USER RESEARCH &amp; CONCEPT / AUTOLIV × CHALMERS</span><a href="/">BACK TO HOME ↑</a></div>
       </footer>
     </main>

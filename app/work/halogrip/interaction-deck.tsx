@@ -68,7 +68,7 @@ export default function InteractionDeck() {
         <div className="interaction-buttons" aria-label="Explore steering control states">
           {states.map((state, index) => (
             <button
-              className={index === selected ? "is-active" : ""}
+              className={`dir-${state.title.toLowerCase()}${index === selected ? " is-active" : ""}`}
               key={state.title}
               type="button"
               onClick={() => setSelected(index)}

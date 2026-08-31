@@ -190,6 +190,7 @@ export default function DesignGapSequence() {
   const closeRef = useRef<HTMLImageElement>(null);
   const inCarRef = useRef<HTMLImageElement>(null);
   const bgStackRef = useRef<HTMLDivElement>(null);
+  const lastFilterRef = useRef<string>("none");
 
   const s1CopyRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -253,10 +254,24 @@ export default function DesignGapSequence() {
       // Restrained blur only during the two active crossfades (a bell curve of the eased
       // progress is naturally 0 at both ends of its own window and everywhere outside it),
       // plus the barely-perceptible "entering the cabin" scale that holds once state 3 settles.
-      const blur = Math.sin(fadeT * Math.PI) * 2.2 + Math.sin(transT * Math.PI) * 2.6;
+      //
+      // `filter:blur()` forces a full repaint of `.dgs-bg-stack` (all three full-viewport
+      // background photos) every time its value changes — unlike opacity/transform, the
+      // compositor can't handle it alone. Writing a new sub-pixel value on every scroll
+      // tick was visibly janky right at the top of this pinned section (scroll progress
+      // 0.18, i.e. immediately after entering from 02.2). Quantizing to 0.25px steps and
+      // skipping no-op writes cuts the repaint count by roughly an order of magnitude with
+      // no visible difference — the sine easing is gradual enough that the steps don't read
+      // as banding.
+      const blurRaw = Math.sin(fadeT * Math.PI) * 2.2 + Math.sin(transT * Math.PI) * 2.6;
+      const blur = Math.round(blurRaw * 4) / 4;
       const scale = lerp(1, 1.015, transT);
       if (bgStackRef.current) {
-        bgStackRef.current.style.filter = blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : "none";
+        const filter = blur > 0.05 ? `blur(${blur}px)` : "none";
+        if (filter !== lastFilterRef.current) {
+          bgStackRef.current.style.filter = filter;
+          lastFilterRef.current = filter;
+        }
         bgStackRef.current.style.transform = `scale(${scale})`;
       }
 

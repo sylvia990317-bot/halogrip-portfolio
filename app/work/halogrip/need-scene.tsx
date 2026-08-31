@@ -6,20 +6,24 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { onPinsReady } from "./pin-coordinator";
 
 /**
- * 02.2 / REAL-WORLD NEED. The route line draws itself in once the section scrolls into
+ * 02.2 / REAL-WORLD NEED. The route line draws itself in every time the section scrolls into
  * view, and every other element on the poster (the three annotations, the frame around the
  * stalled vehicle, the "74" stat, RESPONSE ORIGIN) fades in synced to how far the line has
- * drawn toward that element's own position — not a fixed stagger. This is a one-shot reveal
- * (like ./section-reveal.tsx), not a scroll-scrubbed or pinned scene: the section is a
- * static "poster" (percentage/vw-positioned so it scales as one image at any width — see
- * halogrip.css's .need-scene history) and should still read as one, just one that draws
- * itself in the first time it's seen.
+ * drawn toward that element's own position — not a fixed stagger. Unlike ./section-reveal.tsx's
+ * one-shot fade, this replays on every entry (scrolling down in, or back up into it) rather
+ * than only the first time: the section is a static "poster" (percentage/vw-positioned so it
+ * scales as one image at any width — see halogrip.css's .need-scene history) and should still
+ * read as one, just one that draws itself in each time it's seen.
  *
  * .need-route/.need-route-glow already carry their own stroke-dasharray for visual styling
  * (a dashed line + a blurred glow), so animating their own stroke-dashoffset for a draw-in
  * would fight that pattern. Instead an invisible solid copy of the same path
  * (#need-route-reveal-path) drives a <mask> that reveals the two real paths underneath as
  * its own dashoffset counts down from the path's full length to 0.
+ *
+ * Unlike ./section-reveal.tsx, this one replays every time the section re-enters the
+ * viewport (scrolling down into it or back up into it), not just the first time — restarting
+ * the same timeline from 0 on each entry.
  *
  * The route's own coordinates run straight through the frame box (x745-960 at y500, inside
  * the frame's y435-670 span). Rather than bending the path around it, a second static mask
@@ -114,8 +118,8 @@ export default function NeedScene() {
         ScrollTrigger.create({
           trigger: section,
           start: "top 70%",
-          once: true,
-          onEnter: () => tl.play(),
+          onEnter: () => tl.restart(),
+          onEnterBack: () => tl.restart(),
         });
       }, section);
     });
