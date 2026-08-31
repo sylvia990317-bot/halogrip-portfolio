@@ -133,6 +133,7 @@ export default function NeedScene() {
         style={{ backgroundImage: `url(${encodeURI("/media/halogrip图片/2.2/2.2 background.png")})` }}
       />
       <div className="need-scrim" />
+      <div className="need-fade-top" />
 
       <span className="eyebrow need-marker">[ 02.2 / REAL-WORLD NEED ]</span>
 

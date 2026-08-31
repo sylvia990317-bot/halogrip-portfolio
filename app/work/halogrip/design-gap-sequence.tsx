@@ -121,9 +121,11 @@ const NODES = [
 const NODE_Y = 82;
 /** Percentage-of-section-width gap left clear on each side of a connector so its arrowhead
  *  lands in the open space between two icons instead of being drawn underneath the next one
- *  (icon-centre to icon-centre was the original span — at a 46-58px icon width that swallowed
- *  the whole arrowhead, which is why the connectors used to read as a plain unbroken line). */
-const CONNECTOR_GAP_PCT = 4.5;
+ *  (icon-centre to icon-centre was the original span — at a 44-52px icon width that swallowed
+ *  the whole arrowhead, which is why the connectors used to read as a plain unbroken line).
+ *  Kept tight on purpose — per feedback that a wider gap read as three isolated icons with
+ *  decorative lines floating nearby rather than one connected flow. */
+const CONNECTOR_GAP_PCT = 2.4;
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -196,7 +198,6 @@ export default function DesignGapSequence() {
 
   const s3CopyRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const glowRef = useRef<HTMLDivElement>(null);
   const arrowARef = useRef<HTMLDivElement>(null);
   const arrowBRef = useRef<HTMLDivElement>(null);
 
@@ -302,10 +303,6 @@ export default function DesignGapSequence() {
       });
       setConnector(arrowARef.current, positions[0] + CONNECTOR_GAP_PCT, positions[1] - CONNECTOR_GAP_PCT, nodesOpacity);
       setConnector(arrowBRef.current, positions[1] + CONNECTOR_GAP_PCT, positions[2] - CONNECTOR_GAP_PCT, nodesOpacity);
-      if (glowRef.current) {
-        const settlePulse = Math.max(0, spreadT - 0.85) * 2;
-        glowRef.current.style.opacity = String(clamp01(nodesOpacity * 0.65 + settlePulse * 0.25));
-      }
     }
 
     let context: gsap.Context | undefined;
@@ -422,8 +419,12 @@ export default function DesignGapSequence() {
               nodeRefs.current[i] = el;
             }}
           >
-            {node.accent && <div className="dgs-node-glow" ref={glowRef} aria-hidden="true" />}
-            <img className="dgs-node-icon" src={NODE_ICON[node.id]} alt="" aria-hidden="true" loading="lazy" />
+            {/* Fixed-height slot, icon bottom-aligned inside it: LOCAL CONTROL's icon can stay
+                visibly larger than the other two without pushing its label down — every label
+                sits the same distance below NODE_Y regardless of the icon size above it. */}
+            <div className="dgs-node-icon-slot">
+              <img className="dgs-node-icon" src={NODE_ICON[node.id]} alt="" aria-hidden="true" loading="lazy" />
+            </div>
             <span className="dgs-node-label">{node.label}</span>
           </div>
         ))}

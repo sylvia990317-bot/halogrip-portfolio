@@ -55,6 +55,22 @@ const steps = [
   ["COMPLETE", "End manual intervention and return system control.", "05-complete"],
 ];
 
+// Coordinates are fractions of product-front.webp's own 2100x1032 frame (0-1, labels can sit
+// slightly beyond 0-1 since they read just outside the image's own silhouette). Chosen by
+// sampling the image's alpha channel directly (see session notes) so each `point` lands on real
+// opaque device geometry. Labels sit straight out from their point (up for 01/02, down for
+// 03/04) rather than tucked into the gaps inside the photo — reads as a callout pointing away
+// from the object, not text curling back into it — while staying close/short and pulled in from
+// the page's outer margins rather than the product's very edge.
+const PRODUCT_ANNOTATIONS = [
+  { id: "01", title: "OPEN GRIP", note: "RECOGNIZABLE", point: [0.85, 0.18], label: [0.85, -0.07] },
+  { id: "02", title: "ID ACCESS", note: "AUTHORIZED", point: [0.5, 0.47], label: [0.5, 0.3] },
+  { id: "03", title: "TILT INPUT", note: "HANDS-ONLY", point: [0.08, 0.8], label: [0.08, 1.06] },
+  { id: "04", title: "15 KM/H", note: "LIMITED", point: [0.9, 0.8], label: [0.9, 1.06] },
+] as const;
+const PRODUCT_IMG_W = 2100;
+const PRODUCT_IMG_H = 1032;
+
 export default function HalogripPage() {
   return (
     <main id="top" className={`${koulen.variable} ${robotoMono.variable}`}>
@@ -191,19 +207,49 @@ export default function HalogripPage() {
         <span className="eyebrow">[ 06 / SKETCH PROCESS ]</span>
         {/* TODO(sylvia): draft heading — review/replace */}
         <h2>REFINING THE SELECTED DIRECTION.</h2>
-        {/* TODO(sylvia): draft intro — review/replace */}
-        <p className="sketch-process-intro">Once the pull-out wheel was chosen, sketching moved from form to detail — working through the interaction points that make it function: authorization, the pull-out mechanism, and on-wheel controls.</p>
-        <div className="sketch-process-grid">
-          {[
-            ["refinement-1-hud-authorization", "Contact / authorization"],
-            ["refinement-2-pedal-insert", "Pedal + insert authorization"],
-            ["refinement-3-pullout-handle-nfc", "Pull-out handle + NFC"],
-            ["refinement-4-bpillar-slide-rails", "B-pillar slide rails"],
-          ].map(([file, alt]) => (
-            <figure key={file}>
-              <img src={encodeURI(`/media/halogrip图片/06-sketch-process/${file}.png`)} alt={`Refinement sketch: ${alt}`} loading="lazy" />
+        {/* TODO(sylvia): draft intro — review/replace; now spans all 3 stages below */}
+        <p className="sketch-process-intro">Sketching moved through three stages: exploring different overall forms, refining the grip itself, then working through the interaction points that make the pull-out wheel function.</p>
+
+        <div className="sketch-process-stage">
+          <span className="sketch-process-stage-label">Concept convergence</span>
+          <div className="sketch-process-grid sketch-process-grid-converge">
+            {[
+              ["sketch-1-d-shaped-hud", "png", "D-shaped wheel with a single pedal, mechanical pull-out, and HUD"],
+              ["sketch-2-u-shape-onscreen", "png", "U-shape yoke with on-screen control and electrical insert"],
+              ["sketch-3-oblique-ellipse", "png", "Oblique ellipse with NFC and aircraft-throttle-style speed control"],
+              ["sketch-4-classic-round", "png", "Classic round wheel with electrical slide rails and voice control"],
+            ].map(([file, ext, alt]) => (
+              <figure key={file}>
+                <img src={encodeURI(`/media/halogrip图片/05-iteration/${file}.${ext}`)} alt={`Iteration sketch: ${alt}`} loading="lazy" />
+              </figure>
+            ))}
+            <figure className="sketch-process-card-light">
+              <img src={encodeURI("/media/halogrip图片/05-iteration/sketch-5-final-pullout-wheel.jpg")} alt="Final sketch: B-pillar mounted, mechanical, HUD, U-shape pull-out wheel attached to the dashboard — the selected direction" loading="lazy" />
             </figure>
-          ))}
+          </div>
+        </div>
+
+        <div className="sketch-process-stage">
+          <span className="sketch-process-stage-label">Grip refinement</span>
+          <figure className="sketch-process-wide">
+            <img src={encodeURI("/media/halogrip图片/05-iteration/sketches.webp")} alt="Six rounds of grip-form iteration converging on the final selected shape" loading="lazy" />
+          </figure>
+        </div>
+
+        <div className="sketch-process-stage">
+          <span className="sketch-process-stage-label">Interaction detail</span>
+          <div className="sketch-process-grid">
+            {[
+              ["refinement-1-hud-authorization", "Contact / authorization"],
+              ["refinement-2-pedal-insert", "Pedal + insert authorization"],
+              ["refinement-3-pullout-handle-nfc", "Pull-out handle + NFC"],
+              ["refinement-4-bpillar-slide-rails", "B-pillar slide rails"],
+            ].map(([file, alt]) => (
+              <figure key={file}>
+                <img src={encodeURI(`/media/halogrip图片/06-sketch-process/${file}.png`)} alt={`Refinement sketch: ${alt}`} loading="lazy" />
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -217,23 +263,34 @@ export default function HalogripPage() {
         </div>
       </section>
 
-      <section className="product-detail section shell">
+      <section className="product-detail section shell" id="product-overview">
         <div className="product-copy">
           <span className="eyebrow">[ PRODUCT OVERVIEW ]</span>
           <h2>DESIGNED TO BE VISIBLE,<br />ACCESSIBLE AND<br />DELIBERATELY LIMITED.</h2>
-          <div className="final-specs">
-            {[["OPEN GRIP", "RECOGNIZABLE"], ["ID ACCESS", "AUTHORIZED"], ["TILT INPUT", "HANDS-ONLY"], ["15 KM/H", "LIMITED"]].map(([title, note], index) => (
-              <article key={title}><span>0{index + 1}</span><strong>{title}</strong><small>{note}</small></article>
-            ))}
-          </div>
         </div>
-        <img src={encodeURI("/media/halogrip图片/other/product-front.webp")} alt="Front view of the HALOGRIP steering device showing its open, angular hand grips and illuminated controls" loading="lazy" />
+        <div className="product-visual">
+          <img src={encodeURI("/media/halogrip图片/other/product-front.webp")} alt="Front view of the HALOGRIP steering device showing its open, angular hand grips and illuminated controls" loading="lazy" />
+          <svg className="product-annotations" viewBox={`0 0 ${PRODUCT_IMG_W} ${PRODUCT_IMG_H}`} aria-hidden="true">
+            {PRODUCT_ANNOTATIONS.map(({ id, point, label }) => (
+              <g key={id}>
+                <line x1={point[0] * PRODUCT_IMG_W} y1={point[1] * PRODUCT_IMG_H} x2={label[0] * PRODUCT_IMG_W} y2={label[1] * PRODUCT_IMG_H} />
+                <circle cx={point[0] * PRODUCT_IMG_W} cy={point[1] * PRODUCT_IMG_H} r={7} />
+              </g>
+            ))}
+          </svg>
+          {PRODUCT_ANNOTATIONS.map(({ id, title, note, label }) => (
+            <div key={id} className="product-annotation" style={{ left: `${label[0] * 100}%`, top: `${label[1] * 100}%` }}>
+              <span>{id}</span>
+              <strong>{title}</strong>
+              <small>{note}</small>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="interaction section shell" id="interaction">
         <div className="interaction-heading">
-          <div><span className="eyebrow">[ 08 / INTERACTION MODEL ]</span><h2>TURN TO STEER.<br /><span>TILT TO MOVE.</span></h2><p>Direction and speed live in one familiar, hands-only physical interaction.</p></div>
-          <span className="speed-note">MANUAL SPEED / 15 KM/H MAX</span>
+          <div><span className="eyebrow">[ 08 / INTERACTION MODEL ]</span><h2>TURN TO STEER. <span>TILT TO MOVE.</span></h2><p>Direction and speed live in one familiar, hands-only physical interaction.</p></div>
         </div>
         <InteractionDeck />
       </section>

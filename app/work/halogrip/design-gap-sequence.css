@@ -43,28 +43,34 @@
 .dgs-s3-headline{margin:20px 0 0;font-family:var(--display);font-weight:700;line-height:.98;letter-spacing:-.02em;text-transform:uppercase;color:#ece7d8;font-size:clamp(28px,3.6vw,54px);text-shadow:0 3px 26px rgba(0,0,0,.55)}
 .dgs-s3-sub{display:inline-block;margin:20px 0 0;padding:8px 16px;border-radius:2px;background:rgba(8,8,7,.6);backdrop-filter:blur(6px);font-family:var(--mono);font-size:var(--fs-caption);letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
 
-/* Dashboard nodes — a small badge icon per node (see NODE_ICON), not a plain dot. Only the
-   accent (centre) node carries a restrained glow; the outer two stay quiet. */
-.dgs-node{position:absolute;z-index:6;display:flex;flex-direction:column;align-items:center;gap:10px;transform:translate(-50%,-50%);opacity:0;will-change:left,opacity}
-.dgs-node-icon{position:relative;z-index:1;width:46px;height:46px;filter:drop-shadow(0 2px 10px rgba(0,0,0,.65))}
-.dgs-node-glow{position:absolute;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(233,42,42,.55),transparent 70%);filter:blur(4px);opacity:0;pointer-events:none}
-/* LOCAL CONTROL is the section's key conceptual shift — its icon is deliberately bigger and
-   warmer/brighter than the two outer nodes (FIRST RESPONDER / SAFE REPOSITIONING) stay at the
-   plain size above, and its glow is scaled up to match. */
-.dgs-node-accent .dgs-node-icon{width:60px;height:60px;filter:drop-shadow(0 2px 16px rgba(233,42,42,.6)) brightness(1.3) saturate(1.15)}
-.dgs-node-accent .dgs-node-glow{width:58px;height:58px}
+/* Dashboard nodes — a small badge icon per node (see NODE_ICON), not a plain dot.
 
-/* Connectors span the open gap between two icons (see CONNECTOR_GAP_PCT / setConnector in
+   Icon sits inside a fixed-height, bottom-aligned slot (`.dgs-node-icon-slot`) rather than
+   being a plain flex child of `.dgs-node` — that's what keeps every label on the same
+   baseline: LOCAL CONTROL's icon can grow inside its own slot without pushing its label any
+   further from NODE_Y than FIRST RESPONDER's or SAFE REPOSITIONING's. */
+.dgs-node{position:absolute;z-index:6;display:flex;flex-direction:column;align-items:center;gap:8px;transform:translate(-50%,-50%);opacity:0;will-change:left,opacity}
+.dgs-node-icon-slot{position:relative;display:flex;align-items:flex-end;justify-content:center;height:52px}
+.dgs-node-icon{position:relative;z-index:1;width:44px;height:44px;filter:drop-shadow(0 1px 6px rgba(0,0,0,.6))}
+/* LOCAL CONTROL is the section's key conceptual shift, so its icon stays a step larger and
+   carries a static, subtle red ring — a quiet accent, deliberately not a blurred glow (an
+   earlier round of feedback called a soft radial-gradient glow here too much like a UI
+   button). The ring is a plain box-shadow, no blur radius, so it reads as a crisp accent mark
+   rather than an emitting light source. */
+.dgs-node-accent .dgs-node-icon{width:52px;height:52px;box-shadow:0 0 0 1.5px rgba(233,42,42,.55);border-radius:50%;filter:drop-shadow(0 1px 6px rgba(0,0,0,.6))}
+
+/* Connectors span the gap between two icons (see CONNECTOR_GAP_PCT / setConnector in
    design-gap-sequence.tsx) — `left`/`width` set per frame, always plain horizontal percentages
    (both endpoints share NODE_Y), so nothing here touches `.dgs-graphic`'s non-uniformly
-   stretched viewBox (preserveAspectRatio="none"). Stopping short of the icons on both ends
-   (rather than icon-centre to icon-centre) is what keeps the arrowhead in open space instead
-   of being drawn underneath the next node — a real bug the previous version had, not a style
-   choice: a full-opacity arrowhead sitting exactly at the next icon's centre was entirely
-   hidden behind it, which is why this used to read as a plain line with no visible direction. */
-.dgs-flow-connector{position:absolute;z-index:5;top:0;height:30px;margin-top:-15px;display:flex;align-items:center;gap:2px;opacity:0;will-change:left,width,opacity;pointer-events:none}
-.dgs-flow-shaft{flex:1;height:3px;background:var(--red);border-radius:1.5px}
-.dgs-flow-head{flex:none;width:30px;height:30px;color:var(--red);filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
+   stretched viewBox (preserveAspectRatio="none"). Stopping just short of each icon's own edge
+   (rather than icon-centre to icon-centre) keeps the arrowhead in open space instead of being
+   drawn underneath the next node, while staying tight enough that the icon-arrow-icon-arrow-
+   icon row reads as one connected sequence, not three separate icons with decorative lines
+   floating near them. Shaft stays thin; the arrowhead is sized to be unambiguous at a glance
+   without turning into a UI progress-bar chevron. */
+.dgs-flow-connector{position:absolute;z-index:5;top:0;height:20px;margin-top:-16px;display:flex;align-items:center;gap:2px;opacity:0;will-change:left,width,opacity;pointer-events:none}
+.dgs-flow-shaft{flex:1;height:1.5px;background:var(--red);opacity:.85;border-radius:1px}
+.dgs-flow-head{flex:none;width:20px;height:20px;color:var(--red);filter:drop-shadow(0 1px 4px rgba(0,0,0,.55))}
 .dgs-flow-head svg{width:100%;height:100%}
 .dgs-node-label{font-size:var(--fs-caption);letter-spacing:.08em;text-transform:uppercase;color:rgba(245,245,241,.85);white-space:nowrap;text-shadow:0 2px 8px rgba(0,0,0,.6)}
 .dgs-node-accent .dgs-node-label{color:#ffece7}

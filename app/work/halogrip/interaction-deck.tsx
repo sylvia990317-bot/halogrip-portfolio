@@ -55,28 +55,31 @@ export default function InteractionDeck() {
   return (
     <div className="interaction-control">
       <div className="interaction-demo" aria-live="polite">
-        <span className="interaction-indicator">LIVE INPUT / {active.title}</span>
-        <img
-          src={encodeURI("/media/halogrip图片/other/product-side.webp")}
-          alt={active.description}
-          style={{ transform: `rotate(${active.angle}deg)` }}
-        />
-        <span className="interaction-description">{active.description}</span>
+        <div className="interaction-stage">
+          <img
+            src={encodeURI("/media/halogrip图片/other/product-side.webp")}
+            alt={active.description}
+            style={{ transform: `rotate(${active.angle}deg)` }}
+          />
+        </div>
       </div>
-      <div className="interaction-buttons" aria-label="Explore steering control states">
-        {states.map((state, index) => (
-          <button
-            className={index === selected ? "is-active" : ""}
-            key={state.title}
-            type="button"
-            onClick={() => setSelected(index)}
-            aria-pressed={index === selected}
-          >
-            <span>0{index + 1}</span>
-            <strong>{state.title}</strong>
-            <small>{state.action}</small>
-          </button>
-        ))}
+      <div className="interaction-panel">
+        <span className="interaction-description" aria-live="polite">{active.description}</span>
+        <div className="interaction-buttons" aria-label="Explore steering control states">
+          {states.map((state, index) => (
+            <button
+              className={index === selected ? "is-active" : ""}
+              key={state.title}
+              type="button"
+              onClick={() => setSelected(index)}
+              aria-pressed={index === selected}
+            >
+              <span>0{index + 1}</span>
+              <strong>{state.title}</strong>
+              <small>{state.action}</small>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

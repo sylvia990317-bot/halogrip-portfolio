@@ -117,6 +117,277 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Recent changes
 
+### 06 / SKETCH PROCESS expanded into a 3-stage story, reusing the `05-iteration/` assets Sylvia clarified actually belong to section 6 (this session)
+- Sylvia pointed out that `public/media/halogrip图片/05-iteration/` (5 concept-iteration
+  sketches — `sketch-1-d-shaped-hud` through `sketch-4-classic-round`, converging on
+  `sketch-5-final-pullout-wheel` — plus `sketches.webp`, a 6-round hand-grip-form iteration
+  sheet) belongs to section 06, not section 05: those files sat in a `05-iteration`-named folder
+  only because they were used in section 05 (CONCEPT EXPLORATION) in an earlier, since-replaced
+  round of that section (see the "05 / CONCEPT EXPLORATION replaced again" entry further below —
+  section 05 now uses a completely different asset set, `05/concept-*`, and was **not touched**
+  by this change; confirmed explicitly with Sylvia after she asked "你的意思是改动第五章节吗，
+  那个章节我不想动" (do you mean modifying section 5? I don't want to touch that section) — this
+  entire change is scoped to `.sketch-process` in `page.tsx` only).
+- Asked Sylvia to walk through the actual story these assets tell (two rounds of
+  `AskUserQuestion`, since my first framing of the options wasn't clear): the sketch-process
+  narrative actually has 3 stages, not the 1 the section previously showed — (1) exploring
+  different overall control-device forms (the 4 `05-iteration/sketch-1..4` concepts: D-shaped
+  wheel+HUD, U-shape yoke+on-screen, oblique ellipse+NFC, classic round+voice), converging on
+  `sketch-5-final-pullout-wheel` as the selected direction; (2) refining the physical grip shape
+  itself (`sketches.webp`'s 6 iteration rounds); (3) working through interaction/functional detail
+  on the now-chosen pull-out wheel (the existing `06-sketch-process/refinement-1..4` — the section's
+  entire pre-existing content, describing authorization, the pull-out mechanism, NFC, and slide
+  rails). The section's intro copy previously only described stage 3 ("Once the pull-out wheel was
+  chosen...") since that was all it showed; rewrote it to span all 3 ("Sketching moved through
+  three stages: exploring different overall forms, refining the grip itself, then working through
+  the interaction points that make the pull-out wheel function.") — still a `TODO(sylvia)` draft.
+- Restructured `page.tsx`'s `.sketch-process` section into 3 `.sketch-process-stage` blocks, each
+  with a small red mono `.sketch-process-stage-label` caption ("Concept convergence" / "Grip
+  refinement" / "Interaction detail") above its content — reusing the section's existing heading
+  and intro paragraph as a shared frame rather than duplicating them per stage.
+- **Asset format check before styling, not assumed**: sampled all 6 new images via `sharp` raw
+  pixel histograms before deciding on card treatment. `sketch-1` through `sketch-4` (PNG) are
+  white line art on ~94-95% transparent backgrounds, alpha-antialiased exactly like the existing
+  `06-sketch-process/refinement-*` set — so they reuse the same dark-charcoal
+  (`.sketch-process-grid figure`, `#3c403d`) card background. `sketch-5-final-pullout-wheel.jpg`
+  (no alpha — JPEG) and `sketches.webp` are the opposite: ~88-96% near-white/paper background
+  with black ink (`sketches.webp` also carries the pink highlight marks the README/earlier
+  changelog entry described). Gave both a light `var(--paper)` card background instead
+  (`.sketch-process-card-light` modifier for the sketch-5 card in the concept-convergence grid;
+  `.sketch-process-wide` for the full-width grip-refinement figure) — this format split also
+  happens to reinforce the narrative for free: the concept-convergence row visually sets the
+  "converged" final sketch apart from the 4 dark exploratory ones, the same way section 05's own
+  "SELECTED DIRECTION" final card reads differently from its other concepts.
+- New CSS: `.sketch-process-stage`/`.sketch-process-stage+.sketch-process-stage` (32px before the
+  first stage, 56px between stages — desktop; 24px/40px — mobile, added to the existing
+  `@media(max-width:760px)` block), `.sketch-process-stage-label`, `.sketch-process-grid-converge`
+  (`grid-template-columns:repeat(auto-fit,minmax(200px,1fr))`, letting the 5-image convergence row
+  wrap naturally at medium desktop widths rather than forcing 5 cramped columns), `.sketch-process-
+  grid figure.sketch-process-card-light`, `.sketch-process-wide`/`.sketch-process-wide img`
+  (`aspect-ratio:1.778` matching `sketches.webp`'s real 1920×1080, `object-fit:contain` — no crop,
+  same reasoning as every other dense sketch-sheet asset in this project's history). Moved
+  `margin-top` off the base `.sketch-process-grid` rule onto the new `.sketch-process-stage`
+  wrapper instead, and dropped the mobile override's redundant `.sketch-process-grid{margin-top:
+  24px}` (would have double-stacked with the stage wrapper's own margin) — the existing mobile
+  `.sketch-process-grid{grid-template-columns:1fr}` rule already wins over the new
+  `.sketch-process-grid-converge` desktop override at ≤760px width via CSS source order (both are
+  single-class selectors; the mobile block is physically later in the file), so no separate mobile
+  override was needed for the convergence grid specifically.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and live checks in the dev
+  server: re-verified the intro paragraph still renders at exactly 2 lines despite the copy
+  rewrite (same `max-width:780px` from the entry below happened to still work); confirmed all 10
+  images in the section (`status:200`, correct byte sizes, correct decoded pixel dimensions via
+  `fetch`+`createImageBitmap`, matching each file's real dimensions from `sharp` metadata exactly)
+  actually load — `<img>.complete`/`.naturalWidth` read as `false`/`0` in this automation session
+  despite the images being genuinely loaded and visible (confirmed by `getBoundingClientRect()`
+  and `getComputedStyle()` both reporting correct, fully-laid-out boxes) — a DOM-reporting quirk
+  of this particular browser session, not a real loading failure, so verification relied on
+  `fetch`-based decoding instead of the DOM `<img>` properties; and confirmed via computed
+  `background-color` that all 4 concept-convergence exploration cards + all 4 interaction-detail
+  cards render the dark charcoal while the sketch-5 card and the grip-refinement figure both
+  render the light paper tone.
+
+### PRODUCT OVERVIEW annotations calmed down: shorter lines, secondary type scale, moved clear of the fixed CLOSE PROJECT pill (this session, follow-up)
+- Right after the annotation rebuild below shipped, Sylvia said the result was stronger but now
+  read as crowded, and asked for a calmer, more compact composition: pull `01 OPEN GRIP` and
+  `04 15 KM/H` in from the page's outer margins, keep `02 ID ACCESS` near the center display,
+  keep `03 TILT INPUT` on the left/lower side but aligned more cleanly, keep `04` clear of the
+  bottom edge, and make all four labels read as secondary supporting detail rather than
+  competing with the headline.
+- **First pass moved every label to sit *inside* the product photo's own transparent gaps**
+  (e.g. `01`'s label tucked between the two grip curves near the top of the frame). Sylvia's
+  live feedback on that version, mid-session: "现在的字怎么向内扣，向外更好啊" (why is the text
+  curling inward now, outward would be better) — "especially OPEN GRIP." That's the opposite of
+  a standard annotation convention (label sits just *outside* the object's silhouette, pointing
+  away from it), so it read as text folding back into the product rather than a callout
+  supporting it, however short the line was.
+- **Final layout**: every callout's label now sits straight outside the image's own silhouette —
+  `01`/`02` directly above their point, `03`/`04` directly below — using a single, shared,
+  same-x-coordinate point→label pair per callout, so every leader line is a short, clean vertical
+  rather than a diagonal. Re-sampled `product-front.webp`'s alpha channel again (same `sharp`
+  technique as the original build) to find real opaque anchor points close to — but not at — the
+  very outer edge: `01 OPEN GRIP` moved from the grip's widest, most extreme point (`x:0.90`) to
+  a point further up the same curve that's already more inward (`x:0.85`); `03`/`04` moved off
+  the thin, constant-width vertical hand-bars (which don't offer any more-inward opaque option)
+  onto the grip's *lower curve* instead, both around `y:0.80`, which is naturally more central
+  than the bars while still reading as "left/lower" and "right/lower." Every label sits just
+  outside the 0–1 image frame by a small, consistent margin (`-0.07` above, `1.06` below) rather
+  than deep inside the photo's negative space or far out at `1.03`+ like the very first draft —
+  short lines, but genuinely outward-pointing ones.
+- `PRODUCT_ANNOTATIONS` dropped its per-item `corner` field entirely — since every label now uses
+  the identical "centered, growing upward from its anchor" transform, `page.tsx` renders one
+  shared `.product-annotation` class with no modifier, and `halogrip.css` collapsed the old
+  `--tr`/`--tc`/`--bl`/`--br` variants into that single base rule.
+- **Also addressed, raised live by Sylvia mid-verification**: "可以稍微整体向左边移动一点，现在容易被
+  close project的按钮挡到" (shift the whole thing slightly left, it's easy for the fixed CLOSE
+  PROJECT pill to block it right now) — `.product-visual` width reduced `100%→88%` inside its
+  grid column (stays left-aligned by default, so this only pulls its *right* edge in), giving
+  `01`'s point/label real clearance from the always-visible fixed pill instead of sitting right
+  under it while scrolling through the top of this section.
+- **Secondary-feel typography**: `.product-annotation strong` (the callout title) dropped from
+  `var(--fs-card-title-sm)` (24px, the same tier as real card headings elsewhere on the page) to
+  a fixed 16px — still comfortably above the project's own "nothing under 12px" floor (see the
+  Koulen/Roboto Mono type-scale entry further below), but now unmistakably smaller and lighter
+  than the section headline, so the four callouts read as supporting annotation rather than a
+  second competing headline tier. The connecting `<line>` also picked up `stroke-opacity:.6` for
+  the same reason.
+- Section padding/spacing tightened alongside this for an overall calmer feel:
+  `.product-detail`'s bottom padding `clamp(90,9vw,140)`→`clamp(72,8vw,120)`,
+  `.product-visual`'s `margin-top` `6%`→`4%` (top padding above the headline — the "generous
+  negative space around the title" Sylvia asked to preserve — was left untouched).
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and live dev-server checks:
+  re-sampled the new anchor coordinates' alpha values directly (confirmed every `point` opaque,
+  every `label` off the raster entirely by construction) before writing them, then checked real
+  `getBoundingClientRect()`s for all 4 labels against the fixed `.close-project` pill's own rect
+  at the scroll position where `01` first comes into view — confirmed ~35px of horizontal
+  clearance and no vertical overlap — and screenshotted the finished section: headline upper-left
+  with clear surrounding space, product dominant and centered, all four short vertical leader
+  lines landing cleanly outside the grip/display silhouette with `03`/`04` aligned at the same
+  height for a tidy symmetric bottom pair.
+
+### PRODUCT OVERVIEW rebuilt: plain 2×2 spec grid replaced with industrial-design annotation callouts (this session)
+- Sylvia asked to keep the section's light background and overall two-part layout (copy upper-left,
+  product large on the right) but replace the flat `.final-specs` 2×2 card grid with four annotation
+  callouts (`01 OPEN GRIP`/`02 ID ACCESS`/`03 TILT INPUT`/`04 15 KM/H`) connected to the product photo
+  by thin leader lines + small numbered red markers — reading as industrial-design annotations, not UI
+  cards, with the product itself staying dominant and red used only as a small numbering accent.
+- **Anchor points were pixel-sampled, not guessed.** Read `product-front.webp`'s raw alpha channel
+  directly via `sharp` (see the alpha-mask grid dumped during this session) to find exactly where the
+  device geometry is opaque vs. where the PNG is transparent, so each callout's dot lands on real
+  product surface (right grip curve for OPEN GRIP, the display's NFC icon for ID ACCESS, the two
+  vertical hand-bars either side of the display for TILT INPUT/15 KM/H) and each label lands in
+  genuinely empty space — keeping every leader line short instead of crossing over the photo.
+- `page.tsx`: new `PRODUCT_ANNOTATIONS` const (fractional `point`/`label` coordinates against the
+  image's own 2100×1032 frame, plus a `corner` key for label alignment) replaces the old inline
+  `[["OPEN GRIP","RECOGNIZABLE"],...]` 2×2 array. The `.product-detail` section now renders
+  `.product-copy` (eyebrow + heading only, no more `.final-specs`) and a `.product-visual` wrapper
+  holding the real `<img>`, one `<svg viewBox="0 0 2100 1032">` overlay (a thin `<line>` + small red
+  `<circle>` per callout), and 4 absolutely-positioned `.product-annotation` label divs (number/title/
+  note, no border/background) — all sharing one percentage coordinate space against the image so lines
+  and labels stay aligned at any viewport width.
+- **Layout bug found and fixed while verifying live, not assumed correct from the code alone**:
+  `.product-detail` originally kept `.product-visual` `position:absolute` inside a hand-picked
+  `min-height:960px` section — since the absolutely-positioned visual doesn't contribute to flow
+  height, the section rendered ~300px of dead whitespace below the product before the next section
+  started. Rebuilt `.product-detail` as a real CSS grid (`grid-template-columns:min(430px,34%) 1fr`,
+  `align-items:start`) with `.product-copy` and `.product-visual` as normal grid items — this also
+  satisfies "title/intro on the upper-left" directly via `align-items:start`, and the section's height
+  now falls out of actual content instead of a guessed constant. Also caught (via a live
+  `getBoundingClientRect()` check, not visual inspection) that the top-right and bottom-right labels'
+  first-draft offsets (`label:[1.03, …]`) rendered past the browser viewport's right edge at a normal
+  desktop width — pulled both inward (`[0.8,-0.06]` and `[0.84,1.05]`) so they read on-screen at any
+  reasonable width instead of being clipped.
+- Mobile (`@media(max-width:760px)`): `.product-visual` becomes a normal static full-width block below
+  the copy, the SVG leader-line overlay is hidden, and the 4 `.product-annotation` divs fall back to a
+  simple stacked list (red index number + title + note, hairline top border) — reusing the same visual
+  grammar the old `.final-specs` mobile rule used, since a corner-offset floating annotation doesn't
+  read cleanly at phone width.
+- Verified via `npx tsc --noEmit` and `npm run build` (both clean) and live dev-server checks: sampled
+  every annotation's real `getBoundingClientRect()` to confirm none overflow the viewport, screenshotted
+  the full section top-to-bottom (headline upper-left, product dominant on the right, all 4 short
+  leader lines landing cleanly on grip/display geometry with no crossing, red used only on the index
+  numbers/dots), and confirmed the mobile stacked-list fallback via a scratch `!important` CSS override
+  at the current viewport (the same technique other entries in this file use for the same
+  non-resizable-automation-viewport limitation).
+
+### 06 / SKETCH PROCESS — card background lightened then walked back to a softer charcoal (not full light, not near-black); white line art tried as black, then reverted; red index numbers removed; intro paragraph forced to 2 lines (this session)
+- Sylvia's first ask: `.sketch-process-grid figure`'s dark card background (`var(--dark)`,
+  `#1b1f1e`) felt too jarring against the page's light overall palette — asked to swap it to a
+  light background and recolor the sketches' white line work to black to match.
+- Confirmed via `sharp` (raw pixel histogram) that the 4 `06-sketch-process/refinement-*.png`
+  files are white line art on a transparent background, antialiased through the **alpha**
+  channel at a near-constant white RGB (~250-255), not through RGB blending — plus a separate
+  pink/magenta annotation color untouched by any of this work. Backed up the 4 originals to the
+  session scratchpad, then recolored every grayscale ("white ink") pixel to pure black
+  (`(0,0,0)`, alpha left untouched) in place with a `sharp` raw-buffer script, leaving the pink
+  annotation pixels alone — verified after the fact via a fresh pixel histogram (0% white pixels
+  remained, black + pink present in the expected proportions) and again by fetching the actual
+  served asset bytes in-browser (not a cached copy) and sampling them the same way. Card
+  background changed to `var(--paper)` to match.
+- Sylvia's follow-up: "看来似乎不能换成黑色的线条" (turns out we can't switch to black line
+  work after all) — read as: black ink didn't hold up visually, most likely because a lot of
+  this line art's own alpha is well below 100% throughout the stroke (not just at antialiased
+  edges — confirmed earlier via direct pixel sampling, e.g. alpha values of 51-238 scattered
+  across "solid" strokes), so a black stroke at, say, 50% alpha over near-white paper reads as a
+  faint light gray — much lower contrast than the same 50%-alpha *white* stroke over a dark
+  card. Reverted: restored the 4 original white-line PNGs from the scratchpad backup (confirmed
+  via a fresh pixel histogram: white ink pixels back to 70-85% of non-transparent pixels per
+  file), and re-asked for "较深但不是全黑" (dark, but not full black) instead of a full light
+  background. `.sketch-process-grid figure` background changed to `#3c403d`, a soft charcoal —
+  clearly dark enough to keep the white line work legible (same contrast logic the assets were
+  originally authored for) while reading softer than `var(--dark)` against the surrounding light
+  page. No named CSS token was introduced for this one-off value — only one selector uses it.
+- Removed the red `01`/`02`/`03`/`04` index number shown on each card (Sylvia: "不要卡片上的红色
+  数字"): deleted the `<span>0{index + 1}</span>` in `page.tsx`'s `.sketch-process-grid` map
+  (and the now-unused `index` param from the `.map()` callback) and the matching
+  `.sketch-process-grid figure span` rule in `halogrip.css`.
+- `.sketch-process-intro`'s intro paragraph ("Once the pull-out wheel was chosen...") was
+  wrapping to 3 lines at its `max-width:620px`; Sylvia asked for 2 ("变成两行"). Measured live in
+  the dev server (temporarily overriding `max-width` and reading `getBoundingClientRect().height`
+  against the computed line-height) that the 3→2 line threshold sits at exactly 750px, and that
+  760px onward gives a well-balanced split ("...working through the interaction " / "points that
+  make it function: authorization, the pull-out mechanism, and on-wheel controls." — a
+  106-vs-98-character split, close to even). Set `max-width:780px` for a small safety margin
+  above the threshold. No mobile-breakpoint override existed or was needed — mobile's own
+  narrower viewport already constrains the paragraph well below 780px regardless.
+- Verified via `npx tsc --noEmit` and `npm run build` (clean at every step) and live checks in
+  the dev server throughout — the actual served image bytes were sampled directly (via `fetch` +
+  `createImageBitmap` + `OffscreenCanvas`, not the cached DOM `<img>`) both when converting to
+  black and again after reverting to white, and the intro paragraph's final rendered line count
+  was confirmed at exactly 2 lines. Live screenshots of this page are unreliable in this
+  environment (see the extensive WebGL-tab-capture notes elsewhere in this file) — pixel/DOM
+  verification was used throughout instead of relying on screenshots.
+
+### 05 / CONCEPT EXPLORATION — sketch cards enlarged (root cause: an undocumented "fit to one viewport" constraint was starving the deck of space), a resulting overlap bug fixed, the heading replaced, and the on-card label removed (this session)
+- Sylvia: "section 5 图片太小了，看不清" (section 5's images are too small, can't see clearly).
+  Measured live in the dev server rather than guessing from CSS: the active `.concept-deck-card`
+  was rendering at only 224×157px. Root cause traced to a desktop-only `@media(min-width:761px)`
+  block in `halogrip.css` (not documented elsewhere in this file — apparently added in an
+  undocumented session) that fits the whole section — eyebrow, heading, intro paragraph, the
+  sketch stage, and the below-stage copy — inside one viewport with no internal scrolling.
+  `.concept-deck-row`'s `min-height:200px` was meant to be a last-resort safety floor, but in
+  practice the heading/copy/padding overhead routinely pushed the row down to exactly that floor
+  even on ordinary-height screens, and `.concept-deck-card{width:66%}` only filled two-thirds of
+  the already-small resulting stage.
+- Fix prioritizes legibility over the strict one-viewport fit: raised `.concept-deck-row`'s floor
+  from `200px` to `420px`, and `.concept-deck-card`'s fill of the stage from `66%` to `80%`. The
+  section's `min-height:100vh` (not `height:100vh`) already tolerates growing past one viewport
+  and letting the page scroll a little more on short screens — an intentional existing fallback,
+  not a new risk — so trading some of the "always fits in one screen" guarantee for a legible
+  card (571×399px after the fix, confirmed live) was the accepted call. No changes needed in
+  `concept-carousel.tsx`'s `STAGE_RATIO` or its `ResizeObserver` sizing logic — they simply
+  resolve larger once the CSS inputs changed.
+- **Regression found and fixed from the enlargement itself**: the four faded "fanned" background
+  cards are positioned by GSAP `xPercent`/`yPercent` on `SLOT_STYLE` in `concept-carousel.tsx`,
+  which resolve as a percentage of each card's own (now much bigger) untransformed box — so the
+  same percentages produced a much larger absolute pixel spread than before, and the upper corner
+  cards bled up into the heading/intro-paragraph area. Sylvia flagged this directly, having seen
+  it before the cause was identified: "这行小字现在被挡住了" (this line of small text is now
+  covered). Tightened `ul`/`ll`/`ur`/`lr`'s `yPercent` (the only axis implicated) from
+  `-31/35/-33/36` to `-18/21/-20/22`, verified live via `getBoundingClientRect()` until there was
+  clean positive clearance (13-17px) on both sides again.
+- **Heading replaced**: "HOW SHOULD CONTROL APPEAR IN A VEHICLE DESIGNED WITHOUT IT?" was the
+  only question-form `<h2>` anywhere on the page (every other section heading is a short,
+  declarative, period-ended statement) — Sylvia flagged it as weak copy. Presented 4 alternatives
+  in the page's existing voice via `AskUserQuestion`; she picked **"FIVE DIRECTIONS FOR
+  CONTROL."** — echoes section 06's own "REFINING THE SELECTED DIRECTION." right after it, and
+  being one line avoids the 3-line-wrap-eats-vertical-space issue an earlier session had already
+  flagged on this exact heading.
+- **On-card label removed** (Sylvia: "卡上的CONCEPT 04A / Touch Screen 这种小字删掉"): deleted the
+  `<span className="concept-deck-card-label">` (concept number + title, shown on every card) from
+  `concept-carousel.tsx` and its 3 matching CSS rules (`.concept-deck-card-label`, `...-label em`,
+  `...-label-text`) — the concept name still shows in the readout below the stage for whichever
+  card is active, just not duplicated on the card itself anymore.
+- Verified via `npx tsc --noEmit` and `npm run build` (clean throughout) and live interaction
+  testing in the dev server: re-measured card/stage geometry before and after each change,
+  confirmed clean clearance around the corner cards with no overlap, and — after ruling out a
+  false alarm that first looked like a real bug (GSAP's per-card opacity/scale momentarily out of
+  sync with React's own `index` state; matches a previously-documented Fast-Refresh artifact in
+  this exact component, confirmed by re-testing with a clean settle time and no concurrent file
+  edits in flight) — confirmed a full arrow-key run through all 5 concepts: correct opacity/scale
+  per step, and the final card correctly fades every other sketch to `opacity:0` while showing
+  "SELECTED DIRECTION — CONCEPT 02" / "Pull-Out Wheel" alone.
+
 ### 09 EMERGENCY HANDOVER's 5 story-grid PNGs recolored in place to close the seam the previous entry flagged (this session, follow-up)
 - The previous entry's `.journey` change left a real, flagged seam: the 5
   `09-handover/{01-authorize,02-activate,03-reposition,04-park,05-complete}.png` storyboard

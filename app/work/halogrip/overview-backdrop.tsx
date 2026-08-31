@@ -62,6 +62,7 @@ export default function OverviewBackdrop() {
       <img ref={imgRef} src={encodeURI("/media/halogrip图片/other/Bild1.png")} alt="" style={{ opacity: 0 }} />
       <div className="overview-bg-scrim" />
       <div className="overview-bg-fade" />
+      <div className="overview-bg-fade-bottom" />
     </div>
   );
 }
