@@ -122,8 +122,6 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--mono);f
 .need-origin::after{bottom:0}
 .need-origin span{display:block;font-size:var(--fs-caption);letter-spacing:.06em;color:#c7c8c3;text-transform:uppercase}
 .need-origin strong{display:block;margin-top:6px;font-size:clamp(12px,.85vw,15px);letter-spacing:.02em;color:var(--white);font-weight:700}
-.need-source-mark{position:absolute;width:1.67%;height:1px;background:var(--red)}
-.need-source{position:absolute;margin:0;font-size:var(--fs-caption);color:#9b9c97;letter-spacing:.02em}
 .research{background:var(--paper)}
 .research-layout{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(30px,5vw,70px);align-items:start}
 .research-left h2{font-size:clamp(63px,9.5vw,82px);margin-top:28px;margin-bottom:0}

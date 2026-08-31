@@ -210,10 +210,6 @@ export default function NeedScene() {
         <span>RESPONSE ORIGIN</span>
         <strong>FIRE STATION</strong>
       </div>
-
-      <span className="need-source-mark" style={{ left: "2.39%", top: "93.6%" }} />
-      {/* TODO(sylvia): replace once the "74" stat source is verified/cited */}
-      <p className="need-source" style={{ left: "2.39%", top: "95.0%" }}>01 — SOURCE PENDING VERIFICATION.</p>
     </section>
   );
 }
