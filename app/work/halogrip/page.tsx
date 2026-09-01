@@ -12,6 +12,7 @@ import ConceptCarousel from "./concept-carousel";
 import ConceptSketchLightbox from "./sketch-lightbox";
 import SectionReveal from "./section-reveal";
 import NeedScene from "./need-scene";
+import CloseProjectButton from "./close-project-button";
 
 // Route-scoped, same pattern as scroll-intro.tsx's Poppins load: keeps these fonts
 // off `/` and off every other route. Replaces the self-hosted Nimbus Sans Narrow /
@@ -63,11 +64,17 @@ const steps = [
 // 03/04) rather than tucked into the gaps inside the photo — reads as a callout pointing away
 // from the object, not text curling back into it — while staying close/short and pulled in from
 // the page's outer margins rather than the product's very edge.
+//
+// `lineEnd` is where the leader *line* stops — independent of `label`, which is where the
+// text block itself sits. 03/04's label sits well below the image (1.16) with visible empty
+// space in between, so the line stops well short of it (1.0) instead of spanning that whole
+// gap; 01/02 have no such gap, so their line still runs the full point-to-label distance
+// (lineEnd === label).
 const PRODUCT_ANNOTATIONS = [
-  { id: "01", title: "OPEN GRIP", note: "RECOGNIZABLE", point: [0.85, 0.18], label: [0.85, -0.07] },
-  { id: "02", title: "ID ACCESS", note: "AUTHORIZED", point: [0.5, 0.47], label: [0.5, 0.3] },
-  { id: "03", title: "TILT INPUT", note: "HANDS-ONLY", point: [0.08, 0.8], label: [0.08, 1.16] },
-  { id: "04", title: "15 KM/H", note: "LIMITED", point: [0.9, 0.8], label: [0.9, 1.16] },
+  { id: "01", title: "OPEN GRIP", note: "RECOGNIZABLE", point: [0.85, 0.18], label: [0.85, -0.07], lineEnd: [0.85, -0.07] },
+  { id: "02", title: "ID ACCESS", note: "AUTHORIZED", point: [0.5, 0.47], label: [0.5, 0.3], lineEnd: [0.5, 0.3] },
+  { id: "03", title: "TILT INPUT", note: "HANDS-ONLY", point: [0.08, 0.8], label: [0.08, 1.16], lineEnd: [0.08, 1.0] },
+  { id: "04", title: "15 KM/H", note: "LIMITED", point: [0.9, 0.8], label: [0.9, 1.16], lineEnd: [0.9, 1.0] },
 ] as const;
 const PRODUCT_IMG_W = 2100;
 const PRODUCT_IMG_H = 1032;
@@ -81,12 +88,7 @@ export default function HalogripPage() {
         <a className="topbar-link" href="#overview">EXPLORE PROJECT ↘</a>
       </header>
 
-      <a className="close-project" href="/">
-        <span className="close-project-track">
-          <span>CLOSE PROJECT</span>
-          <span aria-hidden="true">CLOSE PROJECT</span>
-        </span>
-      </a>
+      <CloseProjectButton />
 
       <ScrollIntro />
 
@@ -284,9 +286,9 @@ export default function HalogripPage() {
         <div className="product-visual">
           <img src={encodeURI("/media/halogrip图片/other/product-front.webp")} alt="Front view of the HALOGRIP steering device showing its open, angular hand grips and illuminated controls" loading="lazy" />
           <svg className="product-annotations" viewBox={`0 0 ${PRODUCT_IMG_W} ${PRODUCT_IMG_H}`} aria-hidden="true">
-            {PRODUCT_ANNOTATIONS.map(({ id, point, label }) => (
+            {PRODUCT_ANNOTATIONS.map(({ id, point, lineEnd }) => (
               <g key={id}>
-                <line x1={point[0] * PRODUCT_IMG_W} y1={point[1] * PRODUCT_IMG_H} x2={label[0] * PRODUCT_IMG_W} y2={label[1] * PRODUCT_IMG_H} />
+                <line x1={point[0] * PRODUCT_IMG_W} y1={point[1] * PRODUCT_IMG_H} x2={lineEnd[0] * PRODUCT_IMG_W} y2={lineEnd[1] * PRODUCT_IMG_H} />
                 <circle cx={point[0] * PRODUCT_IMG_W} cy={point[1] * PRODUCT_IMG_H} r={7} />
               </g>
             ))}
@@ -303,14 +305,14 @@ export default function HalogripPage() {
 
       <section className="interaction section shell" id="interaction">
         <div className="interaction-heading">
-          <div><span className="eyebrow">[ 08 / INTERACTION MODEL ]</span><SectionReveal tag="h2">TURN TO STEER. <span>TILT TO MOVE.</span></SectionReveal><SectionReveal tag="p">Direction and speed live in one familiar, hands-only physical interaction.</SectionReveal></div>
+          <div><span className="eyebrow">[ 07.2 / INTERACTION MODEL ]</span><SectionReveal tag="h2">TURN TO STEER. <span>TILT TO MOVE.</span></SectionReveal><SectionReveal tag="p">Direction and speed live in one familiar, hands-only physical interaction.</SectionReveal></div>
         </div>
         <InteractionDeck />
       </section>
 
       <SectionReveal id="handover" className="journey">
         <div className="journey-inner shell">
-          <span className="eyebrow">[ 09 / EMERGENCY HANDOVER ]</span>
+          <span className="eyebrow">[ 07.3 / EMERGENCY HANDOVER ]</span>
           <h2>FROM BLOCKED TO CLEARED.</h2>
           <p className="journey-lede">ONE RESPONDER / LOCAL CONTROL / TARGET INTERVENTION UNDER FIVE MINUTES</p>
           <div className="story-grid">
@@ -327,8 +329,8 @@ export default function HalogripPage() {
             ))}
           </div>
           <div className="system-detail">
-            <div className="access-detail"><span className="eyebrow">[ 09.1 / SECURE ACCESS ]</span><div className="access-images"><img src={encodeURI("/media/halogrip图片/other/id-one.webp")} alt="Responder identity verification interface" loading="lazy" /><img src={encodeURI("/media/halogrip图片/other/id-two.webp")} alt="Successful authorization screen for vehicle entry" loading="lazy" /></div><p>Two verification steps separate vehicle access from manual control.</p></div>
-            <div className="hud-detail"><span className="eyebrow">[ 09.2 / HEAD-UP DISPLAY ]</span><img src={encodeURI("/media/halogrip图片/other/hud.webp")} alt="Head-up display presenting manual control status and emergency driving guidance" loading="lazy" /><p>Only the information needed to maintain situational awareness during intervention.</p></div>
+            <div className="access-detail"><span className="eyebrow">[ 07.3.1 / SECURE ACCESS ]</span><div className="access-images"><img src={encodeURI("/media/halogrip图片/other/id-one.webp")} alt="Responder identity verification interface" loading="lazy" /><img src={encodeURI("/media/halogrip图片/other/id-two.webp")} alt="Successful authorization screen for vehicle entry" loading="lazy" /></div><p>Two verification steps separate vehicle access from manual control.</p></div>
+            <div className="hud-detail"><span className="eyebrow">[ 07.3.2 / HEAD-UP DISPLAY ]</span><img src={encodeURI("/media/halogrip图片/other/hud.webp")} alt="Head-up display presenting manual control status and emergency driving guidance" loading="lazy" /><p>Only the information needed to maintain situational awareness during intervention.</p></div>
           </div>
         </div>
       </SectionReveal>
