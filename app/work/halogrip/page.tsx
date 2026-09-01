@@ -25,7 +25,7 @@ const title = "HALOGRIP — Sylvia Xie";
 const description = "A human-centered emergency steering system for autonomous vehicles. A UX, HMI, and industrial design case study by Sylvia Xie.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://halogrip-portfolio.vercel.app"),
+  metadataBase: new URL("https://sylviaxie.vercel.app"),
   title,
   description,
   openGraph: { title, description, images: [{ url: encodeURI("/media/halogrip图片/other/hero.webp"), width: 2100, height: 1181, alt: "HALOGRIP emergency steering device" }] },

@@ -9,3 +9,8 @@ out/
 
 # extracted KeyShot source textures used only as conversion-script input (see scripts/convert-halogrip-model.mjs)
 scripts/_model-source/
+
+# local dev-server logs and TS incremental build cache — regenerated on every `npm run dev`/`tsc`
+dev-server.log
+dev-server-err.log
+tsconfig.tsbuildinfo

@@ -1,8 +1,8 @@
 {
-  "name": "halogrip-portfolio",
+  "name": "sylviaxie",
   "version": "1.0.0",
   "private": true,
-  "description": "HALOGRIP — Sylvia Xie | Emergency steering for autonomous vehicles",
+  "description": "Sylvia Xie — Industrial Designer | Portfolio site",
   "engines": {
     "node": ">=22.13.0"
   },

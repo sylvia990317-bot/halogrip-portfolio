@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const dmMono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-dm-mono" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://halogrip-portfolio.vercel.app"),
+  metadataBase: new URL("https://sylviaxie.vercel.app"),
   title: "Sylvia Xie — Industrial Designer",
   description: "Portfolio of Sylvia Xie, an industrial designer based in Gothenburg, Sweden, working across digital and physical product design.",
 };

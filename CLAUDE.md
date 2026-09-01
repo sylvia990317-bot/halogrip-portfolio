@@ -77,6 +77,9 @@ app/
                              1:1 from Sylvia's PowerPoint reference — see CHANGELOG.md
       need-scene.tsx         02.2 / REAL-WORLD NEED — one-shot route-line draw-in synced to
                              the annotations/frame/stat, see CHANGELOG.md
+      close-project-button.tsx Client component for the fixed top-right pill — IntersectionObserver
+                             toggles a dark/light opaque state to match whatever section is
+                             behind it, see CHANGELOG.md
 public/
   media/                   HALOGRIP's images (kept flat at /media/*.webp; not yet reorganized
                             per-project since there's only one project with real assets)
@@ -109,8 +112,14 @@ These currently ship as flagged placeholders (grep for `TODO(sylvia)`):
 
 ## Deployment
 
-- Hosted on **Vercel**, live at https://halogrip-portfolio.vercel.app
-- Source pushed to GitHub: `sylvia990317-bot/halogrip-portfolio`
+- Hosted on **Vercel**, live at https://sylviaxie.vercel.app (renamed from
+  `halogrip-portfolio.vercel.app` — HALOGRIP is one case-study project, not the whole site;
+  Sylvia asked for the site-level project/repo/domain to say "Sylvia Xie", not "HALOGRIP". The
+  old `halogrip-portfolio.vercel.app` domain was deliberately **not** kept as a redirect, per
+  Sylvia's explicit choice — old links to it will break.)
+- Source pushed to GitHub: `sylvia990317-bot/sylviaxie` (renamed from `halogrip-portfolio` in the
+  same pass — GitHub auto-redirects the old repo URL, so this rename is low-risk unlike the
+  Vercel domain one above)
 - GitHub → Vercel auto-deploy-on-push is **not yet connected** (Vercel account needs a GitHub
   login connection added manually in the Vercel dashboard first). Until then, deploy manually
   from this directory with `vercel --prod --yes`.

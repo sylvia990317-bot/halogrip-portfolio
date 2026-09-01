@@ -5,6 +5,128 @@ verified), moved out of `CLAUDE.md` to keep the auto-loaded project instructions
 This file is **not** auto-loaded into context — read it only when you need the historical
 rationale behind an existing decision. New entries go here, not in `CLAUDE.md`.
 
+### Site renamed from "halogrip-portfolio" to "sylviaxie" across GitHub, Vercel, and local config — HALOGRIP is one case-study project, not the whole site (this session, follow-up)
+- Sylvia: "这个网站可以不叫halogrip portfolio吗，halogrip只是我这个项目的名字" — correct: the page
+  `<title>`s were already right (`Sylvia Xie — Industrial Designer` on `/`, `HALOGRIP — Sylvia
+  Xie` on the case-study page), but the *infrastructure* naming (GitHub repo, Vercel project,
+  live domain, `package.json`) all still said "halogrip-portfolio" as if HALOGRIP were the whole
+  site rather than its first project. Confirmed the new slug (`sylviaxie`) and scope (rename both
+  GitHub and Vercel; don't keep the old domain redirecting) with her via `AskUserQuestion` before
+  touching anything public-facing.
+- **GitHub**: `gh repo rename sylviaxie --repo sylvia990317-bot/halogrip-portfolio` →
+  `sylvia990317-bot/sylviaxie` (GitHub auto-redirects the old URL). Updated the local `origin`
+  remote to match (`git remote set-url`).
+- **Vercel**: `vercel project rename halogrip-portfolio sylviaxie`. This alone did *not* move the
+  live domain — Vercel keeps a project's originally-assigned `<name>.vercel.app` production alias
+  pinned as a real "Domain" resource independent of the project's display name, so every
+  `vercel --prod` deploy kept auto-aliasing to the old `halogrip-portfolio.vercel.app` even after
+  the rename (confirmed live: a full redeploy still printed `Aliased
+  https://halogrip-portfolio.vercel.app`). Fixed by explicitly claiming the new domain as a
+  project resource — `vercel alias set <latest-deployment> sylviaxie.vercel.app` first (came back
+  as a bare alias, which the project's `ssoProtection:{deploymentType:"all_except_custom_domains"}`
+  setting doesn't exempt — confirmed via `vercel project protection sylviaxie`, and the new domain
+  briefly 302'd to a Vercel SSO login wall), then `vercel domains add sylviaxie.vercel.app
+  sylviaxie`, which registers it as a first-class project domain and does get the SSO exemption
+  (confirmed: 200, no redirect). Then `vercel alias rm halogrip-portfolio.vercel.app` per Sylvia's
+  explicit choice not to keep the old URL working (confirmed old domain now 404s, new one 200s).
+  `.vercel/project.json`'s cached `projectName` updated to match.
+- **Code/config**: `metadataBase` in both `app/layout.tsx` and `app/work/halogrip/page.tsx`
+  (`halogrip-portfolio.vercel.app` → `sylviaxie.vercel.app` — this feeds every relative
+  OpenGraph/Twitter image URL Next generates, so it had to move too, not just the visible domain);
+  `package.json`'s `name` (`halogrip-portfolio`→`sylviaxie`) and `description` (was literally
+  "HALOGRIP — Sylvia Xie | Emergency steering for autonomous vehicles", describing the whole repo
+  as if it only contained the HALOGRIP project — changed to "Sylvia Xie — Industrial Designer |
+  Portfolio site"); ran `npm install` afterward so `package-lock.json`'s own `name` field
+  resynced automatically rather than hand-editing a lockfile. `CLAUDE.md`'s Deployment section
+  rewritten with the new domain/repo and a note on why the old domain was deliberately dropped.
+- Verified via `npx tsc --noEmit` (clean), a full `vercel --prod --yes` redeploy after all the
+  renames, and direct `curl` checks of both domains: `sylviaxie.vercel.app` → `200`,
+  `halogrip-portfolio.vercel.app` → `404`.
+- **Left uncommitted, by design**: per this project's standing rule (only commit when explicitly
+  asked), none of this session's file changes were committed or pushed — the live site was
+  updated directly via `vercel --prod --yes` (which deploys from the local working tree,
+  independent of git state), so `git status` still shows these edits as pending. `git remote`
+  now points at the renamed GitHub repo either way.
+
+### Section-number scheme audited and completed; 02 / CHALLENGE chapter label added; sketch-card hover and sketch lightbox rebuilt; CLOSE PROJECT pill made background-adaptive; 02.2's stat footnote restored with a real citation (this session)
+- Sylvia noticed the `[ NN / SECTION ]` eyebrow numbering was inconsistent across the page and
+  asked for a proposal to unify it. Audit found the scheme was `01`–`09` for top-level sections
+  with `02` alone split into `02.1`–`02.4` sub-scenes, and 3 spots that should have carried a
+  sub-number but didn't: `PRODUCT OVERVIEW` → **`07.1 / PRODUCT OVERVIEW`**, `SECURE ACCESS` →
+  **`09.1 / SECURE ACCESS`**, `HEAD-UP DISPLAY` → **`09.2 / HEAD-UP DISPLAY`** (`page.tsx`). The
+  opening hero's `[ CASE STUDY 001 ]` and the footer's `[ MASTER'S THESIS / 2025 ]` were
+  deliberately left unnumbered — they're the page's start/end bookends, not narrative chapters,
+  and reading differently from the numbered mid-page sections is intentional.
+- **`02 / CHALLENGE` chapter label added** (per Sylvia's spec): a new `.chapter-label` sits above
+  the existing `[ CABIN SHIFT ]` eyebrow at the start of the Cabin Shift scene — no new
+  full-screen section, no `02.1` (Cabin Shift itself is now unnumbered, just a subsection title
+  under the chapter marker; `02.2`–`02.4` on the later sub-scenes are unchanged). Sized between
+  the eyebrow and the section `h2` (`--fs-heading-sm`, 24–37px) with `[ ]` brackets matching the
+  eyebrow convention. First pass colored it `var(--red)`; Sylvia felt that read as an alert/selected
+  marker since red is this page's "attention" accent elsewhere (concept-carousel's `SELECTED
+  DIRECTION`, the signal dots) — changed to inherit `.dark-section`'s white, distinguished from
+  the eyebrow by size/weight/spacing alone.
+- **06 / SKETCH PROCESS card hover rebuilt** (Sylvia: "3张卡片上的字感觉太粗了，看不清" — the card
+  titles read too bold/blurry). Root cause: `.dgs-panel h3`/`.dgs-panel-index` set
+  `font-weight:700` on `var(--display)` (Koulen), but only Koulen's 400 weight is loaded
+  (`page.tsx`'s `Koulen({weight:["400"]})`) — the browser was faux-bolding a font that's already a
+  heavy condensed display face, blurring the small (14–20px) card text. Changed both to
+  `font-weight:400`. Separately, the sketch-process concept cards' hover ("Remove the red outline
+  around the entire card — it makes the tile look selected like an admin UI") turned out to be
+  `:focus-visible`, not `:hover` — `ConceptSketchLightbox`'s cards are a `<figure role="button"
+  tabIndex={0}>` (deliberately not a `<button>`, see that file's own header comment), and
+  Chromium shows a focus-visible outline on a plain mouse click for non-native interactive
+  elements, unlike a real `<button>`. Rebuilt the whole interaction to spec: no full-card border,
+  card lifts `translateY(-3px)`, image scales `1.025`, title contrast bumps to `#000`, 220ms
+  ease, no dimming of the default title/description, `cursor:zoom-in` kept, `:focus-visible`
+  reuses the identical treatment (plus a neutral 1px outline, not red) so a click never looks like
+  a persistent "selected" tile.
+- **Sketch lightbox rebuilt from an image-only preview into an editorial detail panel** (Sylvia:
+  "Do not use an image-only lightbox... make it feel like opening a refined portfolio detail
+  view, not a browser image preview"). `sketch-lightbox.tsx`: `SKETCHES` gained a `traits: string[]`
+  field per concept (2–3 short phrases derived from each concept's existing description); the
+  portal now renders `.sketch-lightbox-media` (left, ~68%, `object-fit:contain`, never cropped)
+  and `.sketch-lightbox-info` (right, ~32%: number, large title, description, trait list) inside
+  one `.sketch-lightbox-dialog` panel instead of a bare `<figure>`. `halogrip.css`: light
+  `var(--paper)` panel, 1px `var(--line)` border, soft shadow (no heavy drop shadow), backdrop
+  changed from a dark `rgba(15,16,15,.55)` scrim to a light frosted `rgba(249,249,250,.72)` +
+  blur so the page stays faintly visible behind it, close button moved from outside the panel
+  (`top:-34px`) to inside its top-right corner. Panel capped at `min(80vw,1080px)` / `76vh`. Added
+  a `@media(max-width:640px)` stack (image above info) since the 68/32 side-by-side doesn't fit a
+  phone width — not in the original spec but required for the redesign to function on mobile.
+- **`.sketch-process-converge-result` background** changed `var(--paper)` → `#fff` per Sylvia's
+  direct ask ("这个框的背景可以改成纯白吗").
+- **CLOSE PROJECT pill made background-adaptive**, in three iterations. (1) First attempt used
+  `mix-blend-mode:difference` with no fill (white text only) so the label's rendered color
+  auto-inverted against whatever was painted underneath — Sylvia rejected this: "这个按钮怎么会透
+  背景啊，不要这样" (why does this button show the background through it, don't do that) — a
+  diff-blended fill shows the actual (inverted) pixels of whatever's behind it, which reads as
+  translucent/see-through over a photo, not solid. (2) Reworked into two fully opaque states
+  toggled by a new client component, **`close-project-button.tsx`**: an `IntersectionObserver`
+  (rootMargin collapsed to a 1px band at the fixed button's own screen y, recomputed on resize
+  only since a `position:fixed` element's screen position doesn't move on scroll) watches every
+  `.dark-section` element plus `.overview` (visually dark but not classed `dark-section`, since
+  its dark photo is a separate absolutely-positioned child) and toggles `.is-on-dark`, which
+  swaps `background`/`color` between `var(--ink)`/`var(--white)` and the reverse — a real CSS
+  transition, no translucency. (3) Sylvia caught a real remaining gap: "经过图片的时候也要保持实心"
+  — the toggle is section-level, not pixel-level, so a nominally *light* section can still have a
+  locally dark passage (confirmed live: `.product-visual`'s `product-front.webp` has a black grip
+  crossing directly under the button inside "07.1 PRODUCT OVERVIEW," a light section) — a dark
+  pill over a dark patch of that photo is still fully opaque but reads as low-contrast/blending
+  in. Fixed generally rather than special-casing that one image: added a 1px border whose color
+  is always the *opposite* tone from the pill's own fill (a light ring on the dark pill, a dark
+  ring on the light pill) plus a drop shadow, so the chip's edge is legible from its own internal
+  contrast regardless of what's directly behind it — reproduced the exact black-grip overlap live
+  and confirmed the ring reads clearly there.
+- Verified throughout via `npx tsc --noEmit` (clean after every change) and live dev-server
+  checks via `mcp__claude-in-chrome`: screenshotted the new chapter label, the 3 filled-in section
+  numbers, the redesigned sketch-card hover (default vs. `:hover`/`:focus-visible`) and the
+  rebuilt lightbox panel; for the CLOSE PROJECT pill, scrolled through every light section,
+  every `.dark-section`/`.overview` section, and reproduced the exact scroll offset where
+  `product-front.webp`'s dark grip crosses the button (via `getBoundingClientRect()`-driven
+  `window.scrollTo`, since manual wheel-scroll couldn't reliably re-hit that one frame) to confirm
+  each fix live rather than by inspection alone.
+
 ### 06 / SKETCH PROCESS — "Interaction detail" stage removed after Sylvia caught it duplicating "Concept convergence"; the 4-vs-1 convergence made explicit with an arrow (this session, follow-up)
 - Sylvia: "section 6 的sketch process是不是把4张灰色背景的图片重复了一遍" (did sketch process end up
   repeating the 4 gray-background images?). First check (filenames + a live DOM read) looked clean
