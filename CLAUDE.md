@@ -70,18 +70,18 @@ app/
     halogrip/
       page.tsx              HALOGRIP case study — own `metadata` export, own CSS import
       halogrip.css          HALOGRIP-only styles (font-size tokens + --display/--mono
-                             tokens, all component classes) — see Recent changes for the
+                             tokens, all component classes) — see CHANGELOG.md for the
                              Koulen/Roboto Mono type-scale overhaul
       interaction-deck.tsx  Client component, steering-state demo ("use client")
       scroll-intro*.tsx/css Pinned scroll-driven 3D opening (R3F + GSAP ScrollTrigger), ported
-                             1:1 from Sylvia's PowerPoint reference — see Recent changes
+                             1:1 from Sylvia's PowerPoint reference — see CHANGELOG.md
       need-scene.tsx         02.2 / REAL-WORLD NEED — one-shot route-line draw-in synced to
-                             the annotations/frame/stat, see Recent changes
+                             the annotations/frame/stat, see CHANGELOG.md
 public/
   media/                   HALOGRIP's images (kept flat at /media/*.webp; not yet reorganized
                             per-project since there's only one project with real assets)
   home/                    Homepage's real assets (avatar, portrait, logos/, projects/) — see
-                            Recent changes below for the source→destination mapping
+                            CHANGELOG.md for the source→destination mapping
   fonts/                   HALOGRIP's old self-hosted fonts (Nimbus Sans Narrow, DejaVu Sans
                             Mono) — superseded by Koulen/Roboto Mono (next/font/google, loaded
                             in page.tsx), left on disk unused, not deleted
