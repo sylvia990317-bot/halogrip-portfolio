@@ -5,6 +5,47 @@ verified), moved out of `CLAUDE.md` to keep the auto-loaded project instructions
 This file is **not** auto-loaded into context — read it only when you need the historical
 rationale behind an existing decision. New entries go here, not in `CLAUDE.md`.
 
+### Unreferenced HALOGRIP design source moved out of `public/media/` into a new `design-source/` (this session)
+- Sylvia: "现在项目里的文件好像有点乱，有些重复的文件和图片可以删掉，把所有halogrip项目相关的文件整理一下" —
+  audited every `/media/...` path actually referenced by `app/work/halogrip/*` (page.tsx,
+  content.ts, concept-carousel.tsx, design-gap-sequence.tsx, sketch-lightbox.tsx,
+  interaction-deck.tsx, need-scene.tsx, overview-backdrop.tsx, scroll-intro.tsx) against every
+  file physically in `public/media/`. 90 files were git-tracked there (224MB); 33 are actually
+  used by the site.
+- Confirmed scope with her via `AskUserQuestion` rather than guessing: everything unreferenced
+  moves to a new project-root `design-source/` folder (outside `public/`, so it stops being
+  publicly deployed by Vercel) instead of being deleted outright — kept for history/reference.
+  Used `git mv` throughout so blame/history follows the files.
+- Moved: the original pitch-deck source (`Final Presention for claude12.pptx` + its screen
+  recording `.mp4`, plus an older `halogrip ppt.pptx`, ~151MB total) into
+  `design-source/halogrip-pitch-deck/`; the standalone `section 2 reference/` HTML/CSS prototype
+  (its own README confirms it was a reference for 02.2, now implemented in `need-scene.tsx`) to
+  `design-source/section 2 reference/`; and every exploratory/reference image not imported by any
+  component (alternate concept renders, sketch refinements, `06-sketch-process/`'s reference
+  photo, `2.3/`'s and `2.4/`'s reference stills, the `other/skets/` batch, two asset `.zip`s, etc.)
+  to `design-source/halogrip图片/`, mirroring `public/media/halogrip图片`'s own subfolder names.
+- Deleted outright (not moved): `public/media/~$Final Presention for claude12.pptx`, a PowerPoint
+  autosave lock file with no real content — had to wait for Sylvia to close PowerPoint first since
+  the source pptx it was locking (`Final Presention for claude12.pptx`) was open and blocked the
+  `git mv` with a Windows "Permission denied".
+- Verified: re-grepped `app/` for every `/media/` reference after the move and confirmed each
+  still resolves inside `public/media/` (nothing referenced was relocated); `public/media/` is now
+  33 files instead of 90.
+- Gotcha hit while doing this: pre-creating the destination subfolders (e.g.
+  `design-source/halogrip图片/2.3/`) before `git mv`-ing a whole source directory of the same name
+  into it nests the directory one level deeper than intended (`2.3/2.3/...`) instead of merging —
+  had to detect and flatten those with a follow-up `git mv` per file. Don't pre-create the leaf
+  directory when the move source is itself a whole directory; only pre-create parents.
+
+### `product-intro` heading rewritten: "NEXT GENERATION STEERING DEVICE" → "EMERGENCY STEERING DEVICE FOR ROBOTAXI" (this session, follow-up)
+- Sylvia's direct ask, typo in her own message ("EMERGANCY") corrected to match the spelling used
+  everywhere else on the page (section 09's `EMERGENCY HANDOVER`, the root `layout.tsx`/case-study
+  `metadata` descriptions). `page.tsx`'s `.product-intro-heading` `<h2>` only — no CSS touched.
+- Verified via `npx tsc --noEmit` (clean) and a live screenshot: the longer string (39 vs. 30
+  characters) still renders on one line at desktop width with no overflow —
+  `.product-intro-heading h2` has no `max-width`/`white-space:nowrap` forcing a break, so this
+  would have wrapped gracefully even if it hadn't fit.
+
 ### Site renamed from "halogrip-portfolio" to "sylviaxie" across GitHub, Vercel, and local config — HALOGRIP is one case-study project, not the whole site (this session, follow-up)
 - Sylvia: "这个网站可以不叫halogrip portfolio吗，halogrip只是我这个项目的名字" — correct: the page
   `<title>`s were already right (`Sylvia Xie — Industrial Designer` on `/`, `HALOGRIP — Sylvia

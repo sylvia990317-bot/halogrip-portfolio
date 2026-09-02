@@ -94,7 +94,7 @@ export default function HalogripPage() {
 
       <section className="product-intro section shell">
         <div className="product-intro-heading">
-          <SectionReveal tag="h2">NEXT GENERATION STEERING DEVICE</SectionReveal>
+          <SectionReveal tag="h2">EMERGENCY STEERING DEVICE FOR ROBOTAXI</SectionReveal>
         </div>
         <div className="metadata">
           {meta.map(([label, value]) => (

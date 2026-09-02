@@ -88,6 +88,13 @@ public/
   fonts/                   HALOGRIP's old self-hosted fonts (Nimbus Sans Narrow, DejaVu Sans
                             Mono) — superseded by Koulen/Roboto Mono (next/font/google, loaded
                             in page.tsx), left on disk unused, not deleted
+design-source/              NOT deployed — outside public/, so Vercel never serves it. Sylvia's
+                            raw HALOGRIP design source: the original pitch-deck pptx/mp4
+                            (halogrip-pitch-deck/), the standalone HTML/CSS prototype that
+                            need-scene.tsx was built from (section 2 reference/), and every
+                            exploratory render/sketch/reference image that page.tsx etc. don't
+                            actually import (halogrip图片/, mirrors public/media's own subfolder
+                            names). Kept for history, not wired into the site — see CHANGELOG.md.
 ```
 
 ## Open items Sylvia still needs to supply

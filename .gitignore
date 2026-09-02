@@ -14,3 +14,9 @@ scripts/_model-source/
 dev-server.log
 dev-server-err.log
 tsconfig.tsbuildinfo
+
+# Local research and design-source material
+references/
+design-source/
+*.zip
+~$*
