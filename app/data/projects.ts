@@ -38,11 +38,12 @@ export const projects: Project[] = [
     tags: PLACEHOLDER_TAGS,
   },
   {
-    slug: "coming-soon-3",
-    cardLabel: "04 / Maize Drying System",
-    subtitle: "New project — details soon",
-    comingSoon: true,
+    slug: "post-harvest",
+    cardLabel: "04 / Post Harvest",
+    subtitle: "Rethinking maize drying with farmers in Seme",
+    comingSoon: false,
+    href: "/work/post-harvest",
     image: "/home/projects/corn-hands.jpg",
-    tags: PLACEHOLDER_TAGS,
+    tags: ["Field research", "Concept development", "2024"],
   },
 ];

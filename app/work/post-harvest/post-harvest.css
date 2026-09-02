@@ -1,0 +1,288 @@
+/* Post Harvest — route-scoped styles.
+   Imported ONLY from app/work/post-harvest/page.tsx (CLAUDE.md rule 2).
+
+   Direction: editorial industrial-design portfolio. Image-led, asymmetric but controlled.
+   Bodoni Moda carries display and the pull quote; Geist carries everything readable.
+   The blue is used as a compositional SURFACE (the section 07 reveal field) and as large
+   graphic numerals, not as tiny label text.
+
+   Dials: DESIGN_VARIANCE 8, MOTION_INTENSITY 4, VISUAL_DENSITY 3.
+   Project overrides to the generic skill, agreed with Sylvia: no dark mode for this case
+   study, section numbers kept as compositional elements, no grain or overlap added purely
+   for checklist compliance. */
+
+.ph-root {
+  --paper: #fbfbfa;
+  --paper-sunk: #f1f1ef;
+  --ink: #14161a;
+  --ink-soft: #454b54;
+  --muted: #787d85;
+  --line: #e3e4e2;
+  --blue: #17357a;
+  --blue-deep: #102a63;
+  --on-blue: #f4f5f8;
+  --on-blue-dim: rgba(244, 245, 248, 0.62);
+
+  --fs-display: clamp(38px, 5vw, 68px);
+  --fs-h2: clamp(30px, 3.6vw, 52px);
+  --fs-lead: clamp(16.5px, 1.35vw, 19px);
+  --fs-body: 16px;
+  --fs-small: 13.5px;
+  --fs-mono: 11px;
+
+  --gutter: clamp(20px, 5vw, 80px);
+  --maxw: 1440px;
+  /* VISUAL_DENSITY 3: art-gallery rhythm. */
+  --section-y: clamp(104px, 15vh, 184px);
+
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--ph-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.ph-shell { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+.ph-section { padding-block: var(--section-y); }
+
+/* Display face. Used only at large sizes, where Bodoni's contrast reads as intended. */
+.ph-display {
+  font-family: var(--ph-serif), Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.0;
+  text-wrap: balance;
+  margin: 0;
+}
+
+/* Section number as a graphic element, part of the composition rather than a micro-label. */
+.ph-figure-num {
+  font-family: var(--ph-serif), Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(52px, 7vw, 104px);
+  line-height: 0.8;
+  color: var(--blue);
+  margin: 0;
+  letter-spacing: -0.03em;
+}
+
+.ph-lead { font-size: var(--fs-lead); line-height: 1.45; color: var(--ink-soft); max-width: 38ch; margin: 0; text-wrap: pretty; }
+.ph-body { max-width: 46ch; margin: 0 0 14px; color: var(--ink-soft); text-wrap: pretty; }
+.ph-body:last-child { margin-bottom: 0; }
+
+.ph-mono { font-family: var(--ph-mono), ui-monospace, monospace; font-size: var(--fs-mono); letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.ph-caption { font-family: var(--ph-mono), ui-monospace, monospace; font-size: var(--fs-mono); line-height: 1.55; color: var(--muted); letter-spacing: 0.02em; text-transform: none; }
+
+figure { margin: 0; }
+
+.ph-back {
+  position: fixed; top: 20px; right: 20px; z-index: 50;
+  font-family: var(--ph-mono), ui-monospace, monospace;
+  font-size: var(--fs-mono); letter-spacing: 0.09em; text-transform: uppercase;
+  padding: 9px 16px; border-radius: 999px;
+  background: var(--ink); color: var(--paper);
+  transition: background 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ph-back:hover { background: var(--blue); }
+.ph-back:active { transform: translateY(1px); }
+.ph-back:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+/* ================= 01 HERO =================
+   Photograph is the dominant field: it holds the full height of the hero and bleeds to
+   the right edge. Type sits left, headline capped at two lines at 1440. */
+
+.ph-hero { display: grid; align-content: center; min-height: 100dvh; padding-block: clamp(92px, 11vh, 116px) clamp(40px, 6vh, 72px); }
+.ph-hero-grid { display: grid; grid-template-columns: 1fr; gap: clamp(32px, 4vw, 56px); align-items: center; }
+
+.ph-hero-rule { width: 56px; height: 3px; background: var(--blue); margin: 0 0 22px; }
+
+/* Scale is set so each of the two lines fits its column at 1440 without wrapping. */
+.ph-hero h1 { font-size: clamp(30px, 3.85vw, 54px); max-width: none; }
+.ph-hero h1 span, .ph-hero h1 em { display: block; }
+.ph-hero h1 em { font-style: italic; font-weight: 400; }
+
+.ph-hero-sub { font-size: var(--fs-lead); color: var(--ink-soft); max-width: 33ch; margin: 20px 0 0; }
+
+/* Three metadata groups, no row hairlines, no resume table. */
+.ph-meta { display: grid; grid-template-columns: 1fr; gap: clamp(14px, 1.6vw, 20px); margin: clamp(32px, 4vw, 52px) 0 0; max-width: 50ch; }
+.ph-meta div { display: grid; grid-template-columns: 84px 1fr; gap: 14px; align-items: baseline; }
+.ph-meta dt { margin: 0; font-family: var(--ph-mono), ui-monospace, monospace; font-size: 10px; letter-spacing: 0.11em; text-transform: uppercase; color: var(--muted); }
+.ph-meta dd { margin: 0; font-size: var(--fs-small); color: var(--ink-soft); line-height: 1.45; }
+
+.ph-hero-figure { position: relative; }
+.ph-hero-figure .ph-frame { position: relative; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: var(--paper-sunk); }
+.ph-hero-figure img { object-fit: cover; }
+.ph-hero-figure figcaption { margin-top: 12px; max-width: 40ch; }
+
+/* ================= 03 FIELD (contact sheet) ================= */
+
+.ph-field-head { display: grid; gap: clamp(18px, 2.2vw, 26px); max-width: 62ch; }
+.ph-field-head .ph-figure-num { margin-bottom: 4px; }
+
+/* Contact sheet: explicit placement, varied scale, deliberate air. */
+.ph-sheet { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: clamp(12px, 1.6vw, 26px); row-gap: clamp(28px, 4vw, 56px); margin-top: clamp(56px, 7vw, 104px); align-items: end; }
+
+.ph-person { display: grid; gap: 9px; }
+.ph-person .shot { position: relative; width: 100%; background: transparent; }
+.ph-person img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
+.ph-person h3 { margin: 0; font-size: var(--fs-small); font-weight: 600; letter-spacing: -0.005em; }
+.ph-person p { margin: 0; font-size: 12.5px; line-height: 1.4; color: var(--muted); max-width: 24ch; }
+
+/* Pull quote: the narrative focus of the section. */
+.ph-quote { margin: 0; }
+.ph-quote blockquote { margin: 0; font-family: var(--ph-serif), Georgia, serif; font-size: clamp(24px, 2.9vw, 40px); line-height: 1.12; letter-spacing: -0.015em; font-weight: 500; text-wrap: pretty; }
+.ph-quote figcaption { margin-top: 18px; display: flex; align-items: center; gap: 12px; }
+.ph-quote .who { font-size: var(--fs-small); font-weight: 600; }
+
+/* Field notes: small annotations, placed in the composition like notebook margins. */
+.ph-fieldnote { border-left: 2px solid var(--blue); padding-left: 14px; max-width: 30ch; }
+.ph-fieldnote p { margin: 0; font-size: var(--fs-small); line-height: 1.5; color: var(--ink-soft); }
+.ph-fieldnote p + p { margin-top: 10px; }
+.ph-fieldnote strong { font-weight: 600; color: var(--ink); }
+
+/* ================= 07 FINAL CONCEPT (blue reveal field) ================= */
+
+.ph-reveal-field { background: var(--blue); color: var(--on-blue); padding-block: clamp(104px, 15vh, 176px); }
+
+/* "07" and "Final Concept" as one lockup, not two stacked micro-labels. */
+.ph-lockup { display: flex; align-items: baseline; gap: 18px; margin: 0 0 clamp(20px, 2.6vw, 34px); }
+.ph-lockup .n { font-family: var(--ph-serif), Georgia, serif; font-size: clamp(52px, 7vw, 104px); line-height: 0.8; letter-spacing: -0.03em; color: var(--on-blue); }
+.ph-lockup .label { font-family: var(--ph-mono), ui-monospace, monospace; font-size: var(--fs-mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--on-blue-dim); padding-bottom: 6px; }
+
+.ph-reveal-field h2 { font-size: var(--fs-display); max-width: 12ch; color: var(--on-blue); }
+.ph-reveal-field .ph-lead { color: var(--on-blue-dim); }
+.ph-reveal-field .ph-body { color: var(--on-blue-dim); }
+
+.ph-tower-head { display: grid; gap: clamp(20px, 2.4vw, 30px); }
+
+/* The handbook is the deliverable, so it gets the dominant slot; the tower drawing is
+   secondary, beside it. */
+.ph-outcome { display: grid; grid-template-columns: 1fr; gap: clamp(32px, 4vw, 64px); align-items: start; }
+.ph-outcome-side { display: grid; gap: clamp(20px, 2.4vw, 30px); align-content: start; }
+.ph-outcome-side .ph-drawing { margin-top: 0; }
+.ph-outcome-side .ph-body { max-width: 42ch; margin: 0; }
+.ph-outcome-cap { margin-top: 16px; display: grid; gap: 5px; max-width: 40ch; }
+.ph-outcome-cap strong { font-size: var(--fs-small); font-weight: 600; color: var(--on-blue); }
+.ph-outcome-cap span { font-size: var(--fs-small); line-height: 1.5; color: var(--on-blue-dim); }
+
+/* Status line. Plain, factual, not a warning banner. */
+.ph-status-line {
+  display: grid; gap: 4px;
+  margin: clamp(44px, 6vw, 80px) 0 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(244, 245, 248, 0.28);
+  max-width: 62ch;
+  font-size: var(--fs-small);
+}
+.ph-status-line span { color: var(--on-blue-dim); }
+.ph-status-line strong { color: var(--on-blue); font-weight: 500; }
+
+/* Drawing area. Aspect locked to the real source drawing: 595 x 420 pt. */
+.ph-drawing {
+  position: relative;
+  aspect-ratio: 595 / 420;
+  width: 100%;
+  margin-top: clamp(44px, 6vw, 80px);
+  border: 1px solid rgba(244, 245, 248, 0.28);
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  text-align: center;
+  background-image:
+    linear-gradient(rgba(244, 245, 248, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 245, 248, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+/* Real artwork plates. Every handbook page and product drawing is 595 x 420 pt landscape.
+   They are line art on white paper, so they sit on the blue field as physical sheets. */
+.ph-plate { display: block; width: 100%; height: auto; aspect-ratio: 595 / 420; object-fit: contain; background: #fff; }
+.ph-plate-primary { box-shadow: 0 18px 48px rgba(9, 24, 60, 0.34); }
+
+.ph-handbook-contents { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 16px 0 0; padding: 0; }
+.ph-handbook-contents li { font-family: var(--ph-mono), ui-monospace, monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-blue-dim); }
+
+/* The handbook's own statement of status, quoted from inside the deliverable. */
+.ph-handbook-quote { margin: clamp(40px, 5vw, 68px) 0 0; max-width: 34ch; }
+.ph-handbook-quote blockquote { margin: 0; font-family: var(--ph-serif), Georgia, serif; font-size: clamp(19px, 1.9vw, 26px); line-height: 1.25; letter-spacing: -0.015em; color: var(--on-blue); text-wrap: pretty; }
+.ph-handbook-quote figcaption { margin-top: 14px; font-family: var(--ph-mono), ui-monospace, monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-blue-dim); }
+
+.ph-drawing b { font-family: var(--ph-mono), ui-monospace, monospace; font-size: var(--fs-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-blue); font-weight: 500; }
+.ph-drawing span { font-family: var(--ph-mono), ui-monospace, monospace; font-size: var(--fs-mono); letter-spacing: 0.02em; color: var(--on-blue-dim); }
+
+/* Technical annotations: real measured and calculated values, drawn as linework. */
+.ph-annots { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(20px, 2.6vw, 34px); }
+.ph-annot { display: grid; gap: 6px; padding-top: 12px; border-top: 1px solid rgba(244, 245, 248, 0.28); }
+.ph-annot .v { font-family: var(--ph-serif), Georgia, serif; font-size: clamp(22px, 2.2vw, 30px); line-height: 1; letter-spacing: -0.02em; color: var(--on-blue); font-variant-numeric: tabular-nums; }
+.ph-annot .k { font-family: var(--ph-mono), ui-monospace, monospace; font-size: 10px; letter-spacing: 0.11em; text-transform: uppercase; color: var(--on-blue-dim); }
+.ph-annot .src { font-family: var(--ph-mono), ui-monospace, monospace; font-size: 10px; letter-spacing: 0.04em; color: rgba(244, 245, 248, 0.45); }
+
+/* ---------- motion: MOTION_INTENSITY 4 ---------- */
+
+.ph-reveal { opacity: 1; }
+.ph-reveal-armed { opacity: 0; transform: translateY(16px); }
+.ph-reveal-armed.is-visible { opacity: 1; transform: none; transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* ---------- responsive ---------- */
+
+@media (min-width: 768px) {
+  .ph-hero-grid { grid-template-columns: 50fr 50fr; }
+  /* Bleed to exactly the viewport edge. The container is centred, so we cancel both the
+     gutter and the outer centring margin. min(0px, ...) keeps it correct below --maxw,
+     where there is no outer margin to cancel. */
+  .ph-hero-figure { margin-right: calc(min(0px, (var(--maxw) - 100vw) / 2) - var(--gutter)); }
+  /* Height-driven so the whole hero composition stays inside a 900px viewport. */
+  .ph-hero-figure .ph-frame { aspect-ratio: auto; height: clamp(400px, 62vh, 600px); }
+
+  /* Contact sheet placement: varied scale, deliberate gaps. */
+  .ph-p1 { grid-column: 1 / 5; }
+  .ph-quote { grid-column: 6 / 13; align-self: center; }
+  .ph-p2 { grid-column: 1 / 4; }
+  .ph-p3 { grid-column: 4 / 7; padding-top: clamp(24px, 4vw, 64px); }
+  .ph-note-slot { grid-column: 8 / 12; align-self: end; padding-bottom: 6px; }
+  .ph-p4 { grid-column: 2 / 5; }
+  .ph-p5 { grid-column: 6 / 9; padding-top: clamp(20px, 3vw, 48px); }
+
+  .ph-tower-head { grid-template-columns: 1fr 1fr; align-items: end; }
+  /* The handbook is the deliverable, so its column leads. */
+  .ph-outcome { grid-template-columns: 7fr 5fr; gap: clamp(36px, 5vw, 72px); }
+  /* Second row inverts: the quote is narrow, the handbook page it comes from is large. */
+  .ph-outcome-quote { grid-template-columns: 4fr 8fr; align-items: center; }
+}
+
+@media (min-width: 1024px) {
+  .ph-hero-copy { position: relative; z-index: 2; }
+  .ph-field-head { padding-left: 8vw; }
+  .ph-p1 { grid-column: 2 / 6; }
+  .ph-quote { grid-column: 7 / 12; }
+  .ph-p2 { grid-column: 1 / 4; }
+  .ph-p3 { grid-column: 4 / 6; }
+  .ph-note-slot { grid-column: 8 / 11; }
+  .ph-p4 { grid-column: 3 / 5; }
+  .ph-p5 { grid-column: 6 / 9; }
+}
+
+@media (max-width: 767px) {
+  .ph-hero { min-height: auto; padding-block: 96px 56px; }
+  .ph-hero h1, .ph-hero-sub, .ph-lead, .ph-body { max-width: 100%; }
+  .ph-hero-figure .ph-frame { aspect-ratio: 4 / 5; }
+  .ph-meta div { grid-template-columns: 76px 1fr; }
+
+  /* Contact sheet collapses to a single readable column (§7 mobile override). */
+  .ph-sheet { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
+  .ph-p1 { grid-column: 1 / 3; }
+  .ph-quote { grid-column: 1 / 3; margin-block: 12px; }
+  .ph-p2, .ph-p3, .ph-p4, .ph-p5 { grid-column: span 1; padding-top: 0; }
+  .ph-note-slot { grid-column: 1 / 3; }
+
+  .ph-lockup .n { font-size: 56px; }
+  .ph-drawing { aspect-ratio: 4 / 3; }
+  .ph-back { top: 12px; right: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-reveal-armed { opacity: 1; transform: none; }
+  .ph-reveal-armed.is-visible { transition: none; }
+  .ph-back { transition: none; }
+}

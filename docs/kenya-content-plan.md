@@ -478,8 +478,16 @@ source for the three concept sketches.
 
 # 07. The Drying Tower
 
-**Narrative purpose.** Reveal the selected concept, its parts, and the problems it was designed to
-address. This is the product moment of the page. It is a concept reveal, not a product launch.
+**Narrative purpose.** Reveal the selected concept and, more importantly, the actual deliverable.
+This is the product moment of the page. It is a concept reveal, not a product launch.
+
+> **Deliverable hierarchy (confirmed 2026-09-02, see audit Resolution log #12).**
+> Final concept: **The Drying Tower**. Primary deliverable: **a construction handbook created by
+> the team**, whose purpose is to guide farmers in building the tower locally. Physically
+> prototyped: **the metal solar collector only**. Not completed or validated: the full tower and
+> any real construction attempt using the handbook.
+> The handbook is the design outcome and is presented as such, not as a supporting document.
+> Use "build" or "construct", never "rebuild" or "recreate".
 
 **Proposed visible copy**
 
@@ -487,9 +495,10 @@ address. This is the product moment of the page. It is a concept reveal, not a p
 >
 > # The Drying Tower
 >
-> A solar drying facility for maize, designed to be built locally from a construction handbook.
+> The project's final deliverable was a construction handbook designed to help farmers build the
+> Drying Tower locally.
 
-*(Supporting line: 15 words.)*
+*(Approved lead, used verbatim: 19 words.)*
 
 > The tower has two parts. A black box collector sits at an angle to the sun and heats the air
 > inside it. A flexible pipe carries that air into a shelved tower where the maize sits.
@@ -497,11 +506,19 @@ address. This is the product moment of the page. It is a concept reveal, not a p
 > The tower door locks. That single decision addresses three of the problems farmers described:
 > animals, rain and theft. The maize can stay outside while the farmer is elsewhere.
 
-*(Two blocks: 38 and 46 words.)*
+*(Two blocks, trimmed in build to 24 and 26 words.)*
 
-> Estimated design capacity: approximately 100 kg
+> **The construction handbook**
+> It carries the measurements and construction guidelines for building the tower.
+
 > Shelves: 10, each 81 by 70 by 2.5 cm
+> **Estimated design capacity: approximately 100 kg**
 > Material: metal, with alternatives noted in the handbook
+
+> We prototyped the metal solar collector and left it with a farmer. The full tower was not
+> constructed, and the handbook was not tested through an actual build.
+
+*(Short status line only. Section 09 carries the full account.)*
 
 **Sylvia's contribution.** Not separately documented for the final concept detailing. No individual
 claim made.
@@ -513,8 +530,24 @@ construction handbook.
 first prototype primarily for maize), p.36 (shelf dimensions, capacity calculation, material
 reasoning, handbook alternatives), p.44 (handbook).
 
-**Assets.** `Empty Shelves.pdf` as the primary product visual. `Door Swung Open.pdf` for the
-locking-door detail. Both converted to SVG.
+**Assets — open question F is CLOSED.** The handbook was found in
+`RS24_kenya_Post Harvest_Final Report.pdf` at pages 54 to 90, and is now converted.
+
+| Slot | Asset | Source |
+|---|---|---|
+| **Dominant** | `handbook/handbook-cover-*.webp` | Report p.54, the handbook title page |
+| Secondary | `diagram/tower-shelves-*.webp` | `Empty Shelves.pdf` |
+| Handbook interior | `handbook/handbook-cutlist-*.webp` | Report p.60, "Cutlist of materials" |
+| Held in reserve | `handbook/handbook-tools-*.webp` | Report p.57, "Tools needed" |
+| Door detail | `diagram/tower-door-*.webp` | `Door Swung Open.pdf` |
+
+Every handbook page and product drawing is **595 x 420 pt landscape, ratio 1.417** (an earlier note
+in this plan said the handbook was A4 portrait; that came from the report's first MediaBox and was
+wrong). All render as line art on white, so they sit on the blue field as physical paper plates.
+
+Section 07 also quotes the handbook's own statement of status from p.55:
+*"The principles work, but we are not sure how efficient they will be in this version. The prototype
+needs to be built and tested in real-world conditions."*
 
 **Evidence classification**
 
@@ -526,7 +559,8 @@ locking-door detail. Both converted to SVG.
 | Shelf dimensions 81 by 70 by 2.5 cm, ten shelves | p.36 | observation, design specification |
 | Estimated design capacity approximately 100 kg | p.36 | **calculation** |
 | Metal chosen for durability, alternatives noted in the handbook | p.36 | concept assumption, design decision |
-| A construction handbook was produced | p.44 | prototype activity |
+| **The construction handbook was the project's primary deliverable**, carrying measurements and guidelines for building the tower | p.36, p.44, TOC p.3 | prototype activity |
+| The handbook was never validated through an actual build | p.44 | observation |
 
 > **Capacity wording is fixed.** "Estimated design capacity: approximately 100 kg." Never "processes
 > 100 kg", never "capacity of 100 kg". The booklet's comparison to one storage bag is dropped
@@ -640,17 +674,21 @@ the page's headline.
 
 > ## What was built, and what was not
 >
-> The full drying tower remained a detailed final concept. A metal solar collector was prototyped
-> and left locally for continued exploration.
+> The deliverable was the construction handbook. We prototyped the metal solar collector and left
+> it with a farmer. The complete tower was never constructed, and the handbook was never validated
+> through an actual build.
 
-*(Introduction: 24 words.)*
+*(Introduction: 38 words. Longer than the 45-word cap allows room for, and deliberately so: this
+is the sentence the whole page's honesty rests on.)*
 
 > **Evidenced by field research.** How maize is dried today, and what makes it difficult.
 > **Evaluated with farmers.** Which of three concepts was worth developing.
-> **Prototyped.** The metal solar collector, left with a farmer.
+> **Delivered.** The construction handbook, with measurements and guidelines for building the tower.
+> **Prototyped.** The metal solar collector only, left with a farmer.
 > **Calculated.** The estimated capacity, from shelf dimensions and maize bulk density.
 > **Assumed.** That the airflow and temperature would be sufficient.
-> **Untested.** Everything about performance.
+> **Not constructed.** The complete drying tower. Building it was named as the next step.
+> **Not validated.** The handbook. No one has yet built the tower from it.
 
 > We did not run the field study during the harvest season, so we could not measure the current
 > drying method. Without that baseline, we could not show whether the design improves on it.
@@ -863,7 +901,9 @@ Every number that appears in visible copy, with its class. Nothing else may be a
 | "Helps reduce weevils by driving them away with heat" | Never tested; not supported anywhere in the booklet |
 | Reduced crop loss, improved economic circumstances | No measurement exists; explicitly could not be measured |
 | Better than the tarp method | Explicitly named as an open question |
-| Farmers can now recreate the design from the handbook | The handbook exists, but nothing was built from it |
+| Farmers can now recreate the design from the handbook | The handbook exists, but nothing has been built from it. Also the wrong verb: use "build" or "construct", never "rebuild" or "recreate" |
+| The tower can be built from local or affordable materials | Not supported. Alternative materials are marked in the handbook (p.36) and metal's cost is noted as a barrier (p.45), but neither supports a sourcing, affordability or independence claim |
+| The handbook has been validated | It was never tested through an actual build (p.44) |
 | Booklet stakeholder text | Contains corrupted placeholder content |
 | "Open minded toward adaptation" closing line | Generic |
 | Nine-step process flowchart in full | Methodology dumping; exceeds reading budget |
@@ -878,7 +918,8 @@ Every number that appears in visible copy, with its class. Nothing else may be a
 | C | Confirm whether Sylvia drew the anonymised second-round sketches, and whether to state it | Section 06 attribution |
 | D | Provide higher-resolution source files for the three concept sketches | Section 06 assets |
 | E | Confirm Noun Project icon licensing, or approve dropping the icons entirely | Sections 03, 05 |
-| F | Confirm whether the construction handbook can be shown or linked, since it is not in the supplied PDF | Section 07 |
+| F | ~~Supply the construction handbook pages.~~ **CLOSED 2026-09-02.** Found at pages 54 to 90 of `RS24_kenya_Post Harvest_Final Report.pdf` and converted | Section 07 |
+| D | ~~Higher-resolution concept sketches.~~ Partly relieved: all vector diagrams and `.ai` files are now converted via `scripts/convert-pdf-pages.mjs`. Still open only for the three concept sketches in `Desktop - 14.pdf` | Section 06 |
 | G | Confirm the two unidentified assets `llhp2zKq.png` and `2.png` | Optional illustration use |
 
 > None of A to G blocks starting Phase 3 visual identity work. All must be closed before the page

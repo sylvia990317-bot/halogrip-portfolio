@@ -20,3 +20,6 @@ references/
 design-source/
 *.zip
 ~$*
+
+# Probe renders from scripts/convert-pdf-pages.mjs --probe (regenerated on demand)
+scratch/

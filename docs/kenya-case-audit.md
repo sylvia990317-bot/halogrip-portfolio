@@ -8,7 +8,8 @@
 |---|---|---|
 | 1 | Existing site code (`app/`) | Defines the global shell, navigation, reusable components and route conventions |
 | 2 | `references/kenya/portfolio-current/Desktop - {7,8,11,13,14,15}.pdf` | Current **content selection** only — explicitly *not* a visual reference |
-| 3 | `references/kenya/full-booklet/BOOKLET final.pdf` (47 pp.) | **Factual source of truth** |
+| 3 | `references/kenya/RS24_kenya_Post Harvest_Final Report.pdf` (90 pp.) | **Factual source of truth** (see Resolution log #13) |
+| 3b | `references/kenya/full-booklet/BOOKLET final.pdf` (47 pp.) | Earlier, incomplete version. Secondary record only |
 | 4 | `references/kenya/full-booklet/Links/` (47 files) | Original visual assets |
 
 > **Page citations in this document refer to PDF page numbers** of `BOOKLET final.pdf`, not the
@@ -64,6 +65,56 @@ inline.
     internally inconsistent (p.24 / p.28 / p.42) and the figure is not essential to the narrative.
 11. **Missing screen 4 does not need to be recovered.** The field-research story is reconstructed
     from verified booklet material instead.
+12. **Deliverable hierarchy (confirmed 2026-09-02).** The completed deliverable was **not** a
+    finished drying tower. The correct hierarchy, which overrides any earlier phrasing in this
+    document, is:
+
+    | Rank | Item | Source |
+    |---|---|---|
+    | Final concept | **The Drying Tower** | p.34 |
+    | **Primary deliverable** | **a construction handbook created by the team** | p.36, p.44, TOC p.3 |
+    | Handbook's purpose | to guide farmers in building the tower locally | p.44, `Desktop - 11.pdf` |
+    | Physically prototyped | **the metal solar collector only** | p.44 |
+    | Not completed or validated | the full tower, and any real construction attempt using the handbook | p.44, p.45 |
+
+    The handbook is the actual design outcome and must be presented as such, not as a minor
+    supporting document. Section 07 leads with it; section 09 states plainly that the complete
+    tower was not constructed and the handbook was not validated through an actual build.
+    Approved lead for section 07, used verbatim: *"The project's final deliverable was a
+    construction handbook designed to help farmers build the Drying Tower locally."*
+    Use **"build"** or **"construct"**, never "rebuild" (and not the deck's "recreate").
+    Do **not** add claims about local material sourcing, independence, affordability or
+    successful replication: none of these are supported by the source material.
+13. **New source of truth (confirmed 2026-09-02): `RS24_kenya_Post Harvest_Final Report.pdf`,
+    90 pages.** Sylvia supplied a later, more complete version of the same document. It replaces
+    `BOOKLET final.pdf`, which stays on disk as a secondary record.
+
+    - **All existing page citations remain valid.** Pages 1 to 45 were compared page by page
+      (p.10, 22, 26, 27, 30, 31, 34, 35, 36, 43, 44, 45) and are identical. Nothing needs re-keying.
+    - **It contains the handbook** at pages 54 to 90, which closes open question F. Structure:
+      p.54 title page ("Drying Tower, First (1st) version") listing **Construction, materials,
+      tools, how to use**; p.55 a "What is this?" introduction; p.57 "Tools needed";
+      p.60 "Cutlist of materials"; a Black Box section from p.61; a Drying Tower section from p.76.
+    - **It fixes corrupted text.** `BUYERBSUYER` now reads as a real BUYER entry, and
+      `CONSTCROUNCSTTOURCSTOR` is now **FABRICATORS** with real content. The garbled
+      `MRaErAgaLrITitYe` string is gone. **Only `according to Blablabla` (p.28) remains unfilled.**
+    - **It fixes the farmer name mismatch.** Theresa now has her own biography on p.16: 70 years
+      old, grows maize, beans and peanuts, keeps cows, chickens and ducks, and attends communal
+      One Acre Fund meetings, which is why she does not have the weevil and theft problems the
+      others describe. Jacob, Philister, Christina and Margaret all align correctly.
+      §6.4(b) is therefore resolved **in the source itself**, not only by Sylvia's confirmation.
+    - **It contains the full reference list** at p.48 to 49: FAO (2012), FAO (2013),
+      World Bank (2011), Ketiem (n.d., ILRI/SLU), Encyclopaedia Britannica, City Population,
+      Hagstrum, Phillips and Cuperus (2012), Sauer (1988), Kuiper-Goodman (1995),
+      Weather and Climate (n.d.). Use these for the statistics in section 02.
+    - A Logical Framework sits at p.52 to 53. **Not used** in the case study.
+    - The handbook states its own status on p.55, in the team's words:
+      *"The principles work, but we are not sure how efficient they will be in this version.
+      The prototype needs to be built and tested in real-world conditions."* This is quoted
+      directly in section 07.
+    - ⚠️ Note p.57: the handbook says fabrication needs someone who can cut and weld metal.
+      This is a constraint, and it is a further reason not to imply that the tower is easy,
+      cheap or independent to build.
 
 ---
 
@@ -232,6 +283,11 @@ is actually read.
 new information architecture, and the correction below lives in a dedicated prototype-status section
 late in the page — not in the hero or the opening story. The correction itself remains necessary;
 only its placement and emphasis change.
+
+**Deliverable resolution (Resolution log #12).** The slide's handbook sentence is not a footnote to
+the tower: **the handbook *is* the deliverable.** Section 07 now leads with it, and the tower is the
+concept the handbook describes. What the slide gets wrong is not mentioning the handbook, but
+implying the tower itself was completed and its benefits demonstrated.
 
 Current copy states, with no qualification:
 
@@ -614,8 +670,9 @@ Every claim proposed for the page, with its source page and evidence class.
 
 | # | Proposed claim | PDF p. | Class |
 |---|---|---|---|
-| 56 | **Only the metal solar collector was left with a farmer; the tower structure was never built** | 44 | Observation |
-| 57 | A construction handbook with measurements and guidelines was produced | 44, *Desktop-11* | Observation |
+| 56 | **Only the metal solar collector was prototyped and left with a farmer; the tower structure was never constructed** | 44 | Observation |
+| 57 | **A construction handbook was the project's primary deliverable.** It carries measurements and construction guidelines for building the tower, and marks alternative materials per component | 36, 44, TOC p.3, *Desktop-11* | Observation |
+| 57b | **The handbook was never validated through an actual build.** Constructing the tower from it is named as the next step | 44 | Observation |
 | 58 | "Due to time constraints, the prototype presented was not optimal" | 45 | Observation |
 | 59 | The concept has not been tested under these circumstances; it is unknown whether it beats the tarp method | 45 | Observation |
 | 60 | Fieldwork missed the harvest season, so some needs may have gone unidentified | 45 | Observation |
@@ -648,6 +705,9 @@ untested questions are named explicitly, once, in the prototype-status section.
 | A verified 100 kg capacity | A calculation from shelf dimensions and bulk density (p.36). Use "Estimated design capacity: approximately 100 kg" |
 | A verified improvement over tarp drying | Explicitly named as an open, unanswered question (p.45) |
 | Validated social or economic impact | No such measurement exists anywhere in the source material |
+| That anyone has built the tower from the handbook | The handbook was never validated through an actual build (p.44) |
+| That the tower can be built from locally sourced or affordable materials | Not supported. The booklet notes alternative materials are marked in the handbook (p.36), and separately that metal's cost is a barrier (p.45). Neither supports a sourcing, affordability or independence claim |
+| "Rebuild" or "recreate" the design | Wrong register and not what happened. Use "build" or "construct" |
 | A merged "15 kg vs 10 kg" carrying figure | Different evidence classes: 15 kg is interview-derived (p.27), 10 kg is a scenario assumption (p.30). Keep separate, or omit the comparison |
 | Any specific PICS bag lifespan (3 years / 3 seasons / 6 seasons) | Source is internally inconsistent (p.24, p.28, p.42) and the figure is not essential — **removed from the public case study entirely** |
 | Any statistic not in §5.1–5.5 | Per the brief: invent nothing |
@@ -706,23 +766,28 @@ Carried forward as constraints for the build, given the existing stack:
 **(b), (c), (d) and (e) were resolved on 2026-09-02** (see Resolution log). **(a) and (f) still apply
 in full** and remain binding constraints on any copy written from this source.
 
-**(a) The booklet contains unfinished placeholder text.** PDF p.14–15 carry corrupted, duplicated and
-stub content:
+**(a) Unfinished placeholder text — mostly fixed by the new source.** The old booklet's p.14–15
+carried corrupted stub content. In `RS24_kenya_Post Harvest_Final Report.pdf`:
 
-- `BUYERBSUYER`, `CONSTCROUNCSTTOURCSTOR`, `MRaErAgaLrITitYe,SCTUhrDisItOina`
-- Four different stakeholder entries share the *same* boilerplate paragraph ("Due to time
-  constraints, our research focused on five farmers...")
-- p.28 contains an unfilled citation: *"according to **Blablabla**, PICS bags are non-chemical..."*
+| Item | Old booklet | New report |
+|---|---|---|
+| BUYER | `BUYERBSUYER` + boilerplate | **Fixed.** Real entry: buyers are neighbours, smaller market actors, or larger corporations |
+| Constructor | `CONSTCROUNCSTTOURCSTOR` | **Fixed.** Now **FABRICATORS**, with real content about who farmers contact to build the design |
+| Farmer name string | `MRaErAgaLrITitYe,SCTUhrDisItOina` | **Fixed** |
+| PICS citation, p.28 | *"according to **Blablabla**"* | ⚠️ **Still unfilled.** The one remaining corruption |
 
-None of this may be copied. Where a stakeholder's role is genuinely undocumented, omit it rather than
-inventing one.
+The `Blablabla` citation may never be copied, and nothing depends on it: the PICS lifespan figure it
+would have supported is already removed from the public case study (Resolution log #10). Where a
+stakeholder's role is genuinely undocumented, omit it rather than inventing one.
 
 **(b) Farmer names and descriptions are mismatched in the booklet itself — RESOLVED.** On p.16 the
 heading **THERESA** sits above a description of **Jacob**; on p.17 the heading **MARGARET** sits above
 a description of **"Madam Odema"**.
 
-> **Resolution.** Sylvia has confirmed the portrait-to-person mapping directly (§4.2). Use her
-> mapping, never the booklet's page order. The booklet's layout error does not propagate to the site.
+> **Resolution, now twice over.** Sylvia confirmed the portrait-to-person mapping directly (§4.2),
+> **and the new source fixes the layout error itself**: `RS24_kenya_Post Harvest_Final Report.pdf`
+> p.16 gives Theresa her own biography, with Jacob, Philister, Christina and Margaret all correctly
+> aligned. Use that version. The old booklet's page order is superseded, not merely overridden.
 
 **(c) Name spellings are inconsistent throughout — RESOLVED.** These were phonetic transcriptions
 recorded during fieldwork, not errors of record. One canonical spelling per person is now confirmed
