@@ -263,61 +263,87 @@ export default function PostHarvestPage() {
         </div>
       </section>
 
-      {/* ============ 06 Developing with farmers ============ */}
-      <section className="ph-section" id="concepts">
+      {/* ============ 06 Developing with farmers ============
+          One continuous causal sequence, not three stacked layouts:
+            1. the field  — the photograph dominates, the copy is one line
+            2. the method — the correction sits BETWEEN the photograph and the comparison,
+                            because it is the reason the comparison can be trusted
+            3. the decision — one controlled comparison in which the tower is dominant
+          The opening deliberately withholds which concept won; the comparison reveals it. */}
+      <section className="ph-section ph-seq" id="concepts">
         <div className="ph-shell">
-          {/* Head and copy sit against the photograph, which is the section's visual
-              centre: the moment a concept was actually discussed with a farmer. The
-              landscape crop lets the two columns end together instead of leaving a void. */}
+
+          {/* --- 1 / Returning to the field --------------------------------------- */}
+          {/* Not a 50/50 split: a narrow head column bottom-anchored against a photograph
+              that runs past the shell to the viewport edge. */}
           <Reveal>
-            <div className="ph-concepts">
-              <div>
+            <div className="ph-return">
+              <div className="ph-return-head">
                 <SectionHead n="06" heading={concepts.heading} lead={concepts.intro} />
-                <p className="ph-body" style={{ marginTop: "var(--block-y)" }}>{concepts.body[1]}</p>
               </div>
 
-              <figure className="ph-concepts-photo">
-                <Image
-                  className="ph-figimg"
-                  src="/post-harvest/photo/sketch-review-wide-1600.webp"
-                  alt="Two hands holding a hand-drawn sketch of the drying tower, one pointing at the shelves and its dimensions"
-                  width={1600} height={1068} sizes="(max-width: 767px) 100vw, 58vw"
-                />
-                <figcaption className="ph-caption" style={{ marginTop: 12 }}>
+              <figure className="ph-return-figure">
+                <div className="ph-return-frame">
+                  <Image
+                    src="/post-harvest/photo/sketch-review-wide-1600.webp"
+                    alt="Two hands holding a hand-drawn sketch of the drying tower, one pointing at the shelves and its dimensions"
+                    fill sizes="(max-width: 767px) 100vw, 72vw"
+                    style={{ objectFit: "cover", objectPosition: "50% 45%" }}
+                  />
+                </div>
+                <figcaption className="ph-caption">
                   Reviewing a concept sketch with a farmer, second evaluation round.
                 </figcaption>
               </figure>
+
+              {/* The two rounds as markers, so "twice" is structural rather than narrated. */}
+              <ol className="ph-rounds">
+                {concepts.rounds.map((r) => (
+                  <li key={r.n}><b>{r.n}</b><span>{r.text}</span></li>
+                ))}
+              </ol>
             </div>
           </Reveal>
 
-          {/* The three sketches the farmers actually saw. Asymmetric on purpose: the
-              chosen concept is larger, so the trio shows the decision rather than
-              presenting three equal options. */}
+          {/* --- 2 / Correcting the method ----------------------------------------- */}
           <Reveal>
-            <ul className="ph-trio">
+            <div className="ph-method">
+              <div>
+                <p className="ph-mono ph-method-step">{concepts.methodStep}</p>
+                <h3>{concepts.methodHeading}</h3>
+              </div>
+              <p className="ph-method-copy">{concepts.method}</p>
+            </div>
+          </Reveal>
+
+          {/* --- 3 / The decision --------------------------------------------------- */}
+          {/* All three drawings share one frame ratio and one baseline so the comparison
+              scans in a single pass. The tower's column is ~1.45x the others and stands on
+              a blue field that pushes into both gaps; the alternatives stay legible but
+              quieter through scale and contrast, not card chrome. Each item is
+              `display: contents`, so frames share row 1 and captions share row 2. */}
+          <Reveal>
+            <ul className="ph-choice">
+              <li className="ph-choice-field" aria-hidden="true" />
               {concepts.options.map((o) => (
-                <li key={o.slug} data-selected={o.selected}>
-                  <Image
-                    src={`/post-harvest/concept/concept-${o.slug}-760.webp`}
-                    alt={`Hand-drawn concept sketch: ${o.name}`}
-                    width={760} height={620}
-                    sizes="(max-width: 767px) 88vw, 30vw"
-                  />
-                  <h3>{o.name}</h3>
-                  {o.selected ? <span className="ph-picked">Selected</span> : null}
+                <li className="ph-choice-item" key={o.slug} data-selected={o.selected}>
+                  <div className="ph-choice-frame">
+                    <Image
+                      src={`/post-harvest/concept/concept-${o.slug}-760.webp`}
+                      alt={`Hand-drawn concept sketch: ${o.name}`}
+                      width={760} height={620}
+                      sizes="(max-width: 767px) 88vw, (max-width: 1600px) 30vw, 26vw"
+                    />
+                  </div>
+                  <div className="ph-choice-cap">
+                    <h3>{o.name}</h3>
+                    {o.selected ? <p className="ph-choice-note">{concepts.selectedNote}</p> : null}
+                  </div>
                 </li>
               ))}
             </ul>
-          </Reveal>
 
-          {/* The method correction closes the section, after the reader has seen what was
-              actually compared. */}
-          <Reveal>
-            <div className="ph-method">
-              <h3>{concepts.methodHeading}</h3>
-              <p className="ph-body">{concepts.method}</p>
-            </div>
-            <p className="ph-caveat">{concepts.caveat}</p>
+            <p className="ph-choice-out">{concepts.conclusion}</p>
           </Reveal>
         </div>
       </section>

@@ -162,10 +162,20 @@ export const challenge = {
 /** 06. Developing with farmers */
 export const concepts = {
   heading: "Developing with farmers",
-  intro: "We sketched individually, then took the ideas back to the farmers twice.",
-  body: [
-    "In the first round we presented ideas to three farmers. They preferred a drying table. We wrote the requirement specification, ran a final brainstorm, and a solar drying concept appeared that had not existed before.",
-    "In the second round we presented three concepts to the remaining farmers. The tower drew the strongest response, and we selected it.",
+  /**
+   * Part 1 opens on the photograph, so the copy is one line and deliberately does NOT
+   * announce the winner. The comparison in Part 3 has to do that, or the section stops
+   * being a decision and becomes an announcement followed by an illustration.
+   */
+  intro: "We took the concepts back to the farmers twice.",
+  /**
+   * The two evaluation rounds as structural markers under the photograph, not a
+   * paragraph. This is where the first-round facts live (drying table preferred, the
+   * requirement specification and the brainstorm that produced the solar concept).
+   */
+  rounds: [
+    { n: "Round one", text: "Ideas shown to three farmers, each of us sketching in our own hand. They preferred a drying table." },
+    { n: "Round two", text: "After a requirement specification and a final brainstorm, three concepts, all redrawn by one person." },
   ],
   /** The three sketches presented in the second round. Source: `Desktop - 14.pdf`. */
   options: [
@@ -173,11 +183,26 @@ export const concepts = {
     { name: "The drying tower", slug: "tower", selected: true },
     { name: "The drying box", slug: "box", selected: false },
   ],
-  methodHeading: "A problem with our own method",
+  /**
+   * Part 2. Sits between the photograph and the comparison because it is the reason the
+   * comparison is trustworthy at all - a design decision, not a footnote. Held to ~40
+   * words so it stays a hinge in the sequence rather than a third block of copy.
+   */
+  methodStep: "Method correction",
+  methodHeading: "We changed the method before we asked again",
   method:
-    "In the first round our sketches were drawn by different people at different levels of detail, and the farmers knew who had drawn what. Both could have shaped their answers. For the second round one person drew every concept and we removed the authorship.",
-  caveat:
-    "Farmer preference told us which concept was worth developing. It did not tell us whether the concept would work.",
+    "The first sketches came from different hands at different levels of finish, and the farmers knew who had drawn what. Before the second round one person redrew every concept in the same hand, so the farmers were judging ideas, not drawings.",
+  /** Part 3. Names what actually happened, rather than a generic SELECTED badge. */
+  selectedNote: "Strongest response in the second evaluation",
+  conclusion: "The Drying Tower received the strongest response, so we developed it further.",
+  /**
+   * PARKED, deliberately not rendered in 06. The sentence was:
+   *   "Farmer preference told us which concept was worth developing. It did not tell us
+   *    whether the concept would work."
+   * Section 06 now ends on a single conclusion line, and section 09 ("Not built, not
+   * validated") already carries the validation caveat in full. Restore it here only if
+   * 09 ever loses that group.
+   */
 };
 
 /**

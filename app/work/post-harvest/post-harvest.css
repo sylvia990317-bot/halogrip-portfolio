@@ -203,25 +203,58 @@ figure { margin: 0; }
 .ph-figures { display: flex; align-items: flex-end; gap: clamp(16px, 2.4vw, 36px); margin-top: 26px; }
 .ph-figures img { height: clamp(110px, 15vw, 190px); width: auto; mix-blend-mode: multiply; }
 
-/* ================= 06 CONCEPTS ================= */
+/* ================= 06 CONCEPTS =================
+   Rebuilt as one continuous sequence: field photograph -> method correction -> decision.
+   Mobile-first here is a single stacked column; the composition (bleed, asymmetric head
+   column, the blue field behind the tower) is added at >=768px in the responsive block. */
 
-/* The sketch-review photograph is the visual centre; head and copy sit against it and
-   the two columns are bottom-aligned so neither dangles. */
-.ph-concepts { display: grid; grid-template-columns: 1fr; gap: clamp(24px, 3.5vw, 56px); align-items: end; }
-.ph-concepts-photo img { width: 100%; height: auto; }
+/* ---- 1 / Returning to the field ----
+   The photograph is the opening, so it takes the width and bleeds to the viewport edge;
+   the head is a narrow column bottom-anchored against it. One line of copy only. */
+.ph-return { display: grid; grid-template-columns: 1fr; gap: clamp(20px, 2.6vw, 36px); }
+.ph-return-frame { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; background: var(--paper-sunk); }
+.ph-return-figure figcaption { margin-top: 10px; }
 
-/* The three concept sketches as an asymmetric trio: the chosen one is wider and sits
-   lower, so the row reads as a decision rather than three equal options. */
-.ph-trio { list-style: none; margin: clamp(30px, 4vw, 60px) 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: clamp(20px, 2.6vw, 40px); align-items: end; }
-.ph-trio li { display: grid; gap: 9px; }
-.ph-trio img { width: 100%; height: auto; background: #fff; border: 1px solid var(--line); }
-.ph-trio h3 { margin: 0; font-family: var(--ph-serif), Georgia, serif; font-size: var(--fs-lead); font-weight: 400; color: var(--muted); line-height: 1.15; }
-.ph-trio li[data-selected="true"] h3 { color: var(--ink); font-weight: 500; }
-.ph-trio li[data-selected="true"] img { border-color: var(--blue); }
-.ph-picked { font-family: var(--ph-mono), ui-monospace, monospace; font-size: 10px; letter-spacing: 0.11em; text-transform: uppercase; color: var(--blue); }
-.ph-method { border-left: 2px solid var(--blue); padding-left: 16px; margin-top: var(--block-y); max-width: var(--measure); }
-.ph-method h3 { margin: 0 0 8px; font-size: var(--fs-small); font-weight: 600; }
-.ph-caveat { margin-top: 22px; font-size: var(--fs-small); color: var(--muted); max-width: 40ch; }
+/* Two markers, not a paragraph: they make "twice" structural and carry the first-round
+   facts without reopening a block of body copy. */
+.ph-rounds { list-style: none; margin: 0; padding: 14px 0 0; display: grid; gap: clamp(14px, 1.8vw, 26px); border-top: 1px solid var(--line); }
+.ph-rounds li { display: grid; gap: 5px; align-content: start; }
+.ph-rounds b { font-family: var(--ph-mono), ui-monospace, monospace; font-size: var(--fs-mono); font-weight: 400; letter-spacing: 0.11em; text-transform: uppercase; color: var(--blue); }
+.ph-rounds span { font-size: var(--fs-small); line-height: 1.5; color: var(--ink-soft); max-width: 44ch; }
+
+/* ---- 2 / Correcting the method ----
+   Placed between the photograph and the comparison, on a full-width blue rule, at lead
+   size. It reads as the decision that made the second round worth trusting. */
+.ph-method { margin-top: clamp(38px, 4.6vw, 72px); padding-top: clamp(16px, 2vw, 26px); border-top: 2px solid var(--blue); display: grid; gap: clamp(12px, 1.6vw, 24px); }
+.ph-method-step { margin: 0 0 9px; color: var(--blue); }
+.ph-method h3 { margin: 0; font-family: var(--ph-serif), Georgia, serif; font-size: clamp(19px, 1.7vw, 26px); font-weight: 500; line-height: 1.12; letter-spacing: -0.015em; max-width: 19ch; text-wrap: balance; }
+.ph-method-copy { margin: 0; font-size: var(--fs-lead); line-height: 1.5; color: var(--ink); max-width: 60ch; text-wrap: pretty; }
+
+/* ---- 3 / The decision ----
+   One controlled comparison. Every drawing sits in the same frame ratio and is scaled
+   102% inside it, which trims the page edges left on the source scans uniformly, so the
+   three line up. Weight comes from column width and contrast, never from card chrome. */
+.ph-choice { list-style: none; margin: clamp(34px, 4.2vw, 62px) 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: clamp(24px, 3vw, 44px); }
+.ph-choice-item { display: grid; gap: 10px; }
+.ph-choice-frame { position: relative; aspect-ratio: 27 / 20; overflow: hidden; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; }
+.ph-choice-frame img { width: 102%; height: 102%; max-width: none; object-fit: contain; }
+.ph-choice-cap { display: grid; gap: 7px; align-content: start; }
+.ph-choice-cap h3 { margin: 0; font-family: var(--ph-serif), Georgia, serif; font-size: var(--fs-lead); font-weight: 400; line-height: 1.15; color: var(--muted); }
+
+/* The two it beat: readable, but quieter. Weight comes from the narrower column plus
+   reduced contrast; they lose the panel entirely so nothing here reads as a card. */
+.ph-choice-item:not([data-selected="true"]) .ph-choice-frame { opacity: 0.68; filter: saturate(0.6); border-color: transparent; background: transparent; }
+
+/* The chosen one. */
+.ph-choice-item[data-selected="true"] .ph-choice-frame { border-color: var(--blue); }
+.ph-choice-item[data-selected="true"] .ph-choice-cap h3 { color: var(--ink); font-weight: 500; font-size: clamp(20px, 1.9vw, 28px); letter-spacing: -0.01em; }
+.ph-choice-note { margin: 0; font-family: var(--ph-mono), ui-monospace, monospace; font-size: var(--fs-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); line-height: 1.5; }
+
+/* Below 768px there is no blue field element, so the chosen caption carries the blue. */
+.ph-choice-field { display: none; }
+
+/* One closing line, at quote scale, so the section resolves instead of trailing off. */
+.ph-choice-out { margin: clamp(28px, 3.4vw, 52px) 0 0; padding-top: clamp(14px, 1.6vw, 22px); border-top: 2px solid var(--blue); font-family: var(--ph-serif), Georgia, serif; font-size: clamp(20px, 2.1vw, 31px); font-weight: 500; line-height: 1.16; letter-spacing: -0.015em; max-width: 30ch; text-wrap: balance; }
 
 /* ================= 07 FINAL CONCEPT (blue reveal field) ================= */
 
@@ -340,17 +373,62 @@ figure { margin: 0; }
   .ph-context { grid-template-columns: 5fr 7fr; }
   .ph-focus { grid-template-columns: 5fr 7fr; }
   .ph-challenge { grid-template-columns: 7fr 5fr; }
-  .ph-concepts { grid-template-columns: 5fr 7fr; }
   .ph-mech-figs { grid-template-columns: 1fr 1fr; }
   .ph-status-grid { grid-template-columns: 7fr 5fr; }
   .ph-field-foot { grid-template-columns: 6fr 5fr; }
   .ph-reflect { grid-template-columns: 7fr 5fr; }
-  /* Chosen concept wider than the two it beat. */
-  .ph-trio { grid-template-columns: 4fr 5fr 4fr; }
   .ph-insights { grid-template-columns: 1fr 1fr; column-gap: clamp(28px, 3.2vw, 56px); }
   .ph-reflect { grid-template-columns: 7fr 5fr; }
-  .ph-trio li[data-selected="true"] { padding-bottom: 0; }
-  .ph-trio li:not([data-selected="true"]) { padding-bottom: clamp(14px, 2vw, 30px); }
+
+  /* ---- 06 / 1 — the photograph takes the width and bleeds to the viewport edge, the
+     head is a narrow column anchored to its baseline. Not a 50/50 split. ---- */
+  .ph-return {
+    grid-template-columns: minmax(230px, 26fr) 74fr;
+    column-gap: clamp(26px, 3vw, 48px);
+    row-gap: clamp(18px, 2.2vw, 30px);
+  }
+  .ph-return-head { grid-column: 1; grid-row: 1; align-self: end; }
+  .ph-return-figure { grid-column: 2; grid-row: 1; margin-right: calc(var(--edge) * -1); }
+  .ph-return-frame { aspect-ratio: auto; height: clamp(320px, 46vh, 540px); }
+  .ph-rounds { grid-column: 2; grid-row: 2; grid-template-columns: 1fr 1fr; column-gap: clamp(26px, 3vw, 48px); }
+
+  /* ---- 06 / 2 — the correction reads across the page on its blue rule. ---- */
+  .ph-method { grid-template-columns: minmax(230px, 26fr) 74fr; column-gap: clamp(26px, 3vw, 48px); align-items: start; }
+
+  /* ---- 06 / 3 — the tower's column is ~1.45x each alternative, and it stands on a blue
+     field that spans both grid rows and pushes out into both gaps. Items are
+     `display: contents`, so all three frames share row 1 and all three captions share
+     row 2: the drawings align on one baseline and the labels on one line. ---- */
+  .ph-choice {
+    grid-template-columns: 3.4fr 5fr 3.4fr;
+    grid-template-rows: auto auto;
+    column-gap: clamp(28px, 3.6vw, 54px);
+    row-gap: 0;
+  }
+  .ph-choice-item { display: contents; }
+  .ph-choice-item > * { position: relative; z-index: 1; }
+  .ph-choice-item:nth-child(2) > * { grid-column: 1; }
+  .ph-choice-item:nth-child(3) > * { grid-column: 2; }
+  .ph-choice-item:nth-child(4) > * { grid-column: 3; }
+  .ph-choice-frame { grid-row: 1; align-self: end; }
+  .ph-choice-cap { grid-row: 2; align-self: start; padding-top: 11px; }
+
+  .ph-choice-field {
+    display: block;
+    grid-column: 2; grid-row: 1 / 3;
+    background: var(--blue);
+    margin: clamp(84px, 11.5vw, 200px) calc(clamp(16px, 2.4vw, 36px) * -1) calc(clamp(16px, 2vw, 28px) * -1);
+  }
+  /* The chosen caption sits inside the blue field, so the label is part of the field
+     rather than a badge floating next to it. */
+  .ph-choice-item[data-selected="true"] .ph-choice-cap {
+    padding: clamp(14px, 1.7vw, 24px) clamp(14px, 1.8vw, 26px) clamp(16px, 2vw, 28px);
+  }
+  .ph-choice-item[data-selected="true"] .ph-choice-cap h3 { color: var(--on-blue); }
+  .ph-choice-item[data-selected="true"] .ph-choice-note { color: var(--on-blue-dim); }
+  .ph-choice-item[data-selected="true"] .ph-choice-frame { border-color: transparent; }
+  /* The alternatives are quieter partly by being held back off the shared baseline. */
+  .ph-choice-item:not([data-selected="true"]) .ph-choice-frame { margin-bottom: clamp(10px, 1.4vw, 22px); }
 
   .ph-tower-head { grid-template-columns: 1fr 1fr; align-items: end; }
   .ph-outcome { grid-template-columns: 7fr 5fr; gap: clamp(30px, 4vw, 60px); }
@@ -375,7 +453,10 @@ figure { margin: 0; }
   .ph-context { grid-template-columns: 4.5fr 7.5fr; }
   .ph-focus { grid-template-columns: 4.5fr 7.5fr; }
   .ph-challenge { grid-template-columns: 7.5fr 4.5fr; }
-  .ph-concepts { grid-template-columns: 4.5fr 7.5fr; }
+  /* The photograph and the comparison take the extra width, not the copy columns. */
+  .ph-return { grid-template-columns: minmax(240px, 23fr) 77fr; }
+  .ph-method { grid-template-columns: minmax(240px, 23fr) 77fr; }
+  .ph-choice { grid-template-columns: 3.3fr 5fr 3.3fr; }
   .ph-outcome { grid-template-columns: 7.5fr 4.5fr; }
   .ph-reflect { grid-template-columns: 7fr 5fr; }
   /* Portraits gain size on a large display rather than leaving a sparse band. */
@@ -403,9 +484,15 @@ figure { margin: 0; }
   .ph-person { scroll-snap-align: start; }
   .ph-person img { max-height: 210px !important; }
 
-  .ph-choice li[data-selected="true"] { font-size: 24px; }
-  .ph-concepts-photo img { aspect-ratio: 4 / 5; }
   .ph-closing img { aspect-ratio: 3 / 2; }
+
+  /* 06 stacks, and the blue field becomes a block behind the chosen caption. */
+  .ph-return-frame { aspect-ratio: 4 / 5; }
+  .ph-choice-item[data-selected="true"] .ph-choice-cap {
+    background: var(--blue); padding: 14px 16px 18px; margin-top: -1px;
+  }
+  .ph-choice-item[data-selected="true"] .ph-choice-cap h3 { color: var(--on-blue); }
+  .ph-choice-item[data-selected="true"] .ph-choice-note { color: var(--on-blue-dim); }
 
   .ph-stages { grid-template-columns: 1fr; gap: 0; }
   .ph-stages li { border-top: 0; border-left: 2px solid var(--line); padding: 7px 0 7px 13px; }

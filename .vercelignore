@@ -1,0 +1,28 @@
+# Controls what the Vercel CLI uploads. Without this file the CLI uploads the whole
+# directory (it does not read .gitignore), which came to 265 MB and failed on Vercel's
+# 100 MB per-file limit because of the source booklet ZIP.
+#
+# Everything listed here is local research or design source material that the site never
+# serves. Converted, web-ready assets live in public/post-harvest/ and are NOT excluded.
+
+# Raw research and design source (also gitignored)
+references/
+design-source/
+scratch/
+*.zip
+
+# Build output and dependencies: Vercel installs and builds these itself
+node_modules/
+.next/
+out/
+
+# Local-only notes and one-off conversion scripts, not needed at runtime
+docs/
+scripts/
+
+# Old self-hosted fonts superseded by next/font, kept on disk but unused
+public/fonts/
+
+# Logs
+dev-server.log
+dev-server-err.log
