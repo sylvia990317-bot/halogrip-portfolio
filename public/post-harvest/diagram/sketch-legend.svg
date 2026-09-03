@@ -1,0 +1,13 @@
+<svg font-family="Geist, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 66" width="800" role="img" aria-label="Legend for the concept sketches. Red arrows are solar gain, blue arrows are airflow, yellow is maize, brown is timber.">
+<rect width="800" height="66" fill="#fbfbfa"/>
+
+<line x1="10" y1="33" x2="35" y2="33" stroke="#b0604e" stroke-width="2.4"/><path d="M34,28 L44,33 L34,38 z" fill="#b0604e"/>
+<text x="58" y="38.5" class="s" font-size="15" fill="#454b54">Solar gain</text>
+<line x1="186" y1="33" x2="211" y2="33" stroke="#3f6d85" stroke-width="2.4"/><path d="M210,28 L220,33 L210,38 z" fill="#3f6d85"/>
+<text x="234" y="38.5" class="s" font-size="15" fill="#454b54">Airflow</text>
+<rect x="336.8" y="23" width="21" height="21" rx="2" fill="#b59a45"/>
+<text x="369.8" y="38.5" class="s" font-size="15" fill="#454b54">Maize</text>
+<rect x="455.8" y="23" width="21" height="21" rx="2" fill="#a07c56"/>
+<text x="488.8" y="38.5" class="s" font-size="15" fill="#454b54">Timber</text>
+<text x="790" y="38" text-anchor="end" class="m" font-size="11" letter-spacing="0.08em" fill="#787d85">AS DRAWN IN ALL THREE SKETCHES</text>
+</svg>

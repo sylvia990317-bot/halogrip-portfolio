@@ -1,0 +1,63 @@
+<svg font-family="Geist, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 812" width="920" role="img" aria-label="Requirement list, eighteen requirements with empty checkboxes">
+<rect width="920" height="812" fill="#fbfbfa"/>
+<text x="26" y="40" class="s" font-size="21" font-weight="600" fill="#14161a">Requirement list</text>
+<text x="894" y="40" text-anchor="end" class="m" font-size="11.5" letter-spacing="0.09em" fill="#787d85">SET BEFORE CONCEPT WORK · BOOKLET P.26</text>
+<line x1="26" y1="56" x2="894" y2="56" stroke="#14161a" stroke-width="1.4"/>
+<text x="26" y="90" class="m" font-size="11" letter-spacing="0.12em" fill="#787d85">MANDATORY</text>
+<rect x="26" y="120" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="133" class="s" font-size="15" fill="#14161a">Collect or generate heat</text>
+<line x1="26" y1="144" x2="894" y2="144" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="153" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="166" class="s" font-size="15" fill="#14161a">Generate airflow</text>
+<line x1="26" y1="177" x2="894" y2="177" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="186" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="199" class="s" font-size="15" fill="#14161a">Contain maize</text>
+<line x1="26" y1="210" x2="894" y2="210" stroke="#e3e4e2" stroke-width="1"/>
+<text x="26" y="233" class="m" font-size="11" letter-spacing="0.12em" fill="#787d85">DESIRED FEATURES</text>
+<rect x="26" y="263" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="276" class="s" font-size="15" fill="#14161a">Should not take up too much space in storage</text>
+<line x1="26" y1="287" x2="894" y2="287" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="296" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="309" class="s" font-size="15" fill="#14161a">Modular, so it can be adapted to different needs</text>
+<line x1="26" y1="320" x2="894" y2="320" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="329" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="342" class="s" font-size="15" fill="#14161a">Space-efficient, scaling to the quantity of grain dried</text>
+<line x1="26" y1="353" x2="894" y2="353" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="362" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="375" class="s" font-size="15" fill="#14161a">Grain loss during drying should be minimised</text>
+<line x1="26" y1="386" x2="894" y2="386" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="395" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="408" class="s" font-size="15" fill="#14161a">Prevent grain from being polluted by animals</text>
+<line x1="26" y1="419" x2="894" y2="419" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="428" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="441" class="s" font-size="15" fill="#14161a">Process more than 50 kg of grain at once</text>
+<line x1="26" y1="452" x2="894" y2="452" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="461" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="474" class="s" font-size="15" fill="#14161a">Usable by one person</text>
+<line x1="26" y1="485" x2="894" y2="485" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="494" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="507" class="s" font-size="15" fill="#14161a">Keep the grain dry throughout the drying process</text>
+<line x1="26" y1="518" x2="894" y2="518" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="527" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="540" class="s" font-size="15" fill="#14161a">Preparation time no longer than the traditional way</text>
+<line x1="26" y1="551" x2="894" y2="551" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="560" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="573" class="s" font-size="15" fill="#14161a">Bagging no slower than the traditional way</text>
+<line x1="26" y1="584" x2="894" y2="584" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="593" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="606" class="s" font-size="15" fill="#14161a">Drying time shorter than the traditional way</text>
+<line x1="26" y1="617" x2="894" y2="617" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="626" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="639" class="s" font-size="15" fill="#14161a">Structure should not deteriorate</text>
+<line x1="26" y1="650" x2="894" y2="650" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="659" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="672" class="s" font-size="15" fill="#14161a">Prevent small animals eating grain during drying</text>
+<line x1="26" y1="683" x2="894" y2="683" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="692" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="705" class="s" font-size="15" fill="#14161a">Prevent grain theft</text>
+<line x1="26" y1="716" x2="894" y2="716" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="26" y="725" width="15" height="15" rx="2" fill="none" stroke="#14161a" stroke-width="1.3"/>
+<text x="60" y="738" class="s" font-size="15" fill="#14161a">Weevils eradicated from the grain after drying</text>
+<line x1="26" y1="749" x2="894" y2="749" stroke="#e3e4e2" stroke-width="1"/>
+<text x="26" y="774" class="s" font-size="13.5" fill="#454b54">18 requirements. Section 09 returns to this list with the team’s own marks.</text>
+</svg>

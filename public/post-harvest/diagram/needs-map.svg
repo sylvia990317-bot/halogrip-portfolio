@@ -1,0 +1,42 @@
+<svg font-family="Geist, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="1000" role="img" aria-label="Expressed needs and latent needs drawn as two overlapping sets. Drying process and knowledge gap are highlighted.">
+<rect width="1000" height="640" fill="#fbfbfa"/>
+<circle cx="330" cy="320" r="225" fill="none" stroke="#14161a" stroke-width="1.4" stroke-dasharray="2 7" stroke-linecap="round"/>
+<circle cx="700" cy="320" r="180" fill="none" stroke="#14161a" stroke-width="1.4" stroke-dasharray="2 7" stroke-linecap="round"/>
+<circle cx="250" cy="300" r="70" fill="#e6ebf4" stroke="#17357a" stroke-width="1.8"/>
+<text x="250" y="297.205" text-anchor="middle" class="s" font-size="13" font-weight="600" fill="#17357a" letter-spacing="0.02em">DRYING</text><text x="250" y="312.155" text-anchor="middle" class="s" font-size="13" font-weight="600" fill="#17357a" letter-spacing="0.02em">PROCESS</text>
+<circle cx="415" cy="392" r="58" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="415" y="396.68" text-anchor="middle" class="s" font-size="13" font-weight="500" fill="#454b54" letter-spacing="0.02em">STORAGE</text>
+<circle cx="400" cy="212" r="56" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="400" y="209.52749999999997" text-anchor="middle" class="s" font-size="11.5" font-weight="500" fill="#454b54" letter-spacing="0.02em">TRANSPORTATION</text><text x="400" y="222.75249999999997" text-anchor="middle" class="s" font-size="11.5" font-weight="500" fill="#454b54" letter-spacing="0.02em">OF CROPS</text>
+<circle cx="285" cy="162" r="52" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="285" y="159.52749999999997" text-anchor="middle" class="s" font-size="11.5" font-weight="500" fill="#454b54" letter-spacing="0.02em">WATER FOR</text><text x="285" y="172.75249999999997" text-anchor="middle" class="s" font-size="11.5" font-weight="500" fill="#454b54" letter-spacing="0.02em">DAILY USE</text>
+<circle cx="198" cy="415" r="44" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="198" y="412.635" text-anchor="middle" class="s" font-size="11" font-weight="500" fill="#454b54" letter-spacing="0.02em">EXTREME</text><text x="198" y="425.28499999999997" text-anchor="middle" class="s" font-size="11" font-weight="500" fill="#454b54" letter-spacing="0.02em">CLIMATE</text>
+<circle cx="332" cy="478" r="62" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="332" y="470.1" text-anchor="middle" class="s" font-size="10" font-weight="500" fill="#454b54" letter-spacing="0.02em">EFFECTIVENESS</text><text x="332" y="481.6" text-anchor="middle" class="s" font-size="10" font-weight="500" fill="#454b54" letter-spacing="0.02em">REGARDING</text><text x="332" y="493.1" text-anchor="middle" class="s" font-size="10" font-weight="500" fill="#454b54" letter-spacing="0.02em">HARVEST</text>
+<circle cx="112" cy="214" r="30" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="112" y="211.85" text-anchor="middle" class="s" font-size="10" font-weight="500" fill="#454b54" letter-spacing="0.02em">small</text><text x="112" y="223.35" text-anchor="middle" class="s" font-size="10" font-weight="500" fill="#454b54" letter-spacing="0.02em">animals</text>
+<circle cx="80" cy="320" r="28" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="80" y="323.6" text-anchor="middle" class="s" font-size="10" font-weight="500" fill="#454b54" letter-spacing="0.02em">stealing</text>
+<circle cx="96" cy="420" r="28" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="96" y="423.6" text-anchor="middle" class="s" font-size="10" font-weight="500" fill="#454b54" letter-spacing="0.02em">raining</text>
+<circle cx="152" cy="352" r="30" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="152" y="349.95750000000004" text-anchor="middle" class="s" font-size="9.5" font-weight="500" fill="#454b54" letter-spacing="0.02em">transport-</text><text x="152" y="360.88250000000005" text-anchor="middle" class="s" font-size="9.5" font-weight="500" fill="#454b54" letter-spacing="0.02em">ation</text>
+<circle cx="412" cy="432" r="26" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="412" y="435.6" text-anchor="middle" class="s" font-size="10" font-weight="500" fill="#454b54" letter-spacing="0.02em">weevils</text>
+<circle cx="462" cy="448" r="24" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="462" y="451.6" text-anchor="middle" class="s" font-size="10" font-weight="500" fill="#454b54" letter-spacing="0.02em">space</text>
+<circle cx="700" cy="253" r="88" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="700" y="249.775" text-anchor="middle" class="s" font-size="15" font-weight="500" fill="#454b54" letter-spacing="0.02em">INFRA-</text><text x="700" y="267.025" text-anchor="middle" class="s" font-size="15" font-weight="500" fill="#454b54" letter-spacing="0.02em">STRUCTURE</text>
+<circle cx="802" cy="372" r="46" fill="#f2f2f0" stroke="#c4c6c9" stroke-width="1.1"/>
+<text x="802" y="369.635" text-anchor="middle" class="s" font-size="11" font-weight="500" fill="#454b54" letter-spacing="0.02em">INDEPEN-</text><text x="802" y="382.28499999999997" text-anchor="middle" class="s" font-size="11" font-weight="500" fill="#454b54" letter-spacing="0.02em">DENCE</text>
+<circle cx="648" cy="412" r="54" fill="#e6ebf4" stroke="#17357a" stroke-width="1.8"/>
+<text x="648" y="409.42" text-anchor="middle" class="s" font-size="12" font-weight="600" fill="#17357a" letter-spacing="0.02em">KNOWLEDGE</text><text x="648" y="423.22" text-anchor="middle" class="s" font-size="12" font-weight="600" fill="#17357a" letter-spacing="0.02em">GAP</text>
+<text x="330" y="126" text-anchor="middle" class="m" font-size="12.5" letter-spacing="0.14em" fill="#14161a">EXPRESSED NEED</text>
+<text x="700" y="524" text-anchor="middle" class="m" font-size="12.5" letter-spacing="0.14em" fill="#14161a">LATENT NEED</text>
+<path d="M250,370 L250,566 L300,566" fill="none" stroke="#17357a" stroke-width="1.3"/>
+<text x="310" y="571" class="s" font-size="14.5" fill="#17357a">What farmers named as the problem</text>
+<path d="M648,466 L648,606 L698,606" fill="none" stroke="#17357a" stroke-width="1.3"/>
+<text x="708" y="611" class="s" font-size="14.5" fill="#17357a">What they did not name, and what we found</text>
+<text x="26" y="34" class="m" font-size="11.5" letter-spacing="0.11em" fill="#787d85">EXPRESSED VS LATENT NEED &#183; BOOKLET P.21</text>
+</svg>
