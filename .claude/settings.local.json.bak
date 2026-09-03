@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm *)",
+      "localhost is ok to visite"
+    ]
+  }
+}

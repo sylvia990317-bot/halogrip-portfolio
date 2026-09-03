@@ -481,49 +481,119 @@ export default function PostHarvestPage() {
         </div>
       </section>
 
-      {/* ============ 09 Prototype status and next steps ============ */}
-      <section className="ph-section ph-section-sunk" id="status">
+      {/* ============ 09 What we completed, and what remained open ============
+          One continuous evidence boundary, not four stacked hairline lists. The section's
+          single statement is split across that boundary: its first half is set on the
+          solid ink band beside the two finished outputs, its second half opens the light
+          block that carries the unbuilt tower. Solidity, scale and opacity carry evidence
+          status — a filled surface means it exists, an outline drawing means it does not,
+          so the completed/unbuilt distinction lands before any of the copy is read.
+          The three design claims hang off the drawing itself with explicit evidence
+          labels, so none of them can be mistaken for a measurement. */}
+      <section className="ph-section ph-section-sunk ph-status" id="status">
         <div className="ph-shell">
           <Reveal>
-            <SectionHead n="09" heading={status.heading} lead={status.intro} />
+            <div className="ph-status-head">
+              <p className="ph-figure-num">09</p>
+              <h2 className="ph-h2">{status.heading}</h2>
+            </div>
           </Reveal>
 
+          {/* --- 1 / Completed — the solid side of the boundary --------------------
+              Ink band bleeding to both viewport edges. The handbook spread is the one
+              photographic artifact; both outputs carry the same typographic weight so
+              the collector is not demoted by having no photograph of its own.
+              TODO(sylvia): if you have a photo of the built collector left with the
+              farmer, it belongs here as a second plate beside the handbook. */}
           <Reveal>
-            <div className="ph-status-grid">
-              <div className="ph-states">
-                {status.groups.map((g) => (
-                  <div className="ph-state" data-key={g.key} key={g.key}>
-                    <h3>{g.label}</h3>
-                    <ul>
-                      {g.items.map((it) => <li key={it.text}>{it.text}</li>)}
-                    </ul>
-                  </div>
-                ))}
-                {/* Marked as a note so it does not read as a fourth item under
-                    "Not built, not validated". The limitation itself is kept in full. */}
-                <p className="ph-limit">{status.limitation}</p>
+            <div className="ph-done">
+              <div className="ph-done-say">
+                <p className="ph-done-label">{status.completed.label}</p>
+                <p className="ph-done-claim">{status.claimSolid}</p>
+                <ul className="ph-done-items">
+                  {status.completed.items.map((it) => (
+                    <li key={it.name}>
+                      <h3>{it.name}</h3>
+                      <p>{it.note}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              {/* The next step is a drawing the team made, so it carries this column. */}
-              <div>
-                <figure className="ph-next">
-                  <Image
-                    className="ph-figimg"
-                    src="/post-harvest/diagram/next-step-1100.webp"
-                    alt="The team's closing illustration: a farmer walking across a field carrying a container"
-                    width={1100} height={758} sizes="(max-width: 767px) 92vw, 38vw"
-                  />
-                  <figcaption className="ph-next-cap">
-                    <strong>{status.nextStep.label}</strong>
-                    <span>{status.nextStep.text}</span>
-                  </figcaption>
-                </figure>
+              <figure className="ph-done-plate">
+                <Image
+                  src="/post-harvest/handbook/handbook-tools-1200.webp"
+                  alt="A spread from the finished construction handbook headed Tools needed, listing tape measure, hammer, pliers, wrench, drill, drill bits, welding machine, angle grinder, paint brush and silicon gun"
+                  width={1200} height={850}
+                  sizes="(max-width: 899px) 88vw, 34vw"
+                />
+              </figure>
+            </div>
+          </Reveal>
 
-                <h3 className="ph-mono" style={{ margin: "var(--block-y) 0 0" }}>{status.openHeading}</h3>
-                <ul className="ph-open" style={{ marginTop: 14 }}>
+          {/* --- 2 / Designed or calculated, not measured --------------------------
+              The paper side. Same drawing weight as the handbook plate above, but
+              outline linework held back in opacity: present as an intention, absent as
+              an object. The claims are annotations on it, not a list beside it. */}
+          <Reveal>
+            <div className="ph-open-block">
+              <p className="ph-open-claim">{status.claimOpen}</p>
+
+              <div className="ph-unbuilt">
+                <div className="ph-unbuilt-fig">
+                  <p className="ph-mono ph-unbuilt-label">{status.designed.label}</p>
+                  <figure className="ph-ghost">
+                    <Image
+                      src="/post-harvest/diagram/tower-door-1200.webp"
+                      alt="Line drawing of the complete drying tower with its door open, showing the stack of shelves inside, the chimney above and the solar collector attached at the base"
+                      width={1200} height={850}
+                      sizes="(max-width: 899px) 92vw, 52vw"
+                      priority={false}
+                    />
+                    {/* Anchored to the drawing by percentage, so the leaders keep
+                        pointing at the right parts at every width. Below 900px these
+                        drop under the drawing as a plain list (see the CSS). */}
+                    {status.designed.claims.map((c) => (
+                      <span className="ph-claim" data-at={c.slug} key={c.slug}>
+                        <b>{c.v}</b>
+                        <i>{c.k}</i>
+                      </span>
+                    ))}
+                  </figure>
+                </div>
+
+                <div className="ph-unvalidated">
+                  <p className="ph-mono">{status.notValidated.label}</p>
+                  <p className="ph-unvalidated-text">{status.notValidated.text}</p>
+                  <p className="ph-unvalidated-season">{status.notValidated.season}</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* --- 3 / Next step ------------------------------------------------------
+              The team's own closing drawing runs off the right edge so it reads as
+              forward motion out of the section rather than as a framed illustration
+              sitting inside it. The action is the loudest line in the block; the three
+              questions sit under it as the terms of that test. */}
+          <Reveal>
+            <div className="ph-forward">
+              <div className="ph-forward-say">
+                <p className="ph-mono">{status.nextStep.label}</p>
+                <p className="ph-forward-action">{status.nextStep.text}</p>
+                <ul className="ph-open">
                   {status.open.map((q) => <li key={q}>{q}</li>)}
                 </ul>
               </div>
+
+              <figure className="ph-forward-fig">
+                <Image
+                  src="/post-harvest/diagram/next-step-1100.webp"
+                  alt="The team's closing illustration: a farmer walking across a green field towards the horizon, carrying a container"
+                  width={1100} height={758}
+                  sizes="(max-width: 899px) 100vw, 52vw"
+                />
+              </figure>
             </div>
           </Reveal>
         </div>

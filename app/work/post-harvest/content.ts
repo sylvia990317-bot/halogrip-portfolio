@@ -294,53 +294,59 @@ export const mechanism = {
   quote: { text: "So in theory this should work, but there are a lot of variables.", attribution: "Project report, 2024", page: 35 },
 };
 
-/** 09. Prototype status and next steps */
 /**
- * 09. Grouped into four states rather than one flat list, so the reader can see at a glance
- * what exists, what is only specified, what was never built, and what happens next.
+ * 09. Composed around ONE statement, not four parallel lists: the handbook and the
+ * collector exist, the tower does not. Everything else in the section is subordinate to
+ * that distinction, which is why the statement is split in two here — `claimSolid` is set
+ * on the solid band beside the finished work, `claimOpen` opens the light block that
+ * carries the unbuilt tower. The earlier four-state grouping gave every claim the same
+ * visual weight, so the reader had to audit the section rather than read it.
  */
 export const status = {
-  heading: "What was built, and what was not",
-  intro: "Four different things, and they are not the same kind of claim.",
-  groups: [
-    {
-      key: "completed",
-      label: "Completed",
-      items: [
-        { text: "The construction handbook, with measurements and guidelines for building the tower.", page: 44 },
-        { text: "The metal solar collector, prototyped and left with a farmer.", page: 44 },
-      ],
-    },
-    {
-      key: "specified",
-      label: "Specified, not measured",
-      items: [
-        { text: "Estimated capacity of about 100 kg, calculated from shelf dimensions and maize bulk density.", page: 36 },
-        { text: "That the airflow and temperature would be sufficient.", page: 35 },
-      ],
-    },
-    {
-      key: "not-built",
-      label: "Not built, not validated",
-      items: [
-        { text: "The complete drying tower was never constructed.", page: 44 },
-        { text: "No one has yet built the tower from the handbook.", page: 44 },
-      ],
-    },
-  ],
+  heading: "What we completed, and what remained open",
+
+  claimSolid: "We completed the construction handbook and the solar collector.",
+  claimOpen: "The full tower remained unbuilt and untested.",
+
+  completed: {
+    label: "Completed",
+    items: [
+      { name: "Construction handbook", note: "Measurements, cut list, tools and assembly steps.", page: 44 },
+      { name: "Metal solar collector", note: "Prototyped, and left with a farmer.", page: 44 },
+    ],
+  },
+
+  /* Attached to the tower drawing rather than listed, each carrying its own evidence
+     label. None of these were physically measured, and the wording must not imply that
+     they were. `slug` positions the annotation against the drawing (see the CSS). */
+  designed: {
+    label: "Designed or calculated, not measured",
+    claims: [
+      { slug: "airflow", v: "Airflow and temperature", k: "Concept assumption", page: 35 },
+      { slug: "shelves", v: "10 shelves", k: "Design specification", page: 36 },
+      { slug: "capacity", v: "Approx. 100 kg", k: "Calculated capacity", page: 36 },
+    ],
+  },
+
+  notValidated: {
+    label: "Not validated",
+    text: "The full tower was not constructed, and the handbook was not tested through a real build.",
+    /* The missed season is the cause of that limitation, so it is stated with it rather
+       than floated separately elsewhere in the section. */
+    season: "We also missed the harvest season, so we could not establish a baseline or test drying performance under the intended conditions.",
+  },
+
   nextStep: {
-    label: "The intended next step",
-    text: "Construct the tower from the handbook, then evaluate it.",
+    label: "Next step",
+    text: "Build the complete tower from the handbook, then test it during the harvest season.",
     page: 44,
   },
-  limitation:
-    "We missed the harvest season, so we could not measure the current drying method. Without that baseline we could not show whether the design improves on it.",
-  openHeading: "Still open",
+
+  openHeading: "Open questions",
   open: [
-    "Is the airflow and temperature inside sufficient?",
-    "How much maize can it actually process?",
-    "How does it behave when rain arrives suddenly?",
-    "Is it better than drying on a tarp?",
+    "Does it create sufficient airflow and temperature?",
+    "How much maize can it dry in practice?",
+    "How does it perform against the existing drying method?",
   ],
 };
 
@@ -393,6 +399,6 @@ export const sections = [
   { n: "06", id: "concepts", title: "Developing with farmers" },
   { n: "07", id: "final-concept", title: "The Drying Tower" },
   { n: "08", id: "mechanism", title: "How it was intended to work" },
-  { n: "09", id: "status", title: "What was built, and what was not" },
+  { n: "09", id: "status", title: "What we completed, and what remained open" },
   { n: "10", id: "reflection", title: "What I would do differently" },
 ];
