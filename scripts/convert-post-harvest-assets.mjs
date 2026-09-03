@@ -16,6 +16,9 @@ const OUT = "public/post-harvest";
 const JOBS = [
   // Documentary photography
   ["_DYR8983.jpg", "photo", "sketch-review", [1600, 1000, 600], 82],
+  // Landscape crop centred on the hands and the sketch. The full portrait frame is 3936px
+  // tall, which left section 06 with a 600px void beside it; this balances the column.
+  ["_DYR8983.jpg", "photo", "sketch-review-wide", [1600, 900], 82, { left: 0, top: 1378, width: 2624, height: 1751 }],
   ["_DYR7834.jpg", "photo", "maize-weevils", [2400, 1600, 900], 82],
   ["DSCF0515.JPG", "photo", "road-to-seme", [1600, 900], 82],
   ["DSCF0457.JPG", "photo", "homestead-dusk", [1600, 900], 82],

@@ -167,10 +167,11 @@ export const concepts = {
     "In the first round we presented ideas to three farmers. They preferred a drying table. We wrote the requirement specification, ran a final brainstorm, and a solar drying concept appeared that had not existed before.",
     "In the second round we presented three concepts to the remaining farmers. The tower drew the strongest response, and we selected it.",
   ],
+  /** The three sketches presented in the second round. Source: `Desktop - 14.pdf`. */
   options: [
-    { name: "The drying table with a toolkit", selected: false },
-    { name: "The drying tower", selected: true },
-    { name: "The drying box", selected: false },
+    { name: "The drying table with a toolkit", slug: "table", selected: false },
+    { name: "The drying tower", slug: "tower", selected: true },
+    { name: "The drying box", slug: "box", selected: false },
   ],
   methodHeading: "A problem with our own method",
   method:
@@ -269,22 +270,46 @@ export const mechanism = {
 };
 
 /** 09. Prototype status and next steps */
+/**
+ * 09. Grouped into four states rather than one flat list, so the reader can see at a glance
+ * what exists, what is only specified, what was never built, and what happens next.
+ */
 export const status = {
   heading: "What was built, and what was not",
-  intro:
-    "The deliverable was the construction handbook. We prototyped the metal solar collector and left it with a farmer. The complete tower was never constructed, and the handbook was never validated through an actual build.",
-  rows: [
-    { term: "Evidenced by field research", text: "How maize is dried today, and what makes it difficult.", page: 27 },
-    { term: "Evaluated with farmers", text: "Which of three concepts was worth developing.", page: 25 },
-    { term: "Delivered", text: "The construction handbook, with measurements and guidelines for building the tower.", page: 44 },
-    { term: "Prototyped", text: "The metal solar collector only, left with a farmer.", page: 44 },
-    { term: "Calculated", text: "The estimated capacity, from shelf dimensions and maize bulk density.", page: 36 },
-    { term: "Assumed", text: "That the airflow and temperature would be sufficient.", page: 35 },
-    { term: "Not constructed", text: "The complete drying tower. Building it was named as the next step.", page: 44 },
-    { term: "Not validated", text: "The handbook. No one has yet built the tower from it.", page: 44 },
+  intro: "Four different things, and they are not the same kind of claim.",
+  groups: [
+    {
+      key: "completed",
+      label: "Completed",
+      items: [
+        { text: "The construction handbook, with measurements and guidelines for building the tower.", page: 44 },
+        { text: "The metal solar collector, prototyped and left with a farmer.", page: 44 },
+      ],
+    },
+    {
+      key: "specified",
+      label: "Specified, not measured",
+      items: [
+        { text: "Estimated capacity of about 100 kg, calculated from shelf dimensions and maize bulk density.", page: 36 },
+        { text: "That the airflow and temperature would be sufficient.", page: 35 },
+      ],
+    },
+    {
+      key: "not-built",
+      label: "Not built, not validated",
+      items: [
+        { text: "The complete drying tower was never constructed.", page: 44 },
+        { text: "No one has yet built the tower from the handbook.", page: 44 },
+      ],
+    },
   ],
+  nextStep: {
+    label: "The intended next step",
+    text: "Construct the tower from the handbook, then evaluate it.",
+    page: 44,
+  },
   limitation:
-    "We did not run the field study during the harvest season, so we could not measure the current drying method. Without that baseline, we could not show whether the design improves on it.",
+    "We missed the harvest season, so we could not measure the current drying method. Without that baseline we could not show whether the design improves on it.",
   openHeading: "Still open",
   open: [
     "Is the airflow and temperature inside sufficient?",
@@ -294,32 +319,43 @@ export const status = {
   ],
 };
 
-/** 10. Reflection */
+/**
+ * 10. Reflection. Sylvia's own account, restored from her portfolio deck
+ * (`Desktop - 15.pdf`): communication barriers, misaligned workflows and risk of oversight.
+ * The fourth, research timing, comes from booklet p.45 and is the one that explains why
+ * section 09 has nothing to validate.
+ */
 export const reflection = {
   heading: "What I would do differently",
+  intro:
+    "This was my first cross-disciplinary collaboration, working with architecture students.",
   insights: [
     {
-      what: "We spent weeks translating each other's vocabulary.",
+      what: "Communication barriers",
       detail:
-        "This was my first project with architecture students, and the same words meant different things to each discipline.",
-      next:
-        "Next time I would spend the first week building a shared vocabulary deliberately, rather than letting it accumulate by accident.",
+        "We spent a long time simply grasping each other's domain language. I did learn some of the terminology architects use, but that knowledge has to be acquired over time. There is no quick shortcut.",
+      next: "Build a shared vocabulary deliberately in the first week, rather than letting it accumulate by accident.",
     },
     {
-      what: "We split the work too late.",
+      what: "Misaligned workflows",
       detail:
-        "Some of us moved to design while others wrote the report, and details fell between the two. The outcome did not match what everyone thought we had agreed.",
-      next:
-        "Next time I would map each person's steps on one timeline at the start, and keep responsibilities overlapping rather than clean.",
+        "Each discipline followed a distinct process. With limited time, merging them proved difficult and led to confusion over responsibilities.",
+      next: "Learn each other's workflows beforehand, and map every member's key steps on one simple timeline.",
     },
     {
-      what: "We were there at the wrong time of year.",
+      what: "Risk of oversight",
+      detail:
+        "Because we divided the work late, some of us focused on design while others wrote the report. Crucial details slipped through the cracks, and the outcome did not fully meet everyone's expectations.",
+      next: "Hold regular check-ins and keep responsibilities overlapping rather than clean.",
+    },
+    {
+      what: "The wrong time of year",
       detail:
         "Visiting outside the harvest season meant we never saw the process at its most stressful, and could not measure the method we were trying to improve.",
-      next:
-        "Next time I would treat the timing of field research as a design constraint, and plan what can and cannot be learned before travelling.",
+      next: "Treat the timing of field research as a design constraint, and plan what can and cannot be learned before travelling.",
     },
   ],
+  takeaway: "The research is what holds up. The concept is honest about where it stops.",
 };
 
 /** Ordered section registry, drives the page and the progress rail. */

@@ -62,7 +62,16 @@ async function renderPage(doc, pageNo, targetWidth) {
   return canvas.toBuffer("image/png");
 }
 
-/** [sourceFile, pageNo, outDir, basename, widths[], quality] */
+const DECK = "references/kenya/portfolio-current";
+
+/**
+ * The three concept sketches live side by side on one portfolio slide, so each is cut out
+ * by fractional rectangle. Labels are deliberately excluded: the page sets them in its own
+ * typeface. Fractions are resolution independent.
+ */
+const SKETCH = { top: 0.639, height: 0.2684 };
+
+/** [sourceFile, pageNo, outDir, basename, widths[], quality, cropBottom?, cropRect?] */
 const JOBS = [
   // The construction handbook: the project's primary deliverable (report p.54 onward).
   // Every handbook page is 595 x 420 pt landscape, same as the product drawings.
@@ -79,11 +88,19 @@ const JOBS = [
   [`${LINKS}/Airflow chart.pdf`, 1, "diagram", "mechanism-airflow", [1200, 700], 88],
 
   // Narrative diagrams.
-  [`${LINKS}/needs.ai`, 1, "diagram", "needs-map", [1600, 900], 88],
+  // needs.ai carries a colour-swatch strip baked into the bottom of the artwork, the same
+  // artefact NS_0091 has. Trim the bottom 11% so it does not ship on the page.
+  [`${LINKS}/needs.ai`, 1, "diagram", "needs-map", [1600, 900], 88, 0.11],
   [`${LINKS}/flowshart draft 2 (1).ai`, 1, "diagram", "design-process", [1600, 900], 88],
   [`${LINKS}/scenario.pdf`, 1, "diagram", "scenario", [1200, 700], 88],
-  [`${LINKS}/next step.pdf`, 1, "diagram", "next-step", [1200, 700], 88],
+  // The source page stacks the same illustration twice. Keep only the upper instance.
+  [`${LINKS}/next step.pdf`, 1, "diagram", "next-step", [1100, 640], 88, 0, { left: 0.11, top: 0.055, width: 0.79, height: 0.385 }],
   [`${LINKS}/talkng to friend.pdf`, 1, "diagram", "scenario-friend", [1200, 700], 88],
+
+  // The three concepts presented to the farmers in the second evaluation round.
+  [`${DECK}/Desktop - 14.pdf`, 1, "concept", "concept-table", [760, 440], 88, 0, { left: 0.0875, width: 0.2285, ...SKETCH }],
+  [`${DECK}/Desktop - 14.pdf`, 1, "concept", "concept-tower", [760, 440], 88, 0, { left: 0.3815, width: 0.2434, ...SKETCH }],
+  [`${DECK}/Desktop - 14.pdf`, 1, "concept", "concept-box", [760, 440], 88, 0, { left: 0.6825, width: 0.2333, ...SKETCH }],
 ];
 
 const probe = process.argv.indexOf("--probe");
@@ -102,14 +119,29 @@ if (probe !== -1) {
 } else {
   const docCache = new Map();
   let total = 0;
-  for (const [file, pageNo, dir, base, widths, quality] of JOBS) {
+  for (const [file, pageNo, dir, base, widths, quality, cropBottom, cropRect] of JOBS) {
     await mkdir(path.join(OUT, dir), { recursive: true });
     if (!docCache.has(file)) docCache.set(file, await openDoc(file));
     const doc = docCache.get(file);
     for (const w of widths) {
-      const png = await renderPage(doc, pageNo, w);
+      // When cutting a rectangle out of a page, render the whole page large enough that
+      // the crop still lands at the requested output width.
+      const renderWidth = cropRect ? Math.round(w / cropRect.width) : w;
+      const png = await renderPage(doc, pageNo, renderWidth);
       const outPath = path.join(OUT, dir, `${base}-${w}.webp`);
-      const info = await sharp(png).webp({ quality }).toFile(outPath);
+      let pipe = sharp(png);
+      const m = await sharp(png).metadata();
+      if (cropRect) {
+        pipe = pipe.extract({
+          left: Math.round(m.width * cropRect.left),
+          top: Math.round(m.height * cropRect.top),
+          width: Math.round(m.width * cropRect.width),
+          height: Math.round(m.height * cropRect.height),
+        });
+      } else if (cropBottom) {
+        pipe = pipe.extract({ left: 0, top: 0, width: m.width, height: Math.round(m.height * (1 - cropBottom)) });
+      }
+      const info = await pipe.webp({ quality }).toFile(outPath);
       total += info.size;
       console.log(
         `${outPath.padEnd(52)} ${String(info.width).padStart(5)}x${String(info.height).padEnd(5)} ` +
