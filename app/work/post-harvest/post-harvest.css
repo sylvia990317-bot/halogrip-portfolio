@@ -850,3 +850,47 @@ figure { margin: 0; }
 .ph-threat-foot { margin-top: var(--pair); }
 #challenge .ph-beat + .ph-beat { margin-top: clamp(30px, 3vw, 48px); }
 #challenge .ph-weevil-inset .ph-rail-box { width: 116px; }
+
+/* ---- concept and evidence frames: size from the frame, never from the artwork ----
+   `max-width/max-height: 100%` on a centred grid item did not resolve against the
+   aspect-ratio box, so the drying-table and drying-box sketches rendered 320px tall in a
+   298px frame and `overflow: hidden` clipped them. Giving the image the frame's own
+   dimensions and letting `contain` letterbox it is deterministic: the whole sketch is
+   always visible, and the tracks still collapse because they carry `min-width: 0`. */
+.ph-strip-frame img,
+.ph-rail-box img,
+.ph-threat-box img,
+.ph-eval-frame img { width: 100%; height: 100%; object-fit: contain; }
+/* The concept sketches are near-square, so a squarer frame wastes less of the row. */
+#concepts .ph-strip-frame { aspect-ratio: 5 / 4; padding: clamp(8px, 0.9vw, 14px); }
+
+/* ---- 04: the bags, named before the diagram argues about them ---- */
+.ph-bags { margin-top: var(--pair); border-left: 2px solid var(--blue); padding-left: 18px; max-width: 62ch; }
+.ph-bags .ph-lbl { margin: 0 0 7px; color: var(--blue); }
+.ph-bags p { margin: 0; font-size: 15.5px; line-height: 1.5; color: var(--ink); }
+
+/* ---- 09: placeholder for the collector photograph, obviously unfinished on purpose ---- */
+.ph-done-figs { display: grid; gap: clamp(12px, 1.4vw, 18px); }
+.ph-placeholder {
+  display: grid; align-content: center; justify-items: start; gap: 7px;
+  aspect-ratio: 3 / 2; padding: clamp(14px, 1.6vw, 22px);
+  background: repeating-linear-gradient(135deg, rgba(251,251,250,.10) 0 10px, rgba(251,251,250,.04) 10px 20px);
+  border: 1px dashed rgba(251, 251, 250, 0.42);
+}
+.ph-placeholder span { font-family: var(--ph-mono), ui-monospace, monospace; font-size: 10.5px;
+  letter-spacing: .12em; text-transform: uppercase; color: rgba(251,251,250,.85); }
+.ph-placeholder .cap { font-family: var(--ph-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px; letter-spacing: 0; text-transform: none; color: rgba(251,251,250,.6); max-width: 34ch; line-height: 1.45; }
+
+/* ---- frames, take three. `height: 100%` on a centred grid item inside an
+   aspect-ratio box resolves to `auto`, so the image kept falling back to its intrinsic
+   height and overflowing: vignette-rain rendered 230px tall in a 173px frame. Percentages
+   are the problem, so the image gets an explicit pixel height instead and the frame sizes
+   to it. Items in a row share one image height, so the row still reads as one object. ---- */
+#concepts .ph-strip-frame,
+#challenge .ph-strip-frame,
+.ph-ghost-frame { aspect-ratio: auto; }
+#concepts .ph-strip-frame img { height: clamp(148px, 19vh, 216px); width: auto; max-width: 100%; object-fit: contain; }
+#challenge .ph-strip-frame img { height: clamp(104px, 13vh, 146px); width: auto; max-width: 100%; object-fit: contain; }
+.ph-ghost-frame img { height: clamp(150px, 19vh, 228px); width: auto; max-width: 100%; object-fit: contain; }
+.ph-rail-box img { width: 100%; height: auto; object-fit: contain; }

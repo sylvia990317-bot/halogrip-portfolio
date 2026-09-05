@@ -256,6 +256,16 @@ export default function PostHarvestPage() {
             </div>
           </Reveal>
 
+          {/* The finding depends on knowing what the bags are, so they are named here,
+              before the diagram argues about them. No PICS bag photograph exists in the
+              source package, so this is a stated fact rather than a shown one. */}
+          <Reveal>
+            <aside className="ph-bags">
+              <p className="ph-lbl">{focus.bags.label}</p>
+              <p>{focus.bags.text}</p>
+            </aside>
+          </Reveal>
+
           <Reveal>
             <InlineSvg name="needs-map" className="ph-fig-primary" caption={focus.captions.needs} />
           </Reveal>
@@ -473,12 +483,12 @@ export default function PostHarvestPage() {
               <figure className="ph-support-plate-wrap">
                 <div className="ph-support-plate">
                   <Image
-                    src="/post-harvest/diagram/tower-shelves-1600.webp"
-                    alt="Line drawing of the Drying Tower with its door open, showing ten stacked drying shelves, the chimney above and the black box collector connected at an angle"
-                    width={1600} height={1128} sizes="(max-width: 999px) 88vw, 28vw"
+                    src="/post-harvest/handbook/handbook-step-1600.webp"
+                    alt="A handbook page headed Step 1, showing how to weld four square tubes into a rectangular frame, with dimensioned sub-steps and the materials needed listed beneath"
+                    width={1600} height={1111} sizes="(max-width: 999px) 88vw, 28vw"
                   />
                 </div>
-                <figcaption className="ph-cap">{finalConcept.captions.tower}</figcaption>
+                <figcaption className="ph-cap">{finalConcept.captions.step}</figcaption>
               </figure>
 
               <figure className="ph-support-plate-wrap">
@@ -629,9 +639,14 @@ export default function PostHarvestPage() {
                     ))}
                   </ul>
                 </div>
-                {/* TODO(sylvia): if you have a photo of the built collector left with the
-                    farmer, it belongs here beside the handbook page. */}
-                <figure>
+                <figure className="ph-done-figs">
+                  {/* Awaiting Sylvia's photograph of the built collector. Shown as a
+                      labelled placeholder, never a broken image or a silent gap. */}
+                  <div className="ph-placeholder" role="img"
+                       aria-label={status.collectorPhoto.caption + " Photograph not yet supplied."}>
+                    <span>{status.collectorPhoto.label}</span>
+                    <span className="cap">{status.collectorPhoto.caption}</span>
+                  </div>
                   <Image
                     src="/post-harvest/handbook/handbook-tools-1200.webp"
                     alt="A spread from the finished construction handbook headed Tools needed, listing tape measure, hammer, pliers, wrench, drill, drill bits, welding machine, angle grinder, paint brush and silicon gun"

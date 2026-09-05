@@ -37,7 +37,7 @@ export const EVIDENCE_LABEL: Record<Evidence, string> = {
 export const project = {
   title: "Post Harvest",
   headline: "Rethinking maize drying with farmers in Seme",
-  subtitle: "A maize drying concept developed with farmers in Seme.",
+  subtitle: "A maize drying concept developed with farmers in Seme, western Kenya.",
   concept: "The Drying Tower",
 };
 
@@ -60,7 +60,7 @@ export const context = {
   heading: "Where this happened",
   dateline: "Seme, Siaya County, Kenya. April to May 2024.",
   lead:
-    "A rural farming sub-county north east of Lake Victoria. Maize is the crop most households depend on, for food and for income.",
+    "Seme is a rural farming sub-county in western Kenya, on the north east shore of Lake Victoria. Maize is the crop most households depend on, for food and for income.",
   stats: [
     {
       value: "122,000",
@@ -75,7 +75,7 @@ export const context = {
   ],
   /** Captions carry what the paragraphs used to say. */
   captions: {
-    locator: "Seme sits on the north east shore of the Winam Gulf, in Siaya County.",
+    locator: "Seme sits on the north east shore of the Winam Gulf, in Siaya County, western Kenya.",
     road: "The road into Seme.",
     roof: "Drying on a roof. The existing method puts the crop wherever the sun reaches.",
     planting: "Planting by hand, the start of the same year's harvest.",
@@ -140,17 +140,34 @@ export const participants: {
 /**
  * 04. Finding the focus.
  *
- * The needs map and the lifecycle diagram carry the argument. The knowledge-gap
- * paragraph is now an annotation inside the diagram, so the prose here only has to do
- * what the diagram cannot: say that the group was not uniform, and record that the
- * conclusion was tested before it was accepted.
+ * THE BAGS HAVE TO BE NAMED. The section's whole finding is that a working storage
+ * product already existed and was being misused, so "the bags" cannot appear without an
+ * antecedent. Sources: report p.15 (One Acre Fund supplies PICS bags), p.24 (they are
+ * Purdue Improved Crop Storage bags, non-chemical, up to three years if handled
+ * properly, and farmers wrongly believed they lost potency after a season or two) and
+ * p.28 (Theresa followed the instructions and was the only one of the five without a
+ * weevil problem). There is no photograph of a PICS bag anywhere in the package, so this
+ * is carried in words rather than promised as an image.
+ *
+ * The storage concept taken into the first evaluation is real (report p.24: "We still
+ * decided to provide one of the concepts for storage in idea evaluation with the
+ * farmers, and the thought was confirmed") but no sketch of it survives either, so it is
+ * phrased as a method check and never as something the reader is about to see.
+ * TODO(sylvia): if a round-one storage sketch or a photo of a PICS bag exists, both
+ * would turn this section from told into shown.
  */
 export const focus = {
   heading: "Finding the focus",
   lead: "We were assigned grain storage. The research pointed somewhere else.",
+  /** Named, because the finding depends on knowing what they are. */
+  bags: {
+    label: "The storage product that already existed",
+    text: "One Acre Fund supplies farmers in Seme with PICS bags, airtight sacks that protect grain without chemicals and last about three years if they are used as instructed.",
+    page: 15,
+  },
   body: [
-    "A storage solution already existed, and most farmers were not using the bags as intended. The gap was knowledge, not hardware. The group was not uniform either, so another storage facility would have served only part of it.",
-    "We carried a storage concept into the evaluation anyway, to test that conclusion before committing to it.",
+    "Most farmers believed the bags lost their potency after a season or two, so they were not using them as intended. Theresa followed the instructions, and she was the only one of the five without a weevil problem. The gap was knowledge, not hardware.",
+    "The group was not uniform either: farmers who already had a storage room did not need another one. We still put a storage concept into the first farmer evaluation to test that conclusion, and the response confirmed it.",
   ],
   captions: {
     needs: "Needs from the interviews, sorted into what farmers said and what they did not. Booklet p.21.",
@@ -287,8 +304,9 @@ export const finalConcept = {
     page: 44,
   },
   captions: {
+    step: "One assembly step. Every joint is drawn, with the tubes it needs listed beneath it.",
     tower: "The tower the handbook guides people to build. It was never constructed.",
-    cutlist: "A page from the handbook. Every part is drawn and dimensioned.",
+    cutlist: "The cut list. Every part is measured before anything is welded.",
   },
 };
 
@@ -334,6 +352,14 @@ export const status = {
   claimSolid: "We completed the construction handbook and the solar collector.",
   claimOpen: "The full tower remained unbuilt and untested.",
 
+  /* TODO(sylvia): replace with the real photograph of the built solar collector left
+     with the farmer. Until it arrives the page shows a labelled placeholder rather than
+     a broken image or a silent gap. */
+  collectorPhoto: {
+    pending: true,
+    label: "Photograph to come",
+    caption: "The metal solar collector, built and left with a farmer in Seme.",
+  },
   completed: {
     label: "Completed",
     items: [
