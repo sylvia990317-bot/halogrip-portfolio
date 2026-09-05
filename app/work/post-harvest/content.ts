@@ -8,6 +8,12 @@
  *  - no em dashes in visible strings
  *  - "maize" never "corn"
  *  - nothing is stated as a measured or validated result, because none exists
+ *
+ * VISUAL SALVAGE PASS (approved). Copy that a photograph, drawing or diagram already
+ * proves has been cut and converted into captions and labels. What survives as prose is
+ * here because no image carries it: numbers, quotes, decisions and qualifications.
+ * 535 words across sections 02 to 10 is a ceiling, not a quota. Where a factual
+ * qualification needs the words, it keeps them.
  */
 
 /** Evidence class for a factual claim. `validated` is intentionally never used. */
@@ -42,35 +48,64 @@ export const meta: [string, string][] = [
   ["Context", "Year 4, MSc Industrial Design Engineering, Chalmers. Reality Studio, April to June 2024."],
 ];
 
-/** 02. Context */
+/**
+ * 02. Context.
+ *
+ * The course description and the assignment sentence are both gone from here. The course
+ * is a dateline; the assignment is an annotation on the lifecycle diagram in section 04,
+ * where it does actual work against the finding. What is left is the place and two
+ * numbers, because a photograph cannot carry a number.
+ */
 export const context = {
   heading: "Where this happened",
-  intro:
-    "Reality Studio is a Chalmers field course run with partner universities and organisations in Kenya. Our team spent April and May 2024 in Seme, a rural farming sub-county north east of Lake Victoria.",
-  body: [
-    "Kenya loses up to 30 percent of its key cereals within six months of harvest. In Seme, maize is the crop most households depend on, for food and for income.",
-    "Our team was assigned the problem of grain storage.",
+  dateline: "Seme, Siaya County, Kenya. April to May 2024.",
+  lead:
+    "A rural farming sub-county north east of Lake Victoria. Maize is the crop most households depend on, for food and for income.",
+  stats: [
+    {
+      value: "122,000",
+      label: "people in Seme sub-county, about 450 per square kilometre",
+      cite: "City Population, 2019",
+    },
+    {
+      value: "up to 30%",
+      label: "of Kenya's key cereals lost within six months of harvest",
+      cite: "World Bank et al., 2011",
+    },
   ],
-  stat: {
-    value: "122,000",
-    label: "people in Seme sub-county, about 450 per square kilometre",
-    cite: "City Population, 2019",
+  /** Captions carry what the paragraphs used to say. */
+  captions: {
+    locator: "Seme sits on the north east shore of the Winam Gulf, in Siaya County.",
+    road: "The road into Seme.",
+    roof: "Drying on a roof. The existing method puts the crop wherever the sun reaches.",
+    planting: "Planting by hand, the start of the same year's harvest.",
   },
-  lossCite: "World Bank et al., 2011",
 };
 
-/** 03. Learning in the field */
+/**
+ * 03. Learning in the field.
+ *
+ * Photography leads. The team walking in and sitting with farmers is the evidence of
+ * field participation; the five portraits support it rather than replacing it. Only two
+ * pieces of prose survive: Sylvia's own contribution, and the camera anecdote, which is
+ * the one observation no picture in the set actually shows.
+ */
 export const field = {
   heading: "Learning in the field",
-  intro:
-    "Three visits over five weeks. Interviews began structured, then loosened as we learned what to ask.",
-  apollo: "Apollo, a local handcraft and agriculture expert, introduced us to the community.",
-  // TODO(sylvia): confirm this attribution. It appears in the current portfolio deck
-  // (Desktop - 13.pdf) but not in the booklet. Open question B in the content plan.
-  contribution: "Sylvia wrote the interview questions and ran the interviews.",
+  lead: "Three visits over five weeks. Apollo, a local handcraft and agriculture expert, introduced us to the community.",
+  // TODO(sylvia): confirm this attribution. It comes from the current portfolio deck
+  // (Desktop - 15/13.pdf) in Sylvia's own words, but is not in the booklet. Open question B.
+  contribution:
+    "I wrote the interview questions and ran the interviews. My groupmates took notes.",
   /** One short human observation, used as narrative rather than method description. */
   documentation:
     "We once set the camera directly in front of a farmer. Her body language told us to move it back.",
+  captions: {
+    walking: "Walking in to a homestead in Seme with Apollo.",
+    team: "Sitting with farmers. Interviews began structured, then loosened as we learned what to ask.",
+    timeline: "Six dates from the booklet. The blue band is the field period.",
+    portraits: "The five farmers who took part.",
+  },
   quote: {
     text:
       "During a great harvest season, I could produce one bag of beans, but I could only harvest a half bag in time.",
@@ -92,117 +127,113 @@ export const participants: {
     // Her difference comes from knowledge, which is exactly the section 04 finding.
     name: "Theresa",
     slug: "theresa",
-    note: "Attends One Acre Fund meetings. She does not have the weevil and theft problems the others describe.",
+    note: "Attends One Acre Fund meetings. Does not have the weevil and theft problems the others describe.",
     evidence: "observation",
     page: 16,
   },
-  {
-    name: "Christine",
-    slug: "christine",
-    note: "Fetches water from a lake an hour away.",
-    evidence: "interview",
-    page: 27,
-  },
-  {
-    name: "Magarite",
-    slug: "magarite",
-    note: "Runs her farm largely by herself.",
-    evidence: "interview",
-    page: 17,
-  },
-  {
-    name: "Jakob",
-    slug: "jakob",
-    note: "Ran out of safe space to store his harvest.",
-    evidence: "interview",
-    page: 26,
-  },
-  {
-    name: "Philister",
-    slug: "philister",
-    note: "Narrow mud paths make the harvest hard to move.",
-    evidence: "interview",
-    page: 26,
-  },
+  { name: "Christine", slug: "christine", note: "Fetches water from a lake an hour away.", evidence: "interview", page: 27 },
+  { name: "Magarite", slug: "magarite", note: "Runs her farm largely by herself.", evidence: "interview", page: 17 },
+  { name: "Jakob", slug: "jakob", note: "Ran out of safe space to store his harvest.", evidence: "interview", page: 26 },
+  { name: "Philister", slug: "philister", note: "Narrow mud paths make the harvest hard to move.", evidence: "interview", page: 26 },
 ];
 
-/** 04. Finding the focus */
+/**
+ * 04. Finding the focus.
+ *
+ * The needs map and the lifecycle diagram carry the argument. The knowledge-gap
+ * paragraph is now an annotation inside the diagram, so the prose here only has to do
+ * what the diagram cannot: say that the group was not uniform, and record that the
+ * conclusion was tested before it was accepted.
+ */
 export const focus = {
   heading: "Finding the focus",
-  intro: "We were assigned grain storage. The research pointed somewhere else.",
+  lead: "We were assigned grain storage. The research pointed somewhere else.",
   body: [
-    "Storage looked like the primary issue at first. But a storage solution already existed in Seme. Most farmers were not using the bags as intended, based on a misunderstanding of how they worked. The gap was knowledge, not hardware.",
-    "We also found the group was not uniform. Farmers who already had a storage room did not lack space. Designing another storage facility would have served only part of the group.",
-    "So we tested the conclusion before committing to it. We carried a storage concept into the farmer evaluation anyway. The response confirmed what the research suggested, and we moved our focus to the drying process.",
+    "A storage solution already existed, and most farmers were not using the bags as intended. The gap was knowledge, not hardware. The group was not uniform either, so another storage facility would have served only part of it.",
+    "We carried a storage concept into the evaluation anyway, to test that conclusion before committing to it.",
   ],
-  caption: "Drying is one stage of six. It is the stage where the harvest is most exposed.",
-  stages: ["Prework", "Planting", "Waiting", "Harvest", "Drying", "Storage"],
-  selected: 4,
+  captions: {
+    needs: "Needs from the interviews, sorted into what farmers said and what they did not. Booklet p.21.",
+    cycle: "Drying is one stage of six, and the stage where the harvest is most exposed.",
+  },
 };
 
-/** 05. Defining the challenge */
+/**
+ * 05. Defining the challenge.
+ *
+ * The four vignettes state the problem and the photograph proves one of them. The
+ * requirement list, drawn blank, replaces the five-bullet priority list: requirements
+ * read as a specification rather than as a paragraph. The only prose kept is the
+ * carrying arithmetic, because it is a number.
+ */
 export const challenge = {
   heading: "Defining the challenge",
-  intro:
-    "Maize is spread on a tarp on the ground to dry in the sun. It has to come back indoors every evening.",
-  body: [
-    "Farmers told us they carry roughly 15 kilograms at a time, using their hands and small utensils. A 400 kilogram harvest means dozens of trips out in the morning and back again at night, across several days of the harvest season.",
-    "Rain arrives without warning. Chickens eat and contaminate the maize. Theft is a constant worry, and it is the reason the crop cannot simply be left out overnight.",
+  lead: "Maize is spread on a tarp on the ground to dry in the sun, and has to come back indoors every evening.",
+  /** The one paragraph an image cannot carry: quantities. */
+  arithmetic:
+    "Farmers told us they carry roughly 15 kilograms at a time. A 400 kilogram harvest means dozens of trips out each morning and back each night, across several days of the season.",
+  arithmeticPage: 31,
+  /** Two beats, each a single visual argument that fits one viewport. */
+  beats: {
+    threats: "What threatens maize while it dries",
+    needs: "What the design needed to do",
+  },
+  /**
+   * The 3 + 1 set. The first three are whole-scene threats that arrive at the tarp; the
+   * fourth is drawn at kernel scale because it is already inside the grain.
+   *
+   * The scale change is now carried by the composition and the caption: the three sit in
+   * one rail at one size, the weevil is a smaller inset below it. There is no
+   * "SCALE BREAK" label, which read as an internal design note rather than page copy.
+   */
+  threatsLabel: "Four problems found",
+  /* `w`/`h` are each drawing's true pixel size. They differ, because the originals were
+     drawn freehand at different extents, so they must be declared per item: a shared
+     placeholder ratio makes the layout size its columns from the images and overflow. */
+  threats: [
+    { slug: "chicken", name: "Chickens", note: "Eating and contaminating the crop", w: 1200, h: 761 },
+    { slug: "theft", name: "Theft", note: "The reason it cannot be left out overnight", w: 1200, h: 981 },
+    { slug: "rain", name: "Rain", note: "Arriving without warning", w: 1200, h: 1065 },
   ],
-  prioritiesHeading: "What the design had to do",
-  priorities: [
-    { text: "Dry maize using heat and airflow.", origin: "Research", page: 31 },
-    { text: "Protect the crop from rain, animals and theft while it dries.", origin: "Research", page: 31 },
-    { text: "Handle a meaningful quantity in one batch.", origin: "Design target", page: 31 },
-    { text: "Stay manageable for one person.", origin: "Design target", page: 31 },
-    { text: "Suit local materials and construction methods.", origin: "Design target", page: 36 },
-  ],
+  weevil: {
+    slug: "weevils", name: "Weevils", w: 1200, h: 867,
+    /* Carries the scale change in words, so no label has to announce it. */
+    note: "Drawn at the scale of a single kernel, because this one does not arrive at the tarp. It is already inside the grain, and a door that locks does not stop it.",
+  },
+  captions: {
+    chickenPhoto: "Maize drying on a tarp in Seme, with the first of those four problems walking across it.",
+    figures: "Carried by hand, and by wheelbarrow where the paths allow.",
+    checklist: "Set before any concept work. Section 09 returns to this same list with the team's own marks.",
+  },
 };
 
-/** 06. Developing with farmers */
+/**
+ * 06. Developing with farmers.
+ *
+ * Two states, in order. First the three concepts at equal weight, which is how the
+ * farmers saw them. Only after the outcome line does the tower become dominant. The
+ * legend declares the colour code that is already in all three drawings, which is what
+ * makes them comparable, and it is the same code section 08 uses.
+ */
 export const concepts = {
   heading: "Developing with farmers",
-  /**
-   * Part 1 opens on the photograph, so the copy is one line and deliberately does NOT
-   * announce the winner. The comparison in Part 3 has to do that, or the section stops
-   * being a decision and becomes an announcement followed by an illustration.
-   */
-  intro: "We took the concepts back to the farmers twice.",
-  /**
-   * The two evaluation rounds as structural markers under the photograph, not a
-   * paragraph. This is where the first-round facts live (drying table preferred, the
-   * requirement specification and the brainstorm that produced the solar concept).
-   */
+  lead: "We took the concepts back to the farmers twice.",
   rounds: [
     { n: "Round one", text: "Ideas shown to three farmers, each of us sketching in our own hand. They preferred a drying table." },
-    { n: "Round two", text: "After a requirement specification and a final brainstorm, three concepts, all redrawn by one person." },
+    { n: "Round two", text: "Three concepts, all redrawn by one person, so the farmers judged ideas and not drawings." },
   ],
-  /** The three sketches presented in the second round. Source: `Desktop - 14.pdf`. */
+  evaluationLabel: "As the farmers saw them",
   options: [
     { name: "The drying table with a toolkit", slug: "table", selected: false },
     { name: "The drying tower", slug: "tower", selected: true },
     { name: "The drying box", slug: "box", selected: false },
   ],
-  /**
-   * Part 2. Sits between the photograph and the comparison because it is the reason the
-   * comparison is trustworthy at all - a design decision, not a footnote. Held to ~40
-   * words so it stays a hinge in the sequence rather than a third block of copy.
-   */
-  methodStep: "Method correction",
-  methodHeading: "We changed the method before we asked again",
-  method:
-    "The first sketches came from different hands at different levels of finish, and the farmers knew who had drawn what. Before the second round one person redrew every concept in the same hand, so the farmers were judging ideas, not drawings.",
-  /** Part 3. Names what actually happened, rather than a generic SELECTED badge. */
-  selectedNote: "Strongest response in the second evaluation",
   conclusion: "The Drying Tower received the strongest response, so we developed it further.",
-  /**
-   * PARKED, deliberately not rendered in 06. The sentence was:
-   *   "Farmer preference told us which concept was worth developing. It did not tell us
-   *    whether the concept would work."
-   * Section 06 now ends on a single conclusion line, and section 09 ("Not built, not
-   * validated") already carries the validation caveat in full. Restore it here only if
-   * 09 ever loses that group.
-   */
+  selectedNote: "Strongest response in the second evaluation",
+  captions: {
+    review: "A farmer reading one of the concept sketches, second evaluation round.",
+    legend: "The same annotation code runs through all three sketches.",
+  },
 };
 
 /**
@@ -216,10 +247,11 @@ export const concepts = {
  *   4. Physically prototyped .... the metal solar collector only
  *   5. Not completed ............ the full tower, and any real build from the handbook
  *
- * The handbook is the actual design outcome, not a supporting document. Sources:
- * booklet p.36 and p.44, TOC p.3 (HANDBOOK, printed p.49), and Desktop - 11.pdf.
- * Do NOT add claims about local material sourcing, independence, affordability or
- * successful replication: none are supported. Use "build" or "construct", never "rebuild".
+ * The handbook is the actual design outcome, not a supporting document, and holds the
+ * dominant visual slot. Sources: booklet p.36 and p.44, TOC p.3 (HANDBOOK, printed p.49),
+ * and Desktop - 11.pdf. Do NOT add claims about local material sourcing, independence,
+ * affordability or successful replication: none are supported. Use "build" or
+ * "construct", never "rebuild".
  */
 export const finalConcept = {
   label: "Final Concept",
@@ -227,10 +259,8 @@ export const finalConcept = {
   /** Approved lead, used verbatim. */
   lead:
     "The project's final deliverable was a construction handbook designed to help farmers build the Drying Tower locally.",
-  /** What the concept is, kept short: the handbook is the outcome, this is its subject. */
   body: [
-    "Two parts. A black box collector heats air in the sun, and a pipe carries it into a shelved tower where the maize sits.",
-    "The door locks, so the maize can stay outside while the farmer is away. That answers three problems farmers described: animals, rain and theft.",
+    "A black box collector heats air in the sun; a pipe carries it into a shelved tower. The door locks, so the crop can stay outside while the farmer is away.",
   ],
   deliverable: {
     title: "The construction handbook",
@@ -241,9 +271,8 @@ export const finalConcept = {
     page: 54,
   },
   /**
-   * The team's own words, from the handbook's opening page (report p.55). This is a
-   * first-hand statement of status from inside the deliverable itself, which is why it
-   * carries the honesty of this section better than any summary would.
+   * The team's own words, from the handbook's opening page (report p.55). A first-hand
+   * statement of status from inside the deliverable itself.
    */
   handbookQuote: {
     text:
@@ -257,50 +286,47 @@ export const finalConcept = {
     notBuilt: "The full tower was not constructed, and the handbook was not tested through an actual build.",
     page: 44,
   },
-  specs: [
-    { label: "Shelves", value: "10, each 81 by 70 by 2.5 cm", evidence: "observation" as Evidence, page: 36 },
-    { label: "Estimated design capacity", value: "approximately 100 kg", evidence: "calculation" as Evidence, page: 36 },
-    { label: "Material", value: "metal, with alternatives noted in the handbook", evidence: "assumption" as Evidence, page: 36 },
-  ],
+  captions: {
+    tower: "The tower the handbook guides people to build. It was never constructed.",
+    cutlist: "A page from the handbook. Every part is drawn and dimensioned.",
+  },
 };
 
-/** 08. How it was intended to work */
+/**
+ * 08. How it was intended to work.
+ *
+ * The two-state drawing carries the mechanism, so the four steps are labels on it rather
+ * than four paragraphs. The ghosted frames carry the handling, so the three-row table is
+ * gone. The report's own hedge stays as prose: it is the section's honesty valve.
+ */
 export const mechanism = {
   heading: "How it was intended to work",
-  intro: "The principle is that hot air rises. The design puts that to work in four steps.",
+  lead: "Hot air rises. The design puts that to work.",
+  /** Four labels placed against the two frames, not four blocks of copy. */
   steps: [
-    {
-      name: "Collect",
-      text: "The black box sits angled toward the sun. Its inside is painted black to absorb as much heat as possible, and it warms the air inside it.",
-    },
-    {
-      name: "Rise",
-      text: "The air inlet sits low, near the ground, where the air is cooler and drier. Warmed air rises out of the collector and into the tower.",
-    },
-    {
-      name: "Dry",
-      text: "The rising air passes through the shelves. It is drier than the maize, so it should draw moisture out as it moves.",
-    },
-    {
-      name: "Exit",
-      text: "The air leaves through the chimney at the top. One low inlet and one high outlet is what makes the airflow work.",
-    },
+    { n: "1", name: "Collect", text: "Black box absorbs sun, warms the air." },
+    { n: "2", name: "Rise", text: "Inlet sits low, where air is cooler and drier." },
+    { n: "3", name: "Dry", text: "Rising air passes the shelves, drawing moisture out." },
+    { n: "4", name: "Exit", text: "Out through the chimney. One low inlet, one high outlet." },
   ],
+  frameCaptions: { sun: "Capturing heat", airflow: "Creating airflow" },
   handling: [
-    ["Loading", "Pull the shelves out and spread the maize evenly."],
-    ["Releasing a little", "Pull out one or a few shelves."],
-    ["Releasing a lot", "Unplug the pipe, place a bag underneath, and pour the maize out of the base."],
-  ] as [string, string][],
+    { name: "Loading", text: "Pull the shelves out, spread the maize." },
+    { name: "Releasing", text: "Pull a shelf, or pour from the base." },
+  ],
+  handlingNote: "Ghosted body, inked action.",
   quote: { text: "So in theory this should work, but there are a lot of variables.", attribution: "Project report, 2024", page: 35 },
 };
 
 /**
- * 09. Composed around ONE statement, not four parallel lists: the handbook and the
- * collector exist, the tower does not. Everything else in the section is subordinate to
- * that distinction, which is why the statement is split in two here — `claimSolid` is set
- * on the solid band beside the finished work, `claimOpen` opens the light block that
- * carries the unbuilt tower. The earlier four-state grouping gave every claim the same
- * visual weight, so the reader had to audit the section rather than read it.
+ * 09. What we completed, and what remained open.
+ *
+ * The team's own marked requirement list is the primary visual. An unmarked box records
+ * that the item was not assessed, which is all it can record: no tower was built and no
+ * harvest season was observed. WORDING GUARDRAIL, approved: unmarked items are
+ * "could not yet be evaluated", "not validated" or "still open", never "unmet" or
+ * "failed". The interpretation of why they stayed open is a separate page caption, set
+ * outside the drawing, so it can never read as the team's own annotation.
  */
 export const status = {
   heading: "What we completed, and what remained open",
@@ -316,24 +342,23 @@ export const status = {
     ],
   },
 
-  /* Attached to the tower drawing rather than listed, each carrying its own evidence
-     label. None of these were physically measured, and the wording must not imply that
-     they were. `slug` positions the annotation against the drawing (see the CSS). */
-  designed: {
-    label: "Designed or calculated, not measured",
-    claims: [
-      { slug: "airflow", v: "Airflow and temperature", k: "Concept assumption", page: 35 },
-      { slug: "shelves", v: "10 shelves", k: "Design specification", page: 36 },
-      { slug: "capacity", v: "Approx. 100 kg", k: "Calculated capacity", page: 36 },
-    ],
+  /** Caption for the marked checklist. Deliberately outside the drawing. */
+  checklist: {
+    label: "The list, marked by the team",
+    caption: "Thirteen of eighteen requirements marked. Five were left unmarked.",
+    page: 38,
+  },
+
+  /** Approved decision 3: separate, clearly titled, and never in the team's voice. */
+  whyOpen: {
+    heading: "Why these remained open",
+    text: "Each of the five compares the design against the traditional method, or against time. Both need a built tower and a season to run it in, so none could yet be evaluated.",
   },
 
   notValidated: {
-    label: "Not validated",
     text: "The full tower was not constructed, and the handbook was not tested through a real build.",
-    /* The missed season is the cause of that limitation, so it is stated with it rather
-       than floated separately elsewhere in the section. */
-    season: "We also missed the harvest season, so we could not establish a baseline or test drying performance under the intended conditions.",
+    /* The missed season is the cause of that limitation, so it is stated with it. */
+    season: "We also visited outside the harvest season, so we could not establish a baseline or test drying performance.",
   },
 
   nextStep: {
@@ -341,52 +366,49 @@ export const status = {
     text: "Build the complete tower from the handbook, then test it during the harvest season.",
     page: 44,
   },
-
-  openHeading: "Open questions",
-  open: [
-    "Does it create sufficient airflow and temperature?",
-    "How much maize can it dry in practice?",
-    "How does it perform against the existing drying method?",
-  ],
 };
 
 /**
  * 10. Reflection. Sylvia's own account, restored from her portfolio deck
- * (`Desktop - 15.pdf`): communication barriers, misaligned workflows and risk of oversight.
- * The fourth, research timing, comes from booklet p.45 and is the one that explains why
- * section 09 has nothing to validate.
+ * (`Desktop - 15.pdf`): communication barriers, misaligned workflows and risk of
+ * oversight, condensed but not reworded into anything she did not write. The fourth,
+ * research timing, comes from booklet p.45 and is the one that explains why section 09
+ * has nothing to validate.
+ *
+ * Deliberately prose-led with no explanatory icons or diagrams. DSCF0457, the dusk
+ * homestead, closes the page.
  */
 export const reflection = {
   heading: "What I would do differently",
-  intro:
-    "This was my first cross-disciplinary collaboration, working with architecture students.",
+  lead: "This was my first cross-disciplinary collaboration, working with architecture students.",
   insights: [
     {
       what: "Communication barriers",
       detail:
-        "We spent a long time simply grasping each other's domain language. I did learn some of the terminology architects use, but that knowledge has to be acquired over time. There is no quick shortcut.",
-      next: "Build a shared vocabulary deliberately in the first week, rather than letting it accumulate by accident.",
+        "We spent a long time grasping each other's domain language. I learned some of the terminology architects use, but that takes time.",
+      next: "Build a shared vocabulary deliberately in the first week.",
     },
     {
       what: "Misaligned workflows",
       detail:
         "Each discipline followed a distinct process. With limited time, merging them proved difficult and led to confusion over responsibilities.",
-      next: "Learn each other's workflows beforehand, and map every member's key steps on one simple timeline.",
+      next: "Map every member's key steps on one timeline before starting.",
     },
     {
       what: "Risk of oversight",
       detail:
-        "Because we divided the work late, some of us focused on design while others wrote the report. Crucial details slipped through the cracks, and the outcome did not fully meet everyone's expectations.",
-      next: "Hold regular check-ins and keep responsibilities overlapping rather than clean.",
+        "We divided the work late, so some of us designed while others wrote the report. Crucial details slipped through the cracks.",
+      next: "Hold regular check-ins and keep responsibilities overlapping.",
     },
     {
       what: "The wrong time of year",
       detail:
-        "Visiting outside the harvest season meant we never saw the process at its most stressful, and could not measure the method we were trying to improve.",
-      next: "Treat the timing of field research as a design constraint, and plan what can and cannot be learned before travelling.",
+        "Visiting outside the harvest season meant we never saw the process at its most stressful, or measured what we set out to improve.",
+      next: "Treat the timing of field research as a design constraint.",
     },
   ],
   takeaway: "The research is what holds up. The concept is honest about where it stops.",
+  closingCaption: "Dusk in Seme, at the end of a field day.",
 };
 
 /** Ordered section registry, drives the page and the progress rail. */

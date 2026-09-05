@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 888 487" width="888" font-family="Geist, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif" role="img" aria-label="Requirement list marked by the team: thirteen of eighteen marked, five left unmarked">
+<rect width="888" height="487" fill="#fbfbfa"/>
+<text x="14" y="30" class="s" font-size="19" font-weight="600" fill="#14161a">Requirement list</text>
+<text x="874" y="30" text-anchor="end" class="m" font-size="11" letter-spacing="0.09em" fill="#787d85">MARKED BY THE TEAM &#183; BOOKLET P.38</text>
+<line x1="14" y1="43" x2="874" y2="43" stroke="#14161a" stroke-width="1.4"/>
+<text x="14" y="69" class="m" font-size="10.5" letter-spacing="0.12em" fill="#787d85">MANDATORY</text>
+<rect x="14" y="78" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M17.2,85 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="40" y="89" class="s" font-size="14" fill="#14161a">Collect or generate heat</text>
+<line x1="14" y1="99" x2="424" y2="99" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="14" y="108" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M17.2,115 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="40" y="119" class="s" font-size="14" fill="#14161a">Generate airflow</text>
+<line x1="14" y1="129" x2="424" y2="129" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="14" y="138" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M17.2,145 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="40" y="149" class="s" font-size="14" fill="#14161a">Contain maize</text>
+<line x1="14" y1="159" x2="424" y2="159" stroke="#e3e4e2" stroke-width="1"/>
+<text x="14" y="193" class="m" font-size="10.5" letter-spacing="0.12em" fill="#787d85">DESIRED FEATURES</text>
+<rect x="14" y="202" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M17.2,209 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="40" y="213" class="s" font-size="14" fill="#14161a">Should not take up too much space in storage</text>
+<line x1="14" y1="223" x2="424" y2="223" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="14" y="232" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M17.2,239 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="40" y="243" class="s" font-size="14" fill="#14161a">Modular, so it can be adapted to different needs</text>
+<line x1="14" y1="253" x2="424" y2="253" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="14" y="262" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M17.2,269 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="40" y="273" class="s" font-size="14" fill="#14161a">Space-efficient, scaling to the quantity of grain dried</text>
+<line x1="14" y1="283" x2="424" y2="283" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="14" y="292" width="14" height="14" rx="2" fill="none" stroke="#c4c6c9" stroke-width="1.25"/>
+<text x="40" y="303" class="s" font-size="14" fill="#787d85">Grain loss during drying should be minimised</text>
+<text x="424" y="303" text-anchor="end" class="m" font-size="9.5" letter-spacing="0.06em" fill="#787d85">NOT EVALUATED</text>
+<line x1="14" y1="313" x2="424" y2="313" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="14" y="322" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M17.2,329 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="40" y="333" class="s" font-size="14" fill="#14161a">Prevent grain from being polluted by animals</text>
+<line x1="14" y1="343" x2="424" y2="343" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="14" y="352" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M17.2,359 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="40" y="363" class="s" font-size="14" fill="#14161a">Process more than 50 kg of grain at once</text>
+<line x1="14" y1="373" x2="424" y2="373" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="14" y="382" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M17.2,389 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="40" y="393" class="s" font-size="14" fill="#14161a">Usable by one person</text>
+<line x1="14" y1="403" x2="424" y2="403" stroke="#e3e4e2" stroke-width="1"/>
+<text x="464" y="69" class="m" font-size="10.5" letter-spacing="0.12em" fill="#787d85">DESIRED FEATURES, CONTINUED</text>
+<rect x="464" y="78" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M467.2,85 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="490" y="89" class="s" font-size="14" fill="#14161a">Keep the grain dry throughout the drying process</text>
+<line x1="464" y1="99" x2="874" y2="99" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="464" y="108" width="14" height="14" rx="2" fill="none" stroke="#c4c6c9" stroke-width="1.25"/>
+<text x="490" y="119" class="s" font-size="14" fill="#787d85">Preparation time no longer than the traditional way</text>
+<text x="874" y="119" text-anchor="end" class="m" font-size="9.5" letter-spacing="0.06em" fill="#787d85">NOT EVALUATED</text>
+<line x1="464" y1="129" x2="874" y2="129" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="464" y="138" width="14" height="14" rx="2" fill="none" stroke="#c4c6c9" stroke-width="1.25"/>
+<text x="490" y="149" class="s" font-size="14" fill="#787d85">Bagging no slower than the traditional way</text>
+<text x="874" y="149" text-anchor="end" class="m" font-size="9.5" letter-spacing="0.06em" fill="#787d85">NOT EVALUATED</text>
+<line x1="464" y1="159" x2="874" y2="159" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="464" y="168" width="14" height="14" rx="2" fill="none" stroke="#c4c6c9" stroke-width="1.25"/>
+<text x="490" y="179" class="s" font-size="14" fill="#787d85">Drying time shorter than the traditional way</text>
+<text x="874" y="179" text-anchor="end" class="m" font-size="9.5" letter-spacing="0.06em" fill="#787d85">NOT EVALUATED</text>
+<line x1="464" y1="189" x2="874" y2="189" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="464" y="198" width="14" height="14" rx="2" fill="none" stroke="#c4c6c9" stroke-width="1.25"/>
+<text x="490" y="209" class="s" font-size="14" fill="#787d85">Structure should not deteriorate</text>
+<text x="874" y="209" text-anchor="end" class="m" font-size="9.5" letter-spacing="0.06em" fill="#787d85">NOT EVALUATED</text>
+<line x1="464" y1="219" x2="874" y2="219" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="464" y="228" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M467.2,235 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="490" y="239" class="s" font-size="14" fill="#14161a">Prevent small animals eating grain during drying</text>
+<line x1="464" y1="249" x2="874" y2="249" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="464" y="258" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M467.2,265 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="490" y="269" class="s" font-size="14" fill="#14161a">Prevent grain theft</text>
+<line x1="464" y1="279" x2="874" y2="279" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="464" y="288" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M467.2,295 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="490" y="299" class="s" font-size="14" fill="#14161a">Weevils eradicated from the grain after drying</text>
+<line x1="464" y1="309" x2="874" y2="309" stroke="#e3e4e2" stroke-width="1"/>
+<line x1="14" y1="443" x2="874" y2="443" stroke="#e3e4e2" stroke-width="1"/>
+<rect x="14" y="456" width="14" height="14" rx="2" fill="#e6ebf4" stroke="#14161a" stroke-width="1.25"/>
+<path d="M17.2,463 l2.9,3 l5,-6.2" fill="none" stroke="#17357a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="40" y="467" class="s" font-size="13" fill="#454b54">Marked by the team &#183; 13</text>
+<rect x="264" y="456" width="14" height="14" rx="2" fill="none" stroke="#c4c6c9" stroke-width="1.25"/>
+<text x="290" y="467" class="s" font-size="13" fill="#454b54">Left unmarked &#183; could not yet be evaluated &#183; 5</text>
+</svg>

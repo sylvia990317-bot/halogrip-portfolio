@@ -1,0 +1,13 @@
+<!doctype html>
+<meta charset="utf-8"><title>viewport harness</title>
+<style>html,body{margin:0;background:#3a3a3a}#stage{transform-origin:0 0}iframe{border:0;display:block;background:#fff}</style>
+<div id="stage"><iframe id="f"></iframe></div>
+<script>
+const q=new URLSearchParams(location.search);
+const W=+(q.get('w')||1920),H=+(q.get('h')||1080),S=+(q.get('s')||1);
+const f=document.getElementById('f'),stage=document.getElementById('stage');
+f.style.width=W+'px';f.style.height=H+'px';
+stage.style.transform='scale('+S+')';
+document.body.style.height=(H*S)+'px';
+f.src=q.get('u')||'/work/post-harvest';
+</script>

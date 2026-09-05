@@ -1,29 +1,20 @@
-"use client";
-
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
 /**
- * One-time fade-up when the element first scrolls into view.
+ * Layout wrapper. MOTION IS OFF.
  *
- * FAIL-OPEN BY DESIGN. Content is visible unless every condition for safely hiding it is
- * met, because a stuck `opacity: 0` block is far worse than a missing animation. In order:
+ * MOTION_INTENSITY: 0. Sylvia's instruction, 2026-09-03: motion is to be rebuilt from
+ * scratch after the layout system reset, so nothing here may defer, fade or transform.
+ * This component now renders a plain element and ships no client JavaScript at all: there
+ * is no observer, no armed state, no timer and no `ph-reveal` class, so every block is
+ * painted on first frame of a hard reload and stays painted.
  *
- *  1. Server-rendered and pre-mount state is fully visible, so no-JS readers see everything.
- *  2. `prefers-reduced-motion` never arms.
- *  3. Missing IntersectionObserver never arms.
- *  4. Anything already in, or near, the viewport at mount never arms. This is what stops
- *     anchor navigation (`/work/post-harvest#status`) and fast scrolling from landing on
- *     hidden content.
- *  5. A generous `rootMargin` triggers the reveal before the block reaches the viewport.
- *  6. A final timer reveals anything still armed. If the observer never fires for any
- *     reason, the content appears anyway. Off-screen blocks reveal invisibly, so this
- *     costs nothing.
- *  7. Any thrown error reveals.
- *
- * Motion itself is defined in post-harvest.css, which also disables it under reduced motion.
+ * It is deliberately kept as a component rather than deleted, because it marks the block
+ * boundaries the future motion pass will need. When motion is rebuilt, reintroduce the
+ * fail-open ladder here (server-visible default, reduced-motion opt out, in-viewport
+ * blocks never armed, generous rootMargin, and a timer that reveals anything still armed)
+ * rather than a bare IntersectionObserver.
  */
-const FAIL_OPEN_MS = 6000;
-
 export default function Reveal({
   id,
   tag = "div",
@@ -35,69 +26,11 @@ export default function Reveal({
   className?: string;
   children: React.ReactNode;
 }) {
-  const ref = useRef<HTMLElement>(null);
-  const [state, setState] = useState<"open" | "armed" | "visible">("open");
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    let observer: IntersectionObserver | undefined;
-    let timer: ReturnType<typeof setTimeout> | undefined;
-
-    try {
-      const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-      if (reduce || typeof IntersectionObserver === "undefined") {
-        setState("visible");
-        return;
-      }
-
-      // Already on screen, or about to be: show it, never arm it.
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 1.15) {
-        setState("visible");
-        return;
-      }
-
-      setState("armed");
-
-      observer = new IntersectionObserver(
-        (entries) => {
-          if (entries.some((e) => e.isIntersecting)) {
-            setState("visible");
-            observer?.disconnect();
-          }
-        },
-        { threshold: 0, rootMargin: "200px 0px 200px 0px" }
-      );
-      observer.observe(el);
-
-      timer = setTimeout(() => {
-        setState("visible");
-        observer?.disconnect();
-      }, FAIL_OPEN_MS);
-    } catch {
-      setState("visible");
-    }
-
-    return () => {
-      if (timer) clearTimeout(timer);
-      observer?.disconnect();
-    };
-  }, []);
-
-  const classes = [
-    className,
-    "ph-reveal",
-    state === "armed" && "ph-reveal-armed",
-    state === "visible" && "is-visible",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  const Tag = tag as any;
+  // The union of every intrinsic tag intersects to `never` on the props, so this is cast
+  // the same way the previous implementation did.
+  const Tag = tag as React.ElementType<{ id?: string; className?: string }>;
   return (
-    <Tag ref={ref} id={id} className={classes}>
+    <Tag id={id} className={className || undefined}>
       {children}
     </Tag>
   );
